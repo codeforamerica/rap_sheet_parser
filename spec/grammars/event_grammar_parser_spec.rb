@@ -137,6 +137,19 @@ module RapSheetParser
           expect(subject).to be_a(EventGrammar::CourtEvent)
         end
 
+        it 'can parse court identifier with preceding whitespace' do
+          text = <<~TEXT
+               COURT:
+            20040102  SAN FRANCISCO
+            CNT : 003
+            count 3 text
+          TEXT
+
+          subject = parse(text)
+
+          expect(subject).to be_a(EventGrammar::CourtEvent)
+        end
+
         it 'can parse case number even if first CNT number is not 001' do
           text = <<~TEXT
             COURT:

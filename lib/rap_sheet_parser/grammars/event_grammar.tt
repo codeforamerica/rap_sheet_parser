@@ -7,7 +7,7 @@ module RapSheetParser
     end
 
     rule court_event
-      court_identifier stuff date wn [.']* wn nam? wn courthouse wn toc? (!count_identifier .)* counts updates <CourtEvent>
+      w court_identifier stuff date wn [.']* wn nam? wn courthouse wn toc? (!count_identifier .)* counts updates <CourtEvent>
     end
 
     rule arrest_event
