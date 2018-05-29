@@ -53,7 +53,7 @@ module RapSheetParser
     end
 
     rule dispo_header
-      w '*'? w 'D' w 'I' w 'S' w 'P' w 'O' w (':' / ';') w
+      w '*'* w 'D' w 'I' w 'S' w 'P' w 'O' w (':' / ';') w
     end
   end
 end

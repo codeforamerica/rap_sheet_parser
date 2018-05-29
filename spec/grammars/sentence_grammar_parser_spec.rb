@@ -31,6 +31,14 @@ module RapSheetParser
         expect(sentence.details.length).to eq 0
         expect(sentence.prison.text_value).to eq '012 MONTHS PRISON'
       end
+
+      it 'parses jail time without duration' do
+        text = 'JAIL'
+
+        sentence = described_class.new.parse(text)
+        expect(sentence.details.length).to eq 1
+        expect(sentence.details[0].text_value).to eq 'JAIL'
+      end
     end
   end
 end

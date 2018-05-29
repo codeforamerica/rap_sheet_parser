@@ -93,6 +93,22 @@ module RapSheetParser
         expect(described_class.new.parse(text)).not_to be_nil
       end
 
+      it 'allows for missing end of message' do
+        text = <<~TEXT
+          arbitrary
+
+          * * * *
+          cycle text
+          * * * *
+          another cycle text
+        TEXT
+
+        cycles = described_class.new.parse(text).cycles
+
+        expect(cycles[0].cycle_content.text_value).to eq('cycle text')
+        expect(cycles[1].cycle_content.text_value).to eq("another cycle text\n")
+      end
+
       describe 'parsing events from cycles' do
         let(:text) {
           <<~TEXT

@@ -19,7 +19,7 @@ module RapSheetParser
     end
 
     rule jail
-      (!jail_tag !',' .)* jail_tag &section_end <Jail>
+      (!jail_tag !',' .)+ jail_tag &section_end <Jail>
     end
 
     rule jail_tag
