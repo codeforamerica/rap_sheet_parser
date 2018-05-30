@@ -11,13 +11,23 @@ module RapSheetParser
       )
 
       conviction_event.counts = event_syntax_node.conviction_counts.map do |count|
-        ConvictionCountBuilder.new(conviction_event, count).build
-      end
+        num_counts(count).times.map do |_|
+          ConvictionCountBuilder.new(conviction_event, count).build
+        end
+      end.flatten
 
       conviction_event
     end
 
     private
+
+    def num_counts(count)
+      if count.count_identifier.end_number.text_value.present?
+        1 + count.count_identifier.end_number.text_value.to_i - count.count_identifier.start_number.text_value.to_i
+      else
+        1
+      end
+    end
 
     def case_number
       CaseNumberBuilder.build(event_syntax_node.case_number)

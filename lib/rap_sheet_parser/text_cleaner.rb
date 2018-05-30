@@ -8,7 +8,7 @@ module RapSheetParser
       'RESTN' => ['RESIN'],
       'E' => ['É'],
       'C' => ['Ç'],
-      'O' => ['Ọ'],
+      'O' => ['Ọ','Ó'],
       'FINE SS' => ['FINESS'],
       'ARR/DET/CITE' => ['ARR/PET/CITE'],
       'COURT' => ['COURI']

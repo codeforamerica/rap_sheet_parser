@@ -52,16 +52,27 @@ module RapSheetParser
             COURT:
             20040102  SAN FRANCISCO
 
-            CNT: 001-004  #346477
+            CNT: 001-002  #346477
             blah
             CNT: 003-011
             count 3 text
+            CNT: 012
+            twelve
           TEXT
 
           tree = parse(text)
 
-          expect(tree.counts[0].text_value).to eq "CNT: 001-004  #346477\nblah\n"
+          expect(tree.counts[0].count_identifier.start_number.text_value).to eq "001"
+          expect(tree.counts[0].count_identifier.end_number.text_value).to eq "002"
+          expect(tree.counts[0].text_value).to eq "CNT: 001-002  #346477\nblah\n"
+
+          expect(tree.counts[1].count_identifier.start_number.text_value).to eq "003"
+          expect(tree.counts[1].count_identifier.end_number.text_value).to eq "011"
           expect(tree.counts[1].text_value).to eq "CNT: 003-011\ncount 3 text\n"
+
+          expect(tree.counts[2].count_identifier.start_number.text_value).to eq "012"
+          expect(tree.counts[2].count_identifier.end_number.text_value).to eq ""
+          expect(tree.counts[2].text_value).to eq "CNT: 012\ntwelve\n"
         end
 
         it 'can parse dates with stray periods' do
@@ -109,19 +120,6 @@ module RapSheetParser
           tree = parse(text)
 
           expect(tree.counts[0].text_value).to eq "CNT : 003\ncount 3 text\n"
-        end
-
-        it 'can parse counts with extra dashes' do
-          text = <<~TEXT
-            COURT:
-            20040102  SAN FRANCISCO
-            CNT:0-03
-            count 3 text
-          TEXT
-
-          tree = parse(text)
-
-          expect(tree.counts[0].text_value).to eq "CNT:0-03\ncount 3 text\n"
         end
 
         it 'can parse court identifier with extra whitespace' do
