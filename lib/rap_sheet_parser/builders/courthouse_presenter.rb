@@ -2,6 +2,7 @@ module RapSheetParser
   class CourthousePresenter
     def self.present(courthouse)
       courthouse_names = {
+        'CASC SAN FRANCISCO CO' => 'CASC San Francisco Co',
         'CASC SAN FRANCISCO' => 'CASC San Francisco',
         'CAMC RICHMOND' => 'CAMC Richmond',
         'CASC MCRICHMOND' => 'CASC Richmond',
