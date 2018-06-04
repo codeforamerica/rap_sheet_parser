@@ -8,7 +8,7 @@ module RapSheetParser
         it 'parses' do
           text = <<~TEXT
             COURT:
-            20040102  CASC SAN FRANCISCO CO fds
+            20040102  CASC SAN FRANCISCO fds
 
             CNT: 001  #346477
               496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
