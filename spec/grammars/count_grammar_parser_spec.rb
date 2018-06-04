@@ -200,6 +200,19 @@ module RapSheetParser
         expect(count.disposition.sentence.details[0].text_value).to eq '$971 FINE $420 RSTN'
       end
 
+      it 'parses sentences found in comments with a SEN-X, header' do
+        text = <<~TEXT
+          496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
+          DISPO:CONVICTED
+          CONV STATUS:MISDEMEANOR
+          COM: SEN-X,3 YR PROB
+          COM: CNT 01 CHRG-484-487 (A) PC
+        TEXT
+
+        count = described_class.new.parse(text)
+        expect(count.disposition.sentence.probation.text_value).to eq '3 YR PROB'
+      end
+
       it 'parses sentences found in comments with an XSEN header' do
         text = <<~TEXT
           SEE COMMENT FOR CHARGE

@@ -76,7 +76,7 @@ module RapSheetParser
     end
     
     rule comment_sentence_tag
-      ('SEN' w '-'? w 'X') / ('XSEN' w ':')
+      ('SEN' w '-'? w 'X' ','?) / ('XSEN' w ':')
     end
     
     rule unknown_content_line
