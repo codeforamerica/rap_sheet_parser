@@ -14,14 +14,6 @@ module RapSheetParser
 
     attr_reader :event, :code_section_description, :severity, :code, :section
 
-    def eligible?(user, classifier)
-      classifier.new(user, self).eligible?
-    end
-
-    def potentially_eligible?(user, classifier)
-      classifier.new(user, self).potentially_eligible?
-    end
-
     def long_severity
       case severity
       when 'F'
