@@ -5,7 +5,7 @@ require 'rap_sheet_parser/models/conviction_count_collection'
 require 'rap_sheet_parser/models/arrest_event'
 require 'rap_sheet_parser/models/custody_event'
 require 'rap_sheet_parser/models/conviction_event'
-require 'rap_sheet_parser/models/event_collection'
+require 'rap_sheet_parser/models/rap_sheet'
 require 'rap_sheet_parser/models/conviction_sentence'
 require 'rap_sheet_parser/models/okay_print'
 
@@ -16,7 +16,7 @@ require 'rap_sheet_parser/builders/conviction_event_builder'
 require 'rap_sheet_parser/builders/arrest_event_builder'
 require 'rap_sheet_parser/builders/custody_event_builder'
 require 'rap_sheet_parser/builders/courthouse_presenter'
-require 'rap_sheet_parser/builders/event_collection_builder'
+require 'rap_sheet_parser/builders/rap_sheet_builder'
 require 'rap_sheet_parser/builders/conviction_sentence_builder'
 
 require 'rap_sheet_parser/syntax_nodes/treetop_monkeypatches'
@@ -43,7 +43,8 @@ module RapSheetParser
   class Parser
     def parse(text)
       cleaned_text = TextCleaner.clean(text)
-      do_parsing(RapSheetGrammarParser.new, cleaned_text)
+      tree = do_parsing(RapSheetGrammarParser.new, cleaned_text)
+      RapSheetBuilder.build(tree)
     end
 
     def do_parsing(parser, text)

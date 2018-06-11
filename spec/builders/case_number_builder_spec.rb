@@ -15,7 +15,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       case_number_node = tree.cycles[0].events[0].case_number
       expect(described_class.build(case_number_node)).to eq '456'
     end
@@ -32,7 +32,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       case_number_node = tree.cycles[0].events[0].case_number
 
       expect(described_class.build(case_number_node)).to eq '456'
@@ -50,7 +50,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       case_number_node = tree.cycles[0].events[0].case_number
 
       expect(described_class.build(case_number_node)).to eq '456'
@@ -68,7 +68,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       case_number_node = tree.cycles[0].events[0].case_number
 
       expect(described_class.build(case_number_node)).to eq nil
@@ -87,7 +87,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       case_number_node = tree.cycles[0].events[0].case_number
 
       expect(described_class.build(case_number_node)).to eq nil

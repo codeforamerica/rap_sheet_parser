@@ -21,7 +21,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       count_node = tree.cycles[0].events[0].counts[0]
 
       subject = described_class.new(event, count_node).build
@@ -42,7 +42,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       count_node = tree.cycles[0].events[0].counts[0]
 
       subject = described_class.new(event, count_node).build
@@ -67,7 +67,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       count_node = tree.cycles[0].events[0].counts[0]
 
       subject = described_class.new(event, count_node).build
@@ -92,7 +92,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       count_node = tree.cycles[0].events[0].counts[0]
       subject = described_class.new(event, count_node).build
       expect(subject.code_section).to eq 'PC 496.3(a)(2)'

@@ -15,7 +15,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       courthouse_node = tree.cycles[0].events[0].courthouse
       expect(described_class.present(courthouse_node)).to eq 'CASC San Jose'
     end
@@ -32,7 +32,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       courthouse_node = tree.cycles[0].events[0].courthouse
       expect(described_class.present(courthouse_node)).to eq 'CASC ANYTOWN USA'
     end
@@ -49,7 +49,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       courthouse_node = tree.cycles[0].events[0].courthouse
       expect(described_class.present(courthouse_node)).to eq 'CAMC Los Angeles Metro'
     end

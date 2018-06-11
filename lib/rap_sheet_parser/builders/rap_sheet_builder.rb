@@ -1,5 +1,5 @@
 module RapSheetParser
-  class EventCollectionBuilder
+  class RapSheetBuilder
     def self.build(parsed_rap_sheet)
       event_nodes = parsed_rap_sheet.cycles.flat_map do |cycle|
         cycle.events.select do |event|
@@ -17,7 +17,7 @@ module RapSheetParser
         end
       end.compact
 
-      EventCollection.new(events)
+      RapSheet.new(events)
     end
 
     private

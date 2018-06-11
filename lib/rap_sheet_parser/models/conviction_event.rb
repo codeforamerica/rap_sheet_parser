@@ -10,12 +10,12 @@ module RapSheetParser
     attr_reader :date, :case_number, :courthouse, :sentence
     attr_accessor :counts
 
-    def successfully_completed_probation?(events)
-      successfully_completed_duration?(events, sentence.probation)
+    def successfully_completed_probation?(rap_sheet)
+      successfully_completed_duration?(rap_sheet, sentence.probation)
     end
 
-    def successfully_completed_year?(events)
-      successfully_completed_duration?(events, 1.year)
+    def successfully_completed_year?(rap_sheet)
+      successfully_completed_duration?(rap_sheet, 1.year)
     end
 
     def inspect
@@ -31,10 +31,10 @@ module RapSheetParser
 
     private
 
-    def successfully_completed_duration?(events, duration)
+    def successfully_completed_duration?(rap_sheet, duration)
       return nil if date.nil?
 
-      events_with_dates = (events.arrests + events.custody_events).reject do |e|
+      events_with_dates = (rap_sheet.arrests + rap_sheet.custody_events).reject do |e|
         e.date.nil?
       end
 

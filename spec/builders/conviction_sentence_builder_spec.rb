@@ -18,7 +18,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       sentence_node = tree.cycles[0].events[0].sentence
       expect(described_class.new(sentence_node).build.jail).to eq 6.months
     end
@@ -38,7 +38,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       sentence_node = tree.cycles[0].events[0].sentence
       expect(described_class.new(sentence_node).build.probation).to eq 12.months
     end
@@ -58,7 +58,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       sentence_node = tree.cycles[0].events[0].sentence
       expect(described_class.new(sentence_node).build.prison).to eq 12.years
     end
@@ -78,7 +78,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       sentence_node = tree.cycles[0].events[0].sentence
       result = described_class.new(sentence_node).build
       expect(result.probation).to eq 24.months
@@ -98,7 +98,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       sentence_node = tree.cycles[0].events[0].sentence
       expect(described_class.new(sentence_node).build.probation).to eq 3.years
     end
@@ -118,7 +118,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       sentence_node = tree.cycles[0].events[0].sentence
       expect(described_class.new(sentence_node).build.to_s).to eq('12y prison, fine, fine ss')
     end
@@ -138,7 +138,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       sentence_node = tree.cycles[0].events[0].sentence
       expect(described_class.new(sentence_node).build.to_s).to eq('restitution, restitution, restitution')
     end
@@ -158,7 +158,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       sentence_node = tree.cycles[0].events[0].sentence
       expect(described_class.new(sentence_node).build.to_s).to eq('fine ss, concurrent')
     end

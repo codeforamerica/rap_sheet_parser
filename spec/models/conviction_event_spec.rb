@@ -28,9 +28,9 @@ module RapSheetParser
                                  date: Date.new(1994, 1, 2)
         )
         arrest_event = ArrestEvent.new(date: Date.new(1994, 6, 2))
-        events = EventCollection.new([conviction_event, arrest_event])
+        rap_sheet = RapSheet.new([conviction_event, arrest_event])
 
-        expect(conviction_event.successfully_completed_probation?(events)).to eq false
+        expect(conviction_event.successfully_completed_probation?(rap_sheet)).to eq false
       end
 
       it 'skips events without dates' do
@@ -39,9 +39,9 @@ module RapSheetParser
                                  date: Date.new(1994, 1, 2)
         )
         arrest_no_date_event = ArrestEvent.new(date: nil)
-        events = EventCollection.new([conviction_event, arrest_no_date_event])
+        rap_sheet = RapSheet.new([conviction_event, arrest_no_date_event])
 
-        expect(conviction_event.successfully_completed_probation?(events)).to eq true
+        expect(conviction_event.successfully_completed_probation?(rap_sheet)).to eq true
       end
 
       it 'returns nil if event does not have a date' do
@@ -50,7 +50,7 @@ module RapSheetParser
                                  date: nil
         )
         arrest_no_date_event = ArrestEvent.new(date: nil)
-        events = EventCollection.new([conviction_event, arrest_no_date_event])
+        events = RapSheet.new([conviction_event, arrest_no_date_event]).events
 
         expect(conviction_event.successfully_completed_probation?(events)).to be_nil
       end
@@ -62,9 +62,9 @@ module RapSheetParser
                                  date: Date.new(1994, 1, 2)
         )
         arrest_event = ArrestEvent.new(date: Date.new(1994, 6, 2))
-        events = EventCollection.new([conviction_event, arrest_event])
+        rap_sheet = RapSheet.new([conviction_event, arrest_event])
 
-        expect(conviction_event.successfully_completed_year?(events)).to eq false
+        expect(conviction_event.successfully_completed_year?(rap_sheet)).to eq false
       end
 
       it 'skips events without dates' do
@@ -73,9 +73,9 @@ module RapSheetParser
                                  date: Date.new(1994, 1, 2)
         )
         arrest_no_date_event = ArrestEvent.new(date: nil)
-        events = EventCollection.new([conviction_event, arrest_no_date_event])
+        rap_sheet = RapSheet.new([conviction_event, arrest_no_date_event])
 
-        expect(conviction_event.successfully_completed_year?(events)).to eq true
+        expect(conviction_event.successfully_completed_year?(rap_sheet)).to eq true
       end
 
       it 'returns nil if event does not have a date' do
@@ -84,7 +84,7 @@ module RapSheetParser
                                  date: nil
         )
         arrest_no_date_event = ArrestEvent.new(date: nil)
-        events = EventCollection.new([conviction_event, arrest_no_date_event])
+        events = RapSheet.new([conviction_event, arrest_no_date_event]).events
 
         expect(conviction_event.successfully_completed_year?(events)).to be_nil
       end

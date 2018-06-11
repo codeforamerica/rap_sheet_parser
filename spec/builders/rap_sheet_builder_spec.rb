@@ -3,7 +3,7 @@ require 'date'
 require 'rap_sheet_parser'
 
 module RapSheetParser
-  RSpec.describe EventCollectionBuilder do
+  RSpec.describe RapSheetBuilder do
     describe '.present' do
       it 'returns arrest, custody, and court events with convictions' do
         text = <<~TEXT
@@ -57,8 +57,8 @@ module RapSheetParser
           * * * END OF MESSAGE * * *
         TEXT
 
-        tree = Parser.new.parse(text)
-        events = described_class.build(tree)
+        rap_sheet = RapSheetParser::Parser.new.parse(text)
+        events = rap_sheet.events
 
         expect(events[0].date).to eq Date.new(1991, 1, 5)
 

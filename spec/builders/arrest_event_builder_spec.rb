@@ -17,7 +17,7 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
-      tree = RapSheetParser::Parser.new.parse(text)
+      tree = RapSheetGrammarParser.new.parse(text)
       event_node = tree.cycles[0].events[0]
 
       subject = described_class.new(event_node).build
