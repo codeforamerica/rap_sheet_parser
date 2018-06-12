@@ -17,6 +17,12 @@ module RapSheetParser
     def custody_events
       filtered_events(CustodyEvent)
     end
+
+    def superstrikes
+      @superstrikes ||= convictions.
+        flat_map(&:counts).
+        select(&:superstrike?)
+    end
     
     private
     
