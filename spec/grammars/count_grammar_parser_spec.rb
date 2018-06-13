@@ -53,6 +53,18 @@ module RapSheetParser
         expect(count.disposition).to be_a CountGrammar::Convicted
       end
 
+      it 'can parse convictions with spaces in dispo convicted' do
+        text = <<~TEXT
+          blah
+          DISPO:CO  N VI CTE D
+          CONV STATUS:FELONY
+        TEXT
+
+        count = described_class.new.parse(text)
+
+        expect(count.disposition).to be_a CountGrammar::Convicted
+      end
+
       it 'can parse convictions with missing severity lines' do
         text = <<~TEXT
           blah

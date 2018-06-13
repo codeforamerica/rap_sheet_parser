@@ -108,7 +108,11 @@ module RapSheetParser
     end
 
     rule convicted
-      dispo_header 'CONVICTED' to_eol w extra_conviction_info <Convicted>
+      dispo_header convicted_tag to_eol w extra_conviction_info <Convicted>
+    end
+
+    rule convicted_tag
+      w 'C' w 'O' w 'N' w 'V' w 'I' w 'C' w 'T' w 'E' w 'D' w
     end
 
     rule extra_conviction_info
