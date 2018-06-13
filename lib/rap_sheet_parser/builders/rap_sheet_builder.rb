@@ -14,6 +14,8 @@ module RapSheetParser
           ArrestEventBuilder.new(e).build
         elsif e.is_a? EventGrammar::CustodyEvent
           CustodyEventBuilder.new(e).build
+        elsif e.is_a? EventGrammar::RegistrationEvent
+          RegistrationEventBuilder.new(e).build
         end
       end.compact
 

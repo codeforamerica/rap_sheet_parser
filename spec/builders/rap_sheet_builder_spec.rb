@@ -9,6 +9,18 @@ module RapSheetParser
         text = <<~TEXT
           info
           * * * *
+          REGISTRATION:         NAM:01
+          20171216 CASO SAN DIEGO
+          
+          CNT:01
+            290 PC-REGISTRATION OF SEX OFFENDER
+          * * * *
+          REGISTRATION:         NAM:01
+          19901022  CAPD SAN FRANCISCO
+          
+          CNT:01     #44345345
+           11590 HS-REGISTRATION OF CNTL SUB OFFENDER
+          * * * *
           ARR/DET/CITE:
           NAM:001
           19910105 CAPD CONCORD
@@ -58,40 +70,44 @@ module RapSheetParser
         TEXT
 
         rap_sheet = RapSheetParser::Parser.new.parse(text)
-        events = rap_sheet.events
 
-        expect(events[0].date).to eq Date.new(1991, 1, 5)
+        expect(rap_sheet.arrests[0].date).to eq Date.new(1991, 1, 5)
 
-        verify_event_looks_like(events[1], {
+        verify_event_looks_like(rap_sheet.convictions[0], {
           date: Date.new(1982, 9, 15),
           case_number: '456',
           courthouse: 'CAMC L05 ANGELES METRO',
           sentence: '',
         })
-        verify_event_looks_like(events[2], {
+        verify_event_looks_like(rap_sheet.convictions[1], {
           date: Date.new(1994, 11, 20),
           case_number: '612',
           courthouse: 'CASC SAN DIEGO',
           sentence: '12m probation, 45d jail'
         })
 
-        expect(events[3].date).to eq Date.new(2012, 5, 3)
+        expect(rap_sheet.custody_events[0].date).to eq Date.new(2012, 5, 3)
 
-        verify_count_looks_like(events[1].counts[0], {
+        verify_count_looks_like(rap_sheet.convictions[0].counts[0], {
           code_section: nil,
           code_section_description: nil,
           severity: nil,
         })
-        verify_count_looks_like(events[1].counts[1], {
+        verify_count_looks_like(rap_sheet.convictions[0].counts[1], {
           code_section: 'PC 4056',
           code_section_description: 'BREAKING AND ENTERING',
           severity: nil,
         })
-        verify_count_looks_like(events[2].counts[0], {
+        verify_count_looks_like(rap_sheet.convictions[1].counts[0], {
           code_section: 'PC 487.2',
           code_section_description: 'GRAND THEFT FROM PERSON',
           severity: 'M',
         })
+        
+        expect(rap_sheet.registration_events[0].date).to eq Date.new(2017,12,16)
+        expect(rap_sheet.registration_events[0].code_section).to eq 'PC 290'
+        expect(rap_sheet.registration_events[1].date).to eq Date.new(1990,10,22)
+        expect(rap_sheet.registration_events[1].code_section).to eq 'HS 11590'
       end
 
       context 'inferring probation violations' do

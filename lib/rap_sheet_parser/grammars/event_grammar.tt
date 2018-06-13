@@ -3,7 +3,7 @@ module RapSheetParser
     include CommonGrammar
 
     rule event
-     (court_event / arrest_event / custody_event / unknown_event)
+     court_event / arrest_event / custody_event / registration_event / unknown_event
     end
 
     rule court_event
@@ -16,6 +16,14 @@ module RapSheetParser
 
     rule custody_event
       (!custody_identifier .)* custody_identifier (!date .)* date .* <CustodyEvent>
+    end
+
+    rule registration_event
+      w registration_identifier stuff date wn [.']* wn nam? wn courthouse wn toc? (!count_identifier .)* counts <RegistrationEvent>
+    end
+    
+    rule registration_identifier
+      'R' w 'E' w 'G' w 'I' w 'S' w 'T' w 'R' w 'A' w 'T' w 'I' w 'O' w 'N' w ':'
     end
 
     rule unknown_event

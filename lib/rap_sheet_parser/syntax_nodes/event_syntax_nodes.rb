@@ -65,5 +65,6 @@ module RapSheetParser
     class CountWithCaseNumber < Count; end
     class ArrestEvent < Event; end
     class CustodyEvent < Event; end
+    class RegistrationEvent < Event; end
   end
 end
