@@ -36,24 +36,37 @@ module RapSheetParser
         text = 'JAIL'
 
         sentence = described_class.new.parse(text)
-        expect(sentence.details.length).to eq 1
-        expect(sentence.details[0].text_value).to eq 'JAIL'
+        expect(sentence.jail.text_value).to eq 'JAIL'
+      end
+
+      it 'parses probation without duration' do
+        text = 'PROBATION,270 DAYS JAIL, IMP SEN SS'
+
+        sentence = described_class.new.parse(text)
+        expect(sentence.probation.text_value).to eq 'PROBATION'
+      end
+
+      it 'parses prison without duration' do
+        text = 'PRISON,270 DAYS JAIL, IMP SEN SS'
+
+        sentence = described_class.new.parse(text)
+        expect(sentence.prison.text_value).to eq 'PRISON'
       end
 
       it 'parses leading commas' do
-        text = ' , JAIL'
+        text = ' , FINE'
 
         sentence = described_class.new.parse(text)
         expect(sentence.details.length).to eq 1
-        expect(sentence.details[0].text_value).to eq 'JAIL'
+        expect(sentence.details[0].text_value).to eq 'FINE'
       end
 
       it 'parses empty sections' do
-        text = ', , JAIL'
+        text = ', , FINE'
 
         sentence = described_class.new.parse(text)
         expect(sentence.details.length).to eq 1
-        expect(sentence.details[0].text_value).to eq 'JAIL'
+        expect(sentence.details[0].text_value).to eq 'FINE'
       end
     end
   end

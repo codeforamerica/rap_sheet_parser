@@ -20,7 +20,10 @@ module RapSheetParser
 
       tree = RapSheetGrammarParser.new.parse(text)
       sentence_node = tree.cycles[0].events[0].sentence
-      expect(described_class.new(sentence_node).build.jail).to eq 6.months
+      subject = described_class.new(sentence_node).build
+      expect(subject.jail).to eq 6.months
+      expect(subject.probation).to eq nil
+      expect(subject.prison).to eq nil
     end
 
     it 'parses probation time' do
@@ -41,6 +44,26 @@ module RapSheetParser
       tree = RapSheetGrammarParser.new.parse(text)
       sentence_node = tree.cycles[0].events[0].sentence
       expect(described_class.new(sentence_node).build.probation).to eq 12.months
+    end
+
+    it 'parses missing probation time' do
+      text = <<~TEXT
+        info
+        * * * *
+        COURT:
+        19941120 CASC SAN DIEGO
+
+        CNT: 001 #612
+        487.2 PC-GRAND THEFT FROM PERSON
+        DISPO:CONVICTED
+        CONV STATUS:MISDEMEANOR
+        SEN: PROBATION
+        * * * END OF MESSAGE * * *
+      TEXT
+
+      tree = RapSheetGrammarParser.new.parse(text)
+      sentence_node = tree.cycles[0].events[0].sentence
+      expect(described_class.new(sentence_node).build.probation).to eq 0.days
     end
 
     it 'parses prison time' do
