@@ -75,6 +75,8 @@ module RapSheetParser
     end
 
     def code_section_starts_with(codes)
+      return false unless code_section
+
       codes.any? do |d|
         code_section.start_with? d
       end
