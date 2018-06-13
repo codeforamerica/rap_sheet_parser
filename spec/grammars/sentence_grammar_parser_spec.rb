@@ -39,6 +39,22 @@ module RapSheetParser
         expect(sentence.details.length).to eq 1
         expect(sentence.details[0].text_value).to eq 'JAIL'
       end
+
+      it 'parses leading commas' do
+        text = ' , JAIL'
+
+        sentence = described_class.new.parse(text)
+        expect(sentence.details.length).to eq 1
+        expect(sentence.details[0].text_value).to eq 'JAIL'
+      end
+
+      it 'parses empty sections' do
+        text = ', , JAIL'
+
+        sentence = described_class.new.parse(text)
+        expect(sentence.details.length).to eq 1
+        expect(sentence.details[0].text_value).to eq 'JAIL'
+      end
     end
   end
 end
