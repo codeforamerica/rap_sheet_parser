@@ -15,7 +15,7 @@ RSpec.describe RapSheetParser::ConvictionCount do
       expect(count).to be_superstrike
     end
 
-    it 'returns true if code section is subsection of a superstrike' do
+    it 'returns false if code section is subsection of a superstrike' do
       count = described_class.new(
         code: 'PC',
         section: '187(a)',
@@ -24,9 +24,21 @@ RSpec.describe RapSheetParser::ConvictionCount do
         event: nil
       )
 
-      expect(count).to be_superstrike
+      expect(count).not_to be_superstrike
     end
 
+    it 'returns false if no code section' do
+      count = described_class.new(
+        code: nil,
+        section: nil,
+        severity: nil,
+        code_section_description: nil,
+        event: nil
+      )
+
+      expect(count.superstrike?).to eq false
+    end
+    
     it 'returns false if code section is not associated with superstrikes' do
       count = described_class.new(
         code: 'PC',

@@ -13,9 +13,9 @@ module RapSheetParser
       'PC 264.1',
       'PC 269',
       'PC 286(c)(1)',
-      'PC 286(c)(2)(A)',
-      'PC 286(c)(2)(B)',
-      'PC 286(c)(2)(C)',
+      'PC 286(c)(2)(a)',
+      'PC 286(c)(2)(b)',
+      'PC 286(c)(2)(c)',
       'PC 286(c)(3)',
       'PC 286(d)(1)',
       'PC 286(d)(2)',
@@ -24,15 +24,15 @@ module RapSheetParser
       'PC 288(b)(1)',
       'PC 288(b)(2)',
       'PC 288a(c)(1)',
-      'PC 288a(c)(2)(A)',
-      'PC 288a(c)(2)(B)',
-      'PC 288a(c)(2)(C)',
+      'PC 288a(c)(2)(a)',
+      'PC 288a(c)(2)(b)',
+      'PC 288a(c)(2)(c)',
       'PC 288a(d)',
       'PC 288.5(a)',
-      'PC 289(a)(1)(A)',
-      'PC 289(a)(1)(B)',
-      'PC 289(a)(1)(C)',
-      'PC 289(a)(2)(C)',
+      'PC 289(a)(1)(a)',
+      'PC 289(a)(1)(b)',
+      'PC 289(a)(1)(c)',
+      'PC 289(a)(2)(c)',
       'PC 289(j)',
       'PC 653f',
       'PC 11418(a)(1)'
@@ -71,7 +71,9 @@ module RapSheetParser
     end
 
     def superstrike?
-      code_section_starts_with(SUPERSTRIKES)
+      return false unless code_section
+
+      SUPERSTRIKES.include? code_section
     end
 
     def code_section_starts_with(codes)
