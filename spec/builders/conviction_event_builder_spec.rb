@@ -92,6 +92,30 @@ module RapSheetParser
           severity: nil,
         })
       end
+
+      it 'populates 1203 dismissal field' do
+        text = <<~TEXT
+          info
+          * * * *
+          COURT: NAME7OZ
+          19820915 CAMC L05 ANGELES METRO
+
+          CNT:001 #123
+          420 PC-BREAKING AND ENTERING
+          *DISPO:CONVICTED
+          MORE INFO ABOUT THIS COUNT
+
+          19990205
+            DISPO:CONV SET ASIDE & DISM PER 1203.4 PC
+          * * * END OF MESSAGE * * *
+        TEXT
+
+        tree = RapSheetGrammarParser.new.parse(text)
+        event = described_class.new(tree.cycles[0].events[0]).build
+
+        expect(event.dismissed_by_pc1203).to eq true
+      end
+
     end
 
     def verify_event_looks_like(event, date:, case_number:, courthouse:, sentence:)

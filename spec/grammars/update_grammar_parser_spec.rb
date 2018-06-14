@@ -12,6 +12,17 @@ module RapSheetParser
 
         tree = parse(text)
         expect(tree).to be_a(UpdateGrammar::Update)
+        expect(tree.dispositions[0].disposition_type).to be_a(UpdateGrammar::SentenceModified)
+      end
+
+      it 'parses dismissals' do
+        text = <<~TEXT
+          DISPO:CONV SET ASIDE & DISM PER 1203.4 PC
+        TEXT
+
+        tree = parse(text)
+        expect(tree).to be_a(UpdateGrammar::Update)
+        expect(tree.dispositions[0].disposition_type).to be_a(UpdateGrammar::PC1203Dismissed)
       end
 
       it 'parses updates with stray information before it' do

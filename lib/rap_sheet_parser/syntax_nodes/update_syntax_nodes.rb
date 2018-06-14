@@ -22,6 +22,7 @@ module RapSheetParser
     end
 
     class SentenceModified < Treetop::Runtime::SyntaxNode; end
+    class PC1203Dismissed < Treetop::Runtime::SyntaxNode; end
 
     class SentenceLine < Treetop::Runtime::SyntaxNode; end
   end

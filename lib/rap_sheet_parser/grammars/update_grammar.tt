@@ -24,6 +24,7 @@ module RapSheetParser
 
     rule disposition_type
       'SENTENCE MODIFIED' <SentenceModified>
+      / 'CONV' w 'SET' w 'ASIDE' w '&' w 'DISM' w 'PER' w '1203.4' w 'PC' <PC1203Dismissed>
       / ''
     end
 

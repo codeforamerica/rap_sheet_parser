@@ -7,7 +7,8 @@ module RapSheetParser
         date: date,
         case_number: case_number,
         courthouse: courthouse,
-        sentence: sentence
+        sentence: sentence,
+        dismissed_by_pc1203: event_syntax_node.dismissed_by_pc1203?
       )
 
       conviction_event.counts = event_syntax_node.conviction_counts.map do |count|
