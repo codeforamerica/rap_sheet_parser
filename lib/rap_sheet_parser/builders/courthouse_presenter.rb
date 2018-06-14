@@ -4,6 +4,7 @@ module RapSheetParser
       courthouse_names = {
         'CASC SAN FRANCISCO CO' => 'CASC San Francisco Co',
         'CASC SAN FRANCISCO' => 'CASC San Francisco',
+        'CAMC SAN FRANCISCO' => 'CAMC San Francisco',
         'CAMC RICHMOND' => 'CAMC Richmond',
         'CASC MCRICHMOND' => 'CASC Richmond',
         'CAMC CONCORD' => 'CAMC Concord',

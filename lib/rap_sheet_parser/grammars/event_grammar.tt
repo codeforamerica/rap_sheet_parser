@@ -37,6 +37,7 @@ module RapSheetParser
     rule courthouse
       'CASC SAN FRANCISCO CO' /
       'CASC SAN FRANCISCO' /
+      'CAMC SAN FRANCISCO' /
       'CAMC RICHMOND' /
       'CASC MCRICHMOND' /
       'CAMC CONCORD' /
