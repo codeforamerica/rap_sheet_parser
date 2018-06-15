@@ -116,6 +116,33 @@ module RapSheetParser
         expect(event.dismissed_by_pc1203?).to eq true
       end
 
+      it 'sets sentence correctly if sentence modified' do
+        text = <<~TEXT
+          info
+          * * * *
+          COURT:
+          20040102  CASC SAN FRANCISCO CO
+
+          CNT: 001 #346477
+            496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
+          *DISPO:CONVICTED
+          CONV STATUS:MISDEMEANOR
+          SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
+
+          20040202
+            DISPO :SOMETHING ELSE
+
+          20040202
+            DISPO:SENTENCE MODIFIED
+            SEN: 001 MONTHS JAIL
+          * * * END OF MESSAGE * * *
+        TEXT
+
+        tree = RapSheetGrammarParser.new.parse(text)
+        event = described_class.new(tree.cycles[0].events[0]).build
+
+        expect(event.sentence.jail).to eq 1.month
+      end
     end
 
     def verify_event_looks_like(event, date:, case_number:, courthouse:, sentence:)

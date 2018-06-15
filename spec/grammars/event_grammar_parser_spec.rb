@@ -218,30 +218,6 @@ module RapSheetParser
 
           expect(tree.courthouse.text_value).to eq('NEW COURTHOUSE')
         end
-
-        it 'sets sentence correctly if sentence modified' do
-          text = <<~TEXT
-            COURT:
-            20040102  CASC SAN FRANCISCO CO
-
-            CNT: 001 #346477
-              496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
-            *DISPO:CONVICTED
-            CONV STATUS:MISDEMEANOR
-            SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
-
-            20040202
-              DISPO :SOMETHING ELSE
-
-            20040202
-              DISPO:SENTENCE MODIFIED
-              SEN: 001 MONTHS JAIL
-          TEXT
-
-          tree = parse(text)
-
-          expect(tree.sentence.text_value).to eq('001 MONTHS JAIL')
-        end
       end
 
       context 'parsing an arrest event' do

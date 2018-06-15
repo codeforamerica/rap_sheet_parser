@@ -12,12 +12,6 @@ module RapSheetParser
 
         return unless count
 
-        sentence_modified_disposition = updates.flat_map(&:dispositions).find do |d|
-          d.disposition_type.is_a?(UpdateGrammar::SentenceModified)
-        end
-
-        return sentence_modified_disposition.sentence if sentence_modified_disposition
-
         count.disposition.sentence
       end
 

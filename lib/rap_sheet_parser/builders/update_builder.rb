@@ -19,7 +19,7 @@ module RapSheetParser
         if d.disposition_type.is_a?(UpdateGrammar::PC1203Dismissed)
           PC1203DismissedDisposition.new
         elsif d.disposition_type.is_a?(UpdateGrammar::SentenceModified)
-          SentenceModifiedDisposition.new(sentence: ConvictionSentenceBuilder.build(d.sentence))
+          SentenceModifiedDisposition.new(sentence: ConvictionSentenceBuilder.new(d.sentence).build)
         end
       end
     end

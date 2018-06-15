@@ -40,7 +40,15 @@ module RapSheetParser
 
     def sentence
       if event_syntax_node.sentence
-        ConvictionSentenceBuilder.new(event_syntax_node.sentence).build
+        sentence_modified_disposition = updates.flat_map(&:dispositions).find do |d|
+          d.is_a?(SentenceModifiedDisposition)
+        end
+
+        if sentence_modified_disposition
+          sentence_modified_disposition.sentence
+        else
+          ConvictionSentenceBuilder.new(event_syntax_node.sentence).build
+        end
       end
     end
 
