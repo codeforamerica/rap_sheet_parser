@@ -81,7 +81,7 @@ module RapSheetParser
     end
 
     rule count_info
-      (!count_identifier !(N date N) .)*
+      (!count_identifier !(N w date w N) .)*
     end
 
     rule case_number

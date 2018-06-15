@@ -105,7 +105,7 @@ module RapSheetParser
           *DISPO:CONVICTED
           MORE INFO ABOUT THIS COUNT
 
-          19990205
+           19990205 
             DISPO:CONV SET ASIDE & DISM PER 1203.4 PC
           * * * END OF MESSAGE * * *
         TEXT
