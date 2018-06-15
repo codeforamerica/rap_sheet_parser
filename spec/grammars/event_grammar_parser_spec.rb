@@ -242,29 +242,6 @@ module RapSheetParser
 
           expect(tree.sentence.text_value).to eq('001 MONTHS JAIL')
         end
-
-        it 'parses 1203 dismissals' do
-          text = <<~TEXT
-            COURT:
-            20040102  CASC SAN FRANCISCO CO
-
-            CNT: 001 #346477
-              496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
-            *DISPO:CONVICTED
-            CONV STATUS:MISDEMEANOR
-            SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
-
-            20040202
-              DISPO :SOMETHING ELSE
-
-            20100101
-              DISPO:CONV SET ASIDE & DISM PER 1203.4 PC
-          TEXT
-
-          tree = parse(text)
-
-          expect(tree.dismissed_by_pc1203?).to eq true
-        end
       end
 
       context 'parsing an arrest event' do

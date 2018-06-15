@@ -113,7 +113,7 @@ module RapSheetParser
         tree = RapSheetGrammarParser.new.parse(text)
         event = described_class.new(tree.cycles[0].events[0]).build
 
-        expect(event.dismissed_by_pc1203).to eq true
+        expect(event.dismissed_by_pc1203?).to eq true
       end
 
     end

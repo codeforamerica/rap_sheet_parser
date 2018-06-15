@@ -28,12 +28,6 @@ module RapSheetParser
       def conviction_counts
         counts.select { |c| c.disposition.is_a? CountGrammar::Convicted }
       end
-
-      def dismissed_by_pc1203?
-        updates.flat_map(&:dispositions).any? do |d|
-          d.disposition_type.is_a?(UpdateGrammar::PC1203Dismissed)
-        end
-      end
     end
 
     class Count < Treetop::Runtime::SyntaxNode

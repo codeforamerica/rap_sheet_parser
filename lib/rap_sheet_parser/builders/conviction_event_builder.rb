@@ -8,7 +8,7 @@ module RapSheetParser
         case_number: case_number,
         courthouse: courthouse,
         sentence: sentence,
-        dismissed_by_pc1203: event_syntax_node.dismissed_by_pc1203?
+        updates: updates
       )
 
       conviction_event.counts = event_syntax_node.conviction_counts.map do |count|
@@ -42,6 +42,10 @@ module RapSheetParser
       if event_syntax_node.sentence
         ConvictionSentenceBuilder.new(event_syntax_node.sentence).build
       end
+    end
+
+    def updates
+      event_syntax_node.updates.map { |u| UpdateBuilder.new(u).build }
     end
   end
 end
