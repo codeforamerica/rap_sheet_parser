@@ -1,7 +1,9 @@
-class Update
-  def initialize(dispositions:)
-    @dispositions = dispositions
+module RapSheetParser
+  class Update
+    def initialize(dispositions:)
+      @dispositions = dispositions
+    end
+
+    attr_reader :dispositions
   end
-  
-  attr_reader :dispositions
 end
