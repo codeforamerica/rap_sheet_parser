@@ -93,6 +93,20 @@ module RapSheetParser
         expect(described_class.new.parse(text)).not_to be_nil
       end
 
+      it 'correctly parses personal info that has more than 4 asterisks' do
+        text = <<~TEXT
+          blah blah
+          *********************
+          blah blah
+          * * * *
+          cycle 1
+        TEXT
+
+        subject = described_class.new.parse(text)
+        expect(subject.personal_info.text_value).to eq ("blah blah\n*********************\nblah blah")
+        expect(subject.cycles[0].cycle_content.text_value).to eq("cycle 1\n")
+      end
+
       it 'allows for missing end of message' do
         text = <<~TEXT
           arbitrary
@@ -128,6 +142,7 @@ module RapSheetParser
 
         it 'has an events method that calls the cycle parser' do
           result = subject.cycles
+          expect(result.length).to eq 2
           cycle1 = result[0]
           cycle2 = result[1]
           expect(cycle1.events[0].text_value).to eq 'event 1'

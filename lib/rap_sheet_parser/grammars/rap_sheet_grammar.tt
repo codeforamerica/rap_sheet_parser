@@ -15,7 +15,7 @@ module RapSheetParser
     end
 
     rule cycle_delimiter
-      N (punctuation_whitespace '*')3..4 punctuation_whitespace? !(w 'END OF MESSAGE')
+      N (punctuation_whitespace '*')3..4 punctuation_whitespace !'*' !'END OF MESSAGE'
     end
 
     rule punctuation_whitespace
