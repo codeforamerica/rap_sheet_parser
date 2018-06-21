@@ -1,9 +1,14 @@
 module RapSheetParser
   class RapSheetBuilder
-    def self.build(parsed_rap_sheet)
+    def self.build(parsed_rap_sheet, logger:)
       event_nodes = parsed_rap_sheet.cycles.flat_map do |cycle|
         cycle.events.select do |event|
-          event.is_a? EventGrammar::Event
+          if event.is_a? EventGrammar::Event
+            true
+          else
+            logger.warn('Unrecognized event:')
+            logger.warn(event.text_value)
+          end
         end
       end
 

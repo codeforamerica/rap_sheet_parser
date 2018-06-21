@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'date'
 require 'rap_sheet_parser'
+require 'logger'
 
 module RapSheetParser
   RSpec.describe RapSheetBuilder do
@@ -69,7 +70,7 @@ module RapSheetParser
           * * * END OF MESSAGE * * *
         TEXT
 
-        rap_sheet = RapSheetParser::Parser.new.parse(text)
+        rap_sheet = RapSheetParser::Parser.new.parse(text, logger: '')
 
         expect(rap_sheet.arrests[0].date).to eq Date.new(1991, 1, 5)
 
@@ -103,10 +104,10 @@ module RapSheetParser
           code_section_description: 'GRAND THEFT FROM PERSON',
           severity: 'M',
         })
-        
-        expect(rap_sheet.registration_events[0].date).to eq Date.new(2017,12,16)
+
+        expect(rap_sheet.registration_events[0].date).to eq Date.new(2017, 12, 16)
         expect(rap_sheet.registration_events[0].code_section).to eq 'PC 290'
-        expect(rap_sheet.registration_events[1].date).to eq Date.new(1990,10,22)
+        expect(rap_sheet.registration_events[1].date).to eq Date.new(1990, 10, 22)
         expect(rap_sheet.registration_events[1].code_section).to eq 'HS 11590'
       end
 
@@ -135,6 +136,21 @@ module RapSheetParser
             * * * END OF MESSAGE * * *
           TEXT
         end
+      end
+
+      it 'logs warnings for unrecognized events' do
+        text = <<~TEXT
+          info
+          * * * *
+          UNKNOWN EVENT???
+          * * * END OF MESSAGE * * *
+        TEXT
+
+        log = StringIO.new
+        logger = Logger.new(log)
+        RapSheetParser::Parser.new.parse(text, logger: logger)
+        expect(log.string).to include 'WARN -- : Unrecognized event:'
+        expect(log.string).to include 'WARN -- : UNKNOWN EVENT???'
       end
     end
 
