@@ -4,13 +4,13 @@ require 'rap_sheet_parser'
 
 module RapSheetParser
   RSpec.describe ConvictionEventBuilder do
-    describe '.present' do
+    describe '.build' do
       it 'returns arrest, custody, and court events with convictions' do
         text = <<~TEXT
           info
           * * * *
           COURT: NAME7OZ
-          19820915 CAMC L05 ANGELES METRO
+          19820915 CAMC LOS ANGELES METRO
 
           CNT:001 #456
           4056 PC-BREAKING AND ENTERING
@@ -19,13 +19,12 @@ module RapSheetParser
           * * * END OF MESSAGE * * *
         TEXT
 
-        tree = RapSheetGrammarParser.new.parse(text)
-        event = described_class.new(tree.cycles[0].events[0]).build
+        event = build(text)
 
         verify_event_looks_like(event, {
           date: Date.new(1982, 9, 15),
           case_number: '456',
-          courthouse: 'CAMC L05 ANGELES METRO',
+          courthouse: 'CAMC Los Angeles Metro',
           sentence: '',
         })
 
@@ -41,7 +40,7 @@ module RapSheetParser
           info
           * * * *
           COURT: NAME7OZ
-          19820915 CAMC L05 ANGELES METRO
+          19820915 CAMC LOS ANGELES METRO
 
           CNT:001-002 #123
           420 PC-BREAKING AND ENTERING
@@ -55,13 +54,12 @@ module RapSheetParser
           * * * END OF MESSAGE * * *
         TEXT
 
-        tree = RapSheetGrammarParser.new.parse(text)
-        event = described_class.new(tree.cycles[0].events[0]).build
+        event = build(text)
 
         verify_event_looks_like(event, {
           date: Date.new(1982, 9, 15),
           case_number: '123',
-          courthouse: 'CAMC L05 ANGELES METRO',
+          courthouse: 'CAMC Los Angeles Metro',
           sentence: '',
         })
 
@@ -98,7 +96,7 @@ module RapSheetParser
           info
           * * * *
           COURT: NAME7OZ
-          19820915 CAMC L05 ANGELES METRO
+          19820915 CAMC LOS ANGELES METRO
 
           CNT:001 #123
           420 PC-BREAKING AND ENTERING
@@ -110,8 +108,7 @@ module RapSheetParser
           * * * END OF MESSAGE * * *
         TEXT
 
-        tree = RapSheetGrammarParser.new.parse(text)
-        event = described_class.new(tree.cycles[0].events[0]).build
+        event = build(text)
 
         expect(event.dismissed_by_pc1203?).to eq true
       end
@@ -138,8 +135,7 @@ module RapSheetParser
           * * * END OF MESSAGE * * *
         TEXT
 
-        tree = RapSheetGrammarParser.new.parse(text)
-        event = described_class.new(tree.cycles[0].events[0]).build
+        event = build(text)
 
         expect(event.sentence.jail).to eq 1.month
       end
@@ -156,6 +152,11 @@ module RapSheetParser
       expect(count.code_section).to eq code_section
       expect(count.code_section_description).to eq code_section_description
       expect(count.severity).to eq severity
+    end
+
+    def build(text)
+      tree = RapSheetGrammarParser.new.parse(text)
+      described_class.new(tree.cycles[0].events[0], logger: nil).build
     end
   end
 end

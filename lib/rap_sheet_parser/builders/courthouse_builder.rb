@@ -1,6 +1,6 @@
 module RapSheetParser
-  class CourthousePresenter
-    def self.present(courthouse)
+  class CourthouseBuilder
+    def self.build(courthouse, logger:)
       courthouse_names = {
         'CASC SAN FRANCISCO CO' => 'CASC San Francisco Co',
         'CASC SAN FRANCISCO' => 'CASC San Francisco',
@@ -28,6 +28,9 @@ module RapSheetParser
       if courthouse_names.key?(courthouse_text)
         courthouse_names[courthouse_text]
       else
+        logger.warn('Unrecognized courthouse:')
+        logger.warn(courthouse_text)
+
         courthouse_text
       end
     end

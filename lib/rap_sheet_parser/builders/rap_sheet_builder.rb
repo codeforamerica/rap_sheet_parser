@@ -14,13 +14,13 @@ module RapSheetParser
 
       events = event_nodes.map do |e|
         if conviction_event(e)
-          ConvictionEventBuilder.new(e).build
+          ConvictionEventBuilder.new(e, logger: logger).build
         elsif e.is_a? EventGrammar::ArrestEvent
-          ArrestEventBuilder.new(e).build
+          ArrestEventBuilder.new(e, logger: logger).build
         elsif e.is_a? EventGrammar::CustodyEvent
-          CustodyEventBuilder.new(e).build
+          CustodyEventBuilder.new(e, logger: logger).build
         elsif e.is_a? EventGrammar::RegistrationEvent
-          RegistrationEventBuilder.new(e).build
+          RegistrationEventBuilder.new(e, logger: logger).build
         end
       end.compact
 

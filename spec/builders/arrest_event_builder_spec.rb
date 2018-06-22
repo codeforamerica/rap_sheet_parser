@@ -20,7 +20,7 @@ module RapSheetParser
       tree = RapSheetGrammarParser.new.parse(text)
       event_node = tree.cycles[0].events[0]
 
-      subject = described_class.new(event_node).build
+      subject = described_class.new(event_node, logger: nil).build
 
       expect(subject).to be_a ArrestEvent
       expect(subject.date).to eq Date.new(1991, 1, 5)

@@ -35,7 +35,7 @@ module RapSheetParser
     end
 
     def courthouse
-      CourthousePresenter.present(event_syntax_node.courthouse)
+      CourthouseBuilder.build(event_syntax_node.courthouse, logger: logger)
     end
 
     def sentence

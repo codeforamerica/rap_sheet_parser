@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'rap_sheet_parser'
 
 module RapSheetParser
-  RSpec.describe CourthousePresenter do
+  RSpec.describe CourthouseBuilder do
     it 'translates courthouse names to display names' do
       text = <<~TEXT
         info
@@ -17,10 +17,10 @@ module RapSheetParser
 
       tree = RapSheetGrammarParser.new.parse(text)
       courthouse_node = tree.cycles[0].events[0].courthouse
-      expect(described_class.present(courthouse_node)).to eq 'CASC San Jose'
+      expect(described_class.build(courthouse_node, logger: nil)).to eq 'CASC San Jose'
     end
 
-    it 'displays unknown courthouse names directly' do
+    it 'displays unknown courthouse names directly and logs warnings' do
       text = <<~TEXT
         info
         * * * *
@@ -32,9 +32,14 @@ module RapSheetParser
         * * * END OF MESSAGE * * *
       TEXT
 
+      log = StringIO.new
+      logger = Logger.new(log)
       tree = RapSheetGrammarParser.new.parse(text)
       courthouse_node = tree.cycles[0].events[0].courthouse
-      expect(described_class.present(courthouse_node)).to eq 'CASC ANYTOWN USA'
+      expect(described_class.build(courthouse_node, logger: logger)).to eq 'CASC ANYTOWN USA'
+
+      expect(log.string).to include 'WARN -- : Unrecognized courthouse:'
+      expect(log.string).to include 'WARN -- : CASC ANYTOWN USA'
     end
 
     it 'strips periods from courthouse names' do
@@ -51,7 +56,7 @@ module RapSheetParser
 
       tree = RapSheetGrammarParser.new.parse(text)
       courthouse_node = tree.cycles[0].events[0].courthouse
-      expect(described_class.present(courthouse_node)).to eq 'CAMC Los Angeles Metro'
+      expect(described_class.build(courthouse_node, logger: nil)).to eq 'CAMC Los Angeles Metro'
     end
   end
 end

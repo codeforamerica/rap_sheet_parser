@@ -32,5 +32,5 @@ end
 
 def build_event(text)
   event_syntax_node = double(date: double(text_value: text))
-  RapSheetParser::TestBuilder.new(event_syntax_node).build
+  RapSheetParser::TestBuilder.new(event_syntax_node, logger: nil).build
 end

@@ -37,7 +37,7 @@ module RapSheetParser
           DISPO:DISMISSED/FURTHERANCE OF JUSTICE
           * * * *
           COURT: NAME7OZ
-          19820915 CAMC L05 ANGELES METRO
+          19820915 CAMC LOS ANGELES METRO
 
           CNT: 001 #456
           bla bla
@@ -53,7 +53,7 @@ module RapSheetParser
           MORE INFO ABOUT THIS COUNT
           * * * *
           COURT:
-          19941120 CASC SAN DIEGO
+          19941120 CAMC HAYWARD
 
           CNT: 001 #612
           487.2 PC-GRAND THEFT FROM PERSON
@@ -70,20 +70,20 @@ module RapSheetParser
           * * * END OF MESSAGE * * *
         TEXT
 
-        rap_sheet = RapSheetParser::Parser.new.parse(text, logger: '')
+        rap_sheet = RapSheetParser::Parser.new.parse(text, logger: nil)
 
         expect(rap_sheet.arrests[0].date).to eq Date.new(1991, 1, 5)
 
         verify_event_looks_like(rap_sheet.convictions[0], {
           date: Date.new(1982, 9, 15),
           case_number: '456',
-          courthouse: 'CAMC L05 ANGELES METRO',
+          courthouse: 'CAMC Los Angeles Metro',
           sentence: '',
         })
         verify_event_looks_like(rap_sheet.convictions[1], {
           date: Date.new(1994, 11, 20),
           case_number: '612',
-          courthouse: 'CASC SAN DIEGO',
+          courthouse: 'CAMC Hayward',
           sentence: '12m probation, 45d jail'
         })
 
