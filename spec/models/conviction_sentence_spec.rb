@@ -4,10 +4,11 @@ require 'rap_sheet_parser'
 module RapSheetParser
   RSpec.describe ConvictionSentence do
     describe '#total_duration' do
-      it 'computes duration of both jail and probation periods' do
+      it 'computes duration of both jail, prison, and probation periods' do
         expect(described_class.new(jail: 1.year).total_duration).to eq(1.year)
         expect(described_class.new(probation: 30.days).total_duration).to eq(30.days)
-        expect(described_class.new(jail: 1.year, probation: 6.months).total_duration).to eq(1.year + 6.months)
+        expect(described_class.new(prison: 2.years).total_duration).to eq(2.years)
+        expect(described_class.new(jail: 1.year, prison: 2.years, probation: 6.months).total_duration).to eq(3.years + 6.months)
       end
     end
 
