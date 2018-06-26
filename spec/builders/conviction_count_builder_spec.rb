@@ -24,7 +24,7 @@ module RapSheetParser
       tree = RapSheetGrammarParser.new.parse(text)
       count_node = tree.cycles[0].events[0].counts[0]
 
-      subject = described_class.new(event, count_node).build
+      subject = described_class.new(count_node).build
       expect(subject.code_section).to eq 'PC 496'
       expect(subject.code_section_description).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
       expect(subject.severity).to eq 'M'
@@ -45,7 +45,7 @@ module RapSheetParser
       tree = RapSheetGrammarParser.new.parse(text)
       count_node = tree.cycles[0].events[0].counts[0]
 
-      subject = described_class.new(event, count_node).build
+      subject = described_class.new(count_node).build
       expect(subject.code_section).to be_nil
       expect(subject.code_section_description).to be_nil
       expect(subject.severity).to be_nil
@@ -70,7 +70,7 @@ module RapSheetParser
       tree = RapSheetGrammarParser.new.parse(text)
       count_node = tree.cycles[0].events[0].counts[0]
 
-      subject = described_class.new(event, count_node).build
+      subject = described_class.new(count_node).build
       expect(subject.code_section).to eq 'PC 496(a)(2)'
       expect(subject.code_section_description).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
       expect(subject.severity).to eq 'M'
@@ -94,7 +94,7 @@ module RapSheetParser
 
       tree = RapSheetGrammarParser.new.parse(text)
       count_node = tree.cycles[0].events[0].counts[0]
-      subject = described_class.new(event, count_node).build
+      subject = described_class.new(count_node).build
       expect(subject.code_section).to eq 'PC 496.3(a)(2)'
       expect(subject.code_section_description).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
       expect(subject.severity).to eq 'M'

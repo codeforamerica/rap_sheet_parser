@@ -1,13 +1,11 @@
 module RapSheetParser
   class ConvictionCountBuilder
-    def initialize(conviction_event, count)
-      @conviction_event = conviction_event
+    def initialize(count)
       @count = count
     end
 
     def build
       ConvictionCount.new(
-        event: conviction_event,
         code_section_description: code_section_description,
         severity: severity,
         code: code,
@@ -17,7 +15,7 @@ module RapSheetParser
 
     private
 
-    attr_reader :count, :conviction_event
+    attr_reader :count
 
     def code_section_description
       count.code_section_description.text_value.chomp if count.code_section_description

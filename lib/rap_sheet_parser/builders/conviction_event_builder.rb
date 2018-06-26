@@ -3,24 +3,25 @@ module RapSheetParser
     include EventBuilder
 
     def build
-      conviction_event = ConvictionEvent.new(
+      ConvictionEvent.new(
         date: date,
         case_number: case_number,
         courthouse: courthouse,
         sentence: sentence,
-        updates: updates
+        updates: updates,
+        counts: counts
       )
-
-      conviction_event.counts = event_syntax_node.conviction_counts.map do |count|
-        num_counts(count).times.map do |_|
-          ConvictionCountBuilder.new(conviction_event, count).build
-        end
-      end.flatten
-
-      conviction_event
     end
 
     private
+
+    def counts
+      event_syntax_node.conviction_counts.map do |count|
+        num_counts(count).times.map do |_|
+          ConvictionCountBuilder.new(count).build
+        end
+      end.flatten
+    end
 
     def num_counts(count)
       if count.count_identifier.end_number.text_value.present?

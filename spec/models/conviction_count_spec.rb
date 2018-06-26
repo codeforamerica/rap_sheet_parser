@@ -8,8 +8,7 @@ RSpec.describe RapSheetParser::ConvictionCount do
         code: 'PC',
         section: '187',
         severity: nil,
-        code_section_description: nil,
-        event: nil
+        code_section_description: nil
       )
 
       expect(count).to be_superstrike
@@ -20,8 +19,7 @@ RSpec.describe RapSheetParser::ConvictionCount do
         code: 'PC',
         section: '187(a)',
         severity: nil,
-        code_section_description: nil,
-        event: nil
+        code_section_description: nil
       )
 
       expect(count).not_to be_superstrike
@@ -32,8 +30,7 @@ RSpec.describe RapSheetParser::ConvictionCount do
         code: nil,
         section: nil,
         severity: nil,
-        code_section_description: nil,
-        event: nil
+        code_section_description: nil
       )
 
       expect(count.superstrike?).to eq false
@@ -44,8 +41,7 @@ RSpec.describe RapSheetParser::ConvictionCount do
         code: 'PC',
         section: '11359',
         severity: nil,
-        code_section_description: nil,
-        event: nil
+        code_section_description: nil
       )
 
       expect(count).not_to be_superstrike
@@ -58,8 +54,7 @@ RSpec.describe RapSheetParser::ConvictionCount do
         code: 'PC',
         section: '11359(a)',
         severity: nil,
-        code_section_description: nil,
-        event: nil
+        code_section_description: nil
       )
 
       expect(count.code_section_starts_with(['PC 11359'])).to eq true
@@ -70,8 +65,7 @@ RSpec.describe RapSheetParser::ConvictionCount do
         code: nil,
         section: nil,
         severity: nil,
-        code_section_description: nil,
-        event: nil
+        code_section_description: nil
       )
 
       expect(count.code_section_starts_with(['PC 11359'])).to eq false

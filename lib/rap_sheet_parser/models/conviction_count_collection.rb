@@ -1,9 +1,5 @@
 module RapSheetParser
   class ConvictionCountCollection < Array
-    def events
-      self.map(&:event).uniq
-    end
-
     def severity_felony
       with_severity('F')
     end

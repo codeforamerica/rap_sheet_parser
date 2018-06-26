@@ -3,21 +3,6 @@ require 'rap_sheet_parser'
 
 module RapSheetParser
   RSpec.describe ConvictionCountCollection do
-    describe '#events' do
-      it 'returns all unique events from counts' do
-        event_1 = double(:event)
-        event_2 = double(:event)
-
-        subject = described_class.new([
-                                        build_conviction_count(event: event_1),
-                                        build_conviction_count(event: event_2),
-                                        build_conviction_count(event: event_1)
-                                      ]).events
-
-        expect(subject).to eq [event_1, event_2]
-      end
-    end
-
     describe 'severity filters' do
       it 'can filter counts by severity strings' do
         count_1 = build_conviction_count(severity: 'F')
@@ -62,9 +47,8 @@ module RapSheetParser
   end
 end
 
-def build_conviction_count(event: double(:event), severity: 'M')
+def build_conviction_count(severity: 'M')
   RapSheetParser::ConvictionCount.new(
-    event: event,
     code_section_description: 'foo',
     severity: severity,
     code: 'PC',

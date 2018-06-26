@@ -1,15 +1,15 @@
 module RapSheetParser
   class ConvictionEvent
-    def initialize(date:, case_number:, courthouse:, sentence:, updates:)
+    def initialize(date:, case_number:, courthouse:, sentence:, counts:, updates:)
       @sentence = sentence
       @courthouse = courthouse
       @case_number = case_number
       @date = date
+      @counts = counts
       @updates = updates
     end
 
-    attr_reader :date, :case_number, :courthouse, :sentence
-    attr_accessor :counts
+    attr_reader :date, :case_number, :courthouse, :sentence, :counts
 
     def successfully_completed_probation?(rap_sheet)
       successfully_completed_duration?(rap_sheet, sentence.probation)

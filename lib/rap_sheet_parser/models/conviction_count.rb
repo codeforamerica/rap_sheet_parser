@@ -38,19 +38,18 @@ module RapSheetParser
       'PC 11418(a)(1)'
     ].freeze
 
-    def initialize(event:, code_section_description:, severity:, code:, section:)
+    def initialize(code_section_description:, severity:, code:, section:)
       @section = section
       @code = code
       @severity = severity
       @code_section_description = code_section_description
-      @event = event
     end
 
     def inspect
       OkayPrint.new(self).exclude_ivars(:@event).inspect
     end
 
-    attr_reader :event, :code_section_description, :severity, :code, :section
+    attr_reader :code_section_description, :severity, :code, :section
 
     def long_severity
       case severity
