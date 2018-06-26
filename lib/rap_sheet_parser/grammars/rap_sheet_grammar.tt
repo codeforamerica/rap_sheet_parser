@@ -33,9 +33,5 @@ module RapSheetParser
     rule end_of_message
       N asterisks 'END OF MESSAGE' .*
     end
-
-    rule asterisks
-      ('*' / W)*
-    end
   end
 end

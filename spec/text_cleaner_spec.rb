@@ -8,6 +8,7 @@ module RapSheetParser
         expect(clean('FOO ÇNT: FOO')).to eq('FOO CNT: FOO')
         expect(clean('WRONG–DASH')).to eq('WRONG-DASH')
         expect(clean('CNI: HI')).to eq('CNT: HI')
+        expect(clean("\f")).to eq('')
       end
 
       it 'upcases all text' do

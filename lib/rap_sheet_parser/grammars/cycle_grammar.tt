@@ -3,11 +3,11 @@ module RapSheetParser
     include CommonGrammar
 
     rule root
-      event_content (event_delimiter event_content)* <Cycle>
+      event_content felony_strike? (event_delimiter event_content felony_strike?)* n <Cycle>
     end
 
     rule event_content
-      (!event_delimiter .)* <EventContent>
+      (!event_delimiter !felony_strike .)* <EventContent>
     end
 
     rule event_delimiter
@@ -20,6 +20,10 @@ module RapSheetParser
 
     rule stray_quote
       w [']* w
+    end
+
+    rule felony_strike
+      asterisks N asterisks 'POTENTIAL FELONY STRIKE ENTRY' asterisks N asterisks
     end
   end
 end

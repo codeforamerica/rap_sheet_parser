@@ -144,6 +144,37 @@ module RapSheetParser
         expect(events[0].text_value).to eq "event\n-\none text"
         expect(events[1].text_value).to eq "another event\n"
       end
+
+      it 'parses multiple events with trailing felony strike section' do
+        text = <<~TEXT
+          event
+          * * * * * * * * * * *
+          ** POTENTIAL FELONY STRIKE ENTRY   **
+          * * * * * * * * * * *
+
+          - - - -
+          another event
+        TEXT
+
+        events = described_class.new.parse(text).events
+        expect(events.length).to eq 2
+        expect(events[0].text_value).to eq "event\n"
+        expect(events[1].text_value).to eq "another event\n"
+        end
+
+      it 'parses events with trailing felony strike section' do
+        text = <<~TEXT
+          event
+          * * * * * * * * * * *
+          ** POTENTIAL FELONY STRIKE ENTRY   **
+          * * * * * * * * * * *
+
+        TEXT
+
+        events = described_class.new.parse(text).events
+        expect(events.length).to eq 1
+        expect(events[0].text_value).to eq "event\n"
+      end
     end
   end
 end

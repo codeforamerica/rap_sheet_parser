@@ -11,7 +11,8 @@ module RapSheetParser
       'O' => ['Ọ','Ó'],
       'FINE SS' => ['FINESS'],
       'ARR/DET/CITE' => ['ARR/PET/CITE'],
-      'COURT' => ['COURI']
+      'COURT' => ['COURI'],
+      '' => ["\f"]
     }.freeze
 
     def self.clean(text)
