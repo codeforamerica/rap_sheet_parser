@@ -48,7 +48,7 @@ require 'rap_sheet_parser/version'
 
 module RapSheetParser
   class Parser
-    def parse(text, logger: Logger.new)
+    def parse(text, logger: Logger.new("/dev/null"))
       cleaned_text = TextCleaner.clean(text)
       tree = do_parsing(RapSheetGrammarParser.new, cleaned_text)
       RapSheetBuilder.build(tree, logger: logger)
