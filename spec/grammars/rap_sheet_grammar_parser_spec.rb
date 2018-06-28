@@ -6,6 +6,38 @@ module RapSheetParser
     describe '#parse' do
       subject { described_class.new.parse(text) }
 
+      context 'parsing personal info' do
+        let(:text) {
+          <<~TEXT
+            blah blah
+            SEX/M
+            la la la
+            * * * *
+            cycle text
+            * * * END OF MESSAGE * * *
+          TEXT
+        }
+
+        it 'parses personal info' do
+          expect(subject.personal_info.sex.text_value).to eq 'SEX/M'
+        end
+      end
+
+      context 'when we are missing personal info' do
+        let(:text) {
+          <<~TEXT
+            la la la
+            * * * *
+            cycle text
+            * * * END OF MESSAGE * * *
+          TEXT
+        }
+
+        it 'parses personal info' do
+          expect(subject.personal_info).to be_a(RapSheetGrammar::UnknownPersonalInfo)
+        end
+      end
+
       context 'parsing one cycle' do
         let(:text) {
           <<~TEXT

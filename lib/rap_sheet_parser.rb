@@ -13,6 +13,7 @@ require 'rap_sheet_parser/models/update'
 require 'rap_sheet_parser/models/pc1203_dismissed_disposition'
 require 'rap_sheet_parser/models/sentence_modified_disposition'
 require 'rap_sheet_parser/models/okay_print'
+require 'rap_sheet_parser/models/personal_info'
 
 require 'rap_sheet_parser/builders/case_number_builder'
 require 'rap_sheet_parser/builders/conviction_count_builder'
@@ -25,6 +26,7 @@ require 'rap_sheet_parser/builders/courthouse_builder'
 require 'rap_sheet_parser/builders/rap_sheet_builder'
 require 'rap_sheet_parser/builders/conviction_sentence_builder'
 require 'rap_sheet_parser/builders/update_builder'
+require 'rap_sheet_parser/builders/personal_info_builder'
 
 require 'rap_sheet_parser/syntax_nodes/treetop_monkeypatches'
 require 'rap_sheet_parser/syntax_nodes/cycle_syntax_nodes'
@@ -53,6 +55,8 @@ module RapSheetParser
       tree = do_parsing(RapSheetGrammarParser.new, cleaned_text)
       RapSheetBuilder.build(tree, logger: logger)
     end
+
+    private
 
     def do_parsing(parser, text)
       result = parser.parse(text)

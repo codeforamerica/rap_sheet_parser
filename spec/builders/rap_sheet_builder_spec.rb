@@ -5,10 +5,12 @@ require 'logger'
 
 module RapSheetParser
   RSpec.describe RapSheetBuilder do
-    describe '.present' do
+    describe '.build' do
       it 'returns arrest, custody, and court events with convictions' do
         text = <<~TEXT
-          info
+          blah blah
+          SEX/M
+          la la la
           * * * *
           REGISTRATION:         NAM:01
           20171216 CASO SAN DIEGO
@@ -73,6 +75,7 @@ module RapSheetParser
         rap_sheet = RapSheetParser::Parser.new.parse(text, logger: nil)
 
         expect(rap_sheet.arrests[0].date).to eq Date.new(1991, 1, 5)
+        expect(rap_sheet.personal_info.sex).to eq 'M'
 
         verify_event_looks_like(rap_sheet.convictions[0], {
           date: Date.new(1982, 9, 15),

@@ -12,6 +12,8 @@ module RapSheetParser
         end
       end
 
+      personal_info = PersonalInfoBuilder.new(parsed_rap_sheet.personal_info).build
+
       events = event_nodes.map do |e|
         if conviction_event(e)
           ConvictionEventBuilder.new(e, logger: logger).build
@@ -24,7 +26,7 @@ module RapSheetParser
         end
       end.compact
 
-      RapSheet.new(events)
+      RapSheet.new(events: events, personal_info: personal_info)
     end
 
     private

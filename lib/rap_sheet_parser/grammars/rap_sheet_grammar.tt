@@ -7,7 +7,19 @@ module RapSheetParser
     end
 
     rule personal_info
-      (!cycle_delimiter .)*
+      found_personal_info / unknown_personal_info
+    end
+
+    rule found_personal_info
+      (!sex .)* sex (!cycle_delimiter .)*
+    end
+
+    rule unknown_personal_info
+      (!cycle_delimiter .)* <UnknownPersonalInfo>
+    end
+
+    rule sex
+      'SEX/' .
     end
 
     rule cycles

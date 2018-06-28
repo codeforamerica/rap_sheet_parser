@@ -27,7 +27,7 @@ module RapSheetParser
           date: Date.new(1994, 1, 2)
         )
         arrest_event = ArrestEvent.new(date: Date.new(1994, 6, 2))
-        rap_sheet = RapSheet.new([conviction_event, arrest_event])
+        rap_sheet = build_rap_sheet(events: [conviction_event, arrest_event])
 
         expect(conviction_event.successfully_completed_probation?(rap_sheet)).to eq false
       end
@@ -38,7 +38,7 @@ module RapSheetParser
           date: Date.new(1994, 1, 2)
         )
         arrest_no_date_event = ArrestEvent.new(date: nil)
-        rap_sheet = RapSheet.new([conviction_event, arrest_no_date_event])
+        rap_sheet = build_rap_sheet(events: [conviction_event, arrest_no_date_event])
 
         expect(conviction_event.successfully_completed_probation?(rap_sheet)).to eq true
       end
@@ -49,7 +49,7 @@ module RapSheetParser
           date: nil
         )
         arrest_no_date_event = ArrestEvent.new(date: nil)
-        events = RapSheet.new([conviction_event, arrest_no_date_event]).events
+        events = build_rap_sheet(events: [conviction_event, arrest_no_date_event]).events
 
         expect(conviction_event.successfully_completed_probation?(events)).to be_nil
       end
@@ -61,7 +61,7 @@ module RapSheetParser
           date: Date.new(1994, 1, 2)
         )
         arrest_event = ArrestEvent.new(date: Date.new(1994, 6, 2))
-        rap_sheet = RapSheet.new([conviction_event, arrest_event])
+        rap_sheet = build_rap_sheet(events: [conviction_event, arrest_event])
 
         expect(conviction_event.successfully_completed_year?(rap_sheet)).to eq false
       end
@@ -72,7 +72,7 @@ module RapSheetParser
           date: Date.new(1994, 1, 2)
         )
         arrest_no_date_event = ArrestEvent.new(date: nil)
-        rap_sheet = RapSheet.new([conviction_event, arrest_no_date_event])
+        rap_sheet = build_rap_sheet(events: [conviction_event, arrest_no_date_event])
 
         expect(conviction_event.successfully_completed_year?(rap_sheet)).to eq true
       end
@@ -83,28 +83,34 @@ module RapSheetParser
           date: nil
         )
         arrest_no_date_event = ArrestEvent.new(date: nil)
-        events = RapSheet.new([conviction_event, arrest_no_date_event]).events
+        events = build_rap_sheet(events: [conviction_event, arrest_no_date_event]).events
 
         expect(conviction_event.successfully_completed_year?(events)).to be_nil
       end
     end
+
+    def build_conviction_event(
+      date: Date.new(1994, 1, 2),
+      case_number: '12345',
+      courthouse: 'CASC SAN FRANCISCO',
+      sentence: RapSheetParser::ConvictionSentence.new(probation: 1.year),
+      counts: []
+    )
+
+      RapSheetParser::ConvictionEvent.new(
+        date: date,
+        courthouse: courthouse,
+        case_number: case_number,
+        sentence: sentence,
+        updates: [],
+        counts: counts
+      )
+    end
+
+    def build_rap_sheet(events: [], personal_info: nil)
+      RapSheet.new(events: events, personal_info: personal_info)
+    end
   end
 end
 
-def build_conviction_event(
-  date: Date.new(1994, 1, 2),
-  case_number: '12345',
-  courthouse: 'CASC SAN FRANCISCO',
-  sentence: RapSheetParser::ConvictionSentence.new(probation: 1.year),
-  counts: []
-)
 
-  RapSheetParser::ConvictionEvent.new(
-    date: date,
-    courthouse: courthouse,
-    case_number: case_number,
-    sentence: sentence,
-    updates: [],
-    counts: counts
-  )
-end
