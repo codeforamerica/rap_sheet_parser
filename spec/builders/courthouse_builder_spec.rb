@@ -17,7 +17,7 @@ module RapSheetParser
 
       tree = RapSheetGrammarParser.new.parse(text)
       courthouse_node = tree.cycles[0].events[0].courthouse
-      expect(described_class.build(courthouse_node, logger: nil)).to eq 'CASC San Jose'
+      expect(described_class.new(courthouse_node, logger: nil).build).to eq 'CASC San Jose'
     end
 
     it 'displays unknown courthouse names directly and logs warnings' do
@@ -36,7 +36,7 @@ module RapSheetParser
       logger = Logger.new(log)
       tree = RapSheetGrammarParser.new.parse(text)
       courthouse_node = tree.cycles[0].events[0].courthouse
-      expect(described_class.build(courthouse_node, logger: logger)).to eq 'CASC ANYTOWN USA'
+      expect(described_class.new(courthouse_node, logger: logger).build).to eq 'CASC ANYTOWN USA'
 
       expect(log.string).to include 'WARN -- : Unrecognized courthouse:'
       expect(log.string).to include 'WARN -- : CASC ANYTOWN USA'
@@ -56,7 +56,7 @@ module RapSheetParser
 
       tree = RapSheetGrammarParser.new.parse(text)
       courthouse_node = tree.cycles[0].events[0].courthouse
-      expect(described_class.build(courthouse_node, logger: nil)).to eq 'CAMC Los Angeles Metro'
+      expect(described_class.new(courthouse_node, logger: nil).build).to eq 'CAMC Los Angeles Metro'
     end
   end
 end

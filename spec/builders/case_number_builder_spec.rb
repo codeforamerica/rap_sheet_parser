@@ -17,7 +17,7 @@ module RapSheetParser
 
       tree = RapSheetGrammarParser.new.parse(text)
       case_number_node = tree.cycles[0].events[0].case_number
-      expect(described_class.build(case_number_node)).to eq '456'
+      expect(described_class.new(case_number_node).build).to eq '456'
     end
 
     it 'strips trailing punctuation from case numbers' do
@@ -35,7 +35,7 @@ module RapSheetParser
       tree = RapSheetGrammarParser.new.parse(text)
       case_number_node = tree.cycles[0].events[0].case_number
 
-      expect(described_class.build(case_number_node)).to eq '456'
+      expect(described_class.new(case_number_node).build).to eq '456'
     end
 
     it 'strips periods from case numbers' do
@@ -53,7 +53,7 @@ module RapSheetParser
       tree = RapSheetGrammarParser.new.parse(text)
       case_number_node = tree.cycles[0].events[0].case_number
 
-      expect(described_class.build(case_number_node)).to eq '456'
+      expect(described_class.new(case_number_node).build).to eq '456'
     end
 
     it 'returns nil case number for an unknown count one' do
@@ -71,7 +71,7 @@ module RapSheetParser
       tree = RapSheetGrammarParser.new.parse(text)
       case_number_node = tree.cycles[0].events[0].case_number
 
-      expect(described_class.build(case_number_node)).to eq nil
+      expect(described_class.new(case_number_node).build).to eq nil
     end
 
     it 'returns nil case number for an unknown case number' do
@@ -90,7 +90,7 @@ module RapSheetParser
       tree = RapSheetGrammarParser.new.parse(text)
       case_number_node = tree.cycles[0].events[0].case_number
 
-      expect(described_class.build(case_number_node)).to eq nil
+      expect(described_class.new(case_number_node).build).to eq nil
     end
   end
 end

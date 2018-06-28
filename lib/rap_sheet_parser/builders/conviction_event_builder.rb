@@ -32,11 +32,11 @@ module RapSheetParser
     end
 
     def case_number
-      CaseNumberBuilder.build(event_syntax_node.case_number)
+      CaseNumberBuilder.new(event_syntax_node.case_number).build
     end
 
     def courthouse
-      CourthouseBuilder.build(event_syntax_node.courthouse, logger: logger)
+      CourthouseBuilder.new(event_syntax_node.courthouse, logger: logger).build
     end
 
     def sentence

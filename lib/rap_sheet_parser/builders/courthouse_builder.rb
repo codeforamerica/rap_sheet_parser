@@ -1,6 +1,11 @@
 module RapSheetParser
   class CourthouseBuilder
-    def self.build(courthouse, logger:)
+    def initialize(courthouse_node, logger:)
+      @courthouse_node = courthouse_node
+      @logger = logger
+    end
+
+    def build
       courthouse_names = {
         'CASC SAN FRANCISCO CO' => 'CASC San Francisco Co',
         'CASC SAN FRANCISCO' => 'CASC San Francisco',
@@ -23,13 +28,13 @@ module RapSheetParser
         'CASC LOS ANGELES' => 'CASC Los Angeles'
       }
 
-      courthouse_text = courthouse.text_value.gsub('.', '').upcase
+      courthouse_text = @courthouse_node.text_value.gsub('.', '').upcase
 
       if courthouse_names.key?(courthouse_text)
         courthouse_names[courthouse_text]
       else
-        logger.warn('Unrecognized courthouse:')
-        logger.warn(courthouse_text)
+        @logger.warn('Unrecognized courthouse:')
+        @logger.warn(courthouse_text)
 
         courthouse_text
       end
