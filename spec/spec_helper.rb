@@ -1,7 +1,11 @@
 require "bundler/setup"
 require "rap_sheet_parser"
 
+require 'rap_sheet_factory'
+
 RSpec.configure do |config|
+  config.include RapSheetParser::RapSheetFactory
+
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
 

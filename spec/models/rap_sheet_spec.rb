@@ -2,10 +2,6 @@ require 'spec_helper'
 
 module RapSheetParser
   RSpec.describe RapSheet do
-    def build_rap_sheet(events: [], personal_info: nil)
-      described_class.new(events: events, personal_info: personal_info)
-    end
-
     describe '#sex_offender_registration?' do
       it 'returns true if registration event containing PC 290' do
         event = RegistrationEvent.new(

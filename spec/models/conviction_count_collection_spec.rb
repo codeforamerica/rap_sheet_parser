@@ -46,11 +46,3 @@ module RapSheetParser
     end
   end
 end
-
-def build_conviction_count(severity: 'M')
-  RapSheetParser::ConvictionCount.new(
-    code_section_description: 'foo',
-    severity: severity,
-    code: 'PC',
-    section: '123')
-end

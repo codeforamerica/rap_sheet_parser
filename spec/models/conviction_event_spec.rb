@@ -88,28 +88,6 @@ module RapSheetParser
         expect(conviction_event.successfully_completed_year?(events)).to be_nil
       end
     end
-
-    def build_conviction_event(
-      date: Date.new(1994, 1, 2),
-      case_number: '12345',
-      courthouse: 'CASC SAN FRANCISCO',
-      sentence: RapSheetParser::ConvictionSentence.new(probation: 1.year),
-      counts: []
-    )
-
-      RapSheetParser::ConvictionEvent.new(
-        date: date,
-        courthouse: courthouse,
-        pii: ConvictionEventPII.new(case_number: case_number),
-        sentence: sentence,
-        updates: [],
-        counts: counts
-      )
-    end
-
-    def build_rap_sheet(events: [], personal_info: nil)
-      RapSheet.new(events: events, personal_info: personal_info)
-    end
   end
 end
 
