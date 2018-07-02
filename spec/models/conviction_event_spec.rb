@@ -100,7 +100,7 @@ module RapSheetParser
       RapSheetParser::ConvictionEvent.new(
         date: date,
         courthouse: courthouse,
-        case_number: case_number,
+        pii: ConvictionEventPII.new(case_number: case_number),
         sentence: sentence,
         updates: [],
         counts: counts

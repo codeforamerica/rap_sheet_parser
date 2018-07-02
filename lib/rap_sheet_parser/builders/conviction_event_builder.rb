@@ -5,7 +5,7 @@ module RapSheetParser
     def build
       ConvictionEvent.new(
         date: date,
-        case_number: case_number,
+        pii: pii,
         courthouse: courthouse,
         sentence: sentence,
         updates: updates,
@@ -31,8 +31,10 @@ module RapSheetParser
       end
     end
 
-    def case_number
-      CaseNumberBuilder.new(event_syntax_node.case_number).build
+    def pii
+      ConvictionEventPII.new(
+        case_number: CaseNumberBuilder.new(event_syntax_node.case_number).build
+      )
     end
 
     def courthouse
