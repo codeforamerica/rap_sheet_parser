@@ -5,11 +5,9 @@ module RapSheetParser
     end
 
     def build
-      if personal_info_node.is_a? RapSheetGrammar::UnknownPersonalInfo
-        return PersonalInfo.new(sex: nil)
-      end
-
-      PersonalInfo.new(sex: sex)
+      return if personal_info_node.is_a? RapSheetGrammar::UnknownPersonalInfo
+      
+      PersonalInfo.create!(sex: sex)
     end
 
     private

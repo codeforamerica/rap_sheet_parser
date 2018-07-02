@@ -1,9 +1,4 @@
 module RapSheetParser
-  class PersonalInfo
-    def initialize(sex:)
-      @sex = sex
-    end
-
-    attr_reader :sex
+  class PersonalInfo < ApplicationRecord
   end
 end

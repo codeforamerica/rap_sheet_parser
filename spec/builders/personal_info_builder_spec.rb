@@ -30,7 +30,7 @@ module RapSheetParser
         tree = RapSheetGrammarParser.new.parse(text)
 
         personal_info = described_class.new(tree.personal_info).build
-        expect(personal_info.sex).to eq nil
+        expect(personal_info).to eq nil
       end
     end
   end

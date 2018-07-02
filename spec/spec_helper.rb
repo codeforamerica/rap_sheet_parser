@@ -1,7 +1,15 @@
 require "bundler/setup"
 require "rap_sheet_parser"
-
+require 'ostruct'
 require 'rap_sheet_factory'
+
+module RapSheetParser
+  class ApplicationRecord
+    def self.create!(params={})
+      OpenStruct.new(params)
+    end
+  end
+end
 
 RSpec.configure do |config|
   config.include RapSheetParser::RapSheetFactory
