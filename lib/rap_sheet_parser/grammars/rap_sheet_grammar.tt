@@ -11,7 +11,7 @@ module RapSheetParser
     end
 
     rule found_personal_info
-      (!sex .)* sex (!cycle_delimiter .)*
+      (!sex .)* sex (!'NAM/' .)* name_lines (!cycle_delimiter .)* <PersonalInfo>
     end
 
     rule unknown_personal_info
@@ -20,6 +20,22 @@ module RapSheetParser
 
     rule sex
       'SEX/' .
+    end
+
+    rule name_lines
+      "NAM/" name (N name)*
+    end
+
+    rule name
+      w name_code w name_value <Name>
+    end
+
+    rule name_code
+      [0-9]2..2
+    end
+
+    rule name_value
+      (!N .)*
     end
 
     rule cycles

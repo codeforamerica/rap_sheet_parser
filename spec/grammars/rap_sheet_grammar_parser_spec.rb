@@ -11,14 +11,22 @@ module RapSheetParser
             blah blah
             SEX/M
             la la la
+            NAM/01 LAST, FIRST
+            02 NAME, BOB
             * * * *
             cycle text
             * * * END OF MESSAGE * * *
           TEXT
         }
 
-        it 'parses personal info' do
+        it 'parses sex' do
           expect(subject.personal_info.sex.text_value).to eq 'SEX/M'
+        end
+        it 'parses names' do
+          expect(subject.personal_info).to be_a(RapSheetGrammar::PersonalInfo)
+          expect(subject.personal_info.names[0].text_value).to eq '01 LAST, FIRST'
+          expect(subject.personal_info.names[1].text_value).to eq '02 NAME, BOB'
+
         end
       end
 

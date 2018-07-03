@@ -7,7 +7,9 @@ module RapSheetParser
         text = <<~TEXT
           blah blah
           SEX/M
-          la la la
+          NAM/01 BACCA, CHEW
+              02 BACCA, CHEW E.
+              03 WOOKIE, CHEWBACCA
           * * * *
           REGISTRATION:         NAM:01
           20171216 CASO SAN DIEGO
@@ -73,6 +75,9 @@ module RapSheetParser
 
         expect(rap_sheet.arrests[0].date).to eq Date.new(1991, 1, 5)
         expect(rap_sheet.personal_info.sex).to eq 'M'
+        expect(rap_sheet.personal_info.names['01']).to eq 'BACCA, CHEW'
+        expect(rap_sheet.personal_info.names['02']).to eq 'BACCA, CHEW E.'
+        expect(rap_sheet.personal_info.names['03']).to eq 'WOOKIE, CHEWBACCA'
 
         verify_event_looks_like(rap_sheet.convictions[0], {
           date: Date.new(1982, 9, 15),

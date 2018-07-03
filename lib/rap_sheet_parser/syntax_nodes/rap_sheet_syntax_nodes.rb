@@ -6,6 +6,14 @@ module RapSheetParser
       end
     end
 
+    class PersonalInfo < Treetop::Runtime::SyntaxNode
+      def names
+        recursive_select(Name)
+      end
+    end
+
+    class Name < Treetop::Runtime::SyntaxNode; end
+
     class UnknownPersonalInfo < Treetop::Runtime::SyntaxNode; end
   end
 end
