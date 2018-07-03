@@ -1,7 +1,4 @@
 require 'spec_helper'
-require 'date'
-require 'ostruct'
-require 'rap_sheet_parser'
 
 module RapSheetParser
   RSpec.describe EventBuilder do

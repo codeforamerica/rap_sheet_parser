@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'rap_sheet_parser'
 
 RSpec.describe RapSheetParser::ConvictionCount do
   describe '#superstrike?' do

@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'date'
-require 'rap_sheet_parser'
 
 module RapSheetParser
   RSpec.describe ConvictionEventBuilder do

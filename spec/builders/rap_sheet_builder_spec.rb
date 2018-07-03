@@ -1,7 +1,4 @@
 require 'spec_helper'
-require 'date'
-require 'rap_sheet_parser'
-require 'logger'
 
 module RapSheetParser
   RSpec.describe RapSheetBuilder do

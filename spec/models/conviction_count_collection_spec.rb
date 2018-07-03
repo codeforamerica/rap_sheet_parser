@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'rap_sheet_parser'
 
 module RapSheetParser
   RSpec.describe ConvictionCountCollection do
