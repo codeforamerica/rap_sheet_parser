@@ -7,7 +7,7 @@ module RapSheetParser
     end
 
     rule court_event
-      w court_identifier stuff date wn [.']* wn nam? wn courthouse wn toc? (!count_identifier .)* counts updates <CourtEvent>
+      w court_identifier wn name (!date .)* date wn [.']* wn name? wn courthouse wn toc? (!count_identifier .)* counts updates <CourtEvent>
     end
 
     rule arrest_event
@@ -19,7 +19,7 @@ module RapSheetParser
     end
 
     rule registration_event
-      w registration_identifier stuff date wn [.']* wn nam? wn courthouse wn toc? (!count_identifier .)* counts updates <RegistrationEvent>
+      w registration_identifier name (!date .)* date wn [.']* wn courthouse wn toc? (!count_identifier .)* counts updates <RegistrationEvent>
     end
     
     rule registration_identifier
@@ -30,8 +30,20 @@ module RapSheetParser
       .*
     end
 
-    rule nam
-      'NAM' w (':' / ';') [0-9]+
+    rule name
+       found_name / unknown_name
+    end
+
+    rule found_name
+      'NAM' w (':' / ';') w name_code
+    end
+
+    rule unknown_name
+      '' <Unknown>
+    end
+
+    rule name_code
+      [0-9]2..3
     end
 
     rule courthouse
@@ -87,10 +99,6 @@ module RapSheetParser
 
     rule case_number
       '#' w (!N .)+
-    end
-
-    rule stuff
-      (!date .)*
     end
 
     rule updates

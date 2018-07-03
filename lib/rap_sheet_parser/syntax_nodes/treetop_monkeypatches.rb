@@ -61,3 +61,5 @@ class Treetop::Runtime::SyntaxNode
     result
   end
 end
+
+class Unknown < Treetop::Runtime::SyntaxNode; end

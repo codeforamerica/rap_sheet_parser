@@ -2,11 +2,12 @@ module RapSheetParser
   module RapSheetFactory
     def build_conviction_event(
       date: Date.new(1994, 1, 2),
-        case_number: '12345',
-        courthouse: 'CASC SAN FRANCISCO',
-        sentence: RapSheetParser::ConvictionSentence.new(probation: 1.year),
-        counts: [],
-        updates: []
+      case_number: '12345',
+      courthouse: 'CASC SAN FRANCISCO',
+      sentence: RapSheetParser::ConvictionSentence.new(probation: 1.year),
+      counts: [],
+      updates: [],
+      name_code: nil
     )
 
       RapSheetParser::ConvictionEvent.new(
@@ -15,7 +16,8 @@ module RapSheetParser
         pii: ConvictionEventPII.new(case_number: case_number),
         sentence: sentence,
         updates: updates,
-        counts: counts
+        counts: counts,
+        name_code: name_code
       )
     end
 
@@ -25,9 +27,9 @@ module RapSheetParser
 
     def build_conviction_count(
       severity: 'M',
-        code: 'PC',
-        section: '123',
-        code_section_description: 'foo'
+      code: 'PC',
+      section: '123',
+      code_section_description: 'foo'
     )
       RapSheetParser::ConvictionCount.new(
         code_section_description: code_section_description,

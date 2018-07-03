@@ -4,6 +4,7 @@ module RapSheetParser
 
     def build
       ConvictionEvent.new(
+        name_code: name_code,
         date: date,
         pii: pii,
         courthouse: courthouse,
@@ -14,6 +15,12 @@ module RapSheetParser
     end
 
     private
+
+    def name_code
+      return if event_syntax_node.name.is_a? Unknown
+
+      event_syntax_node.name.name_code.text_value
+    end
 
     def counts
       event_syntax_node.conviction_counts.map do |count|

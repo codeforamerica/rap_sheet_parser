@@ -54,6 +54,7 @@ module RapSheetParser
           MORE INFO ABOUT THIS COUNT
           * * * *
           COURT:
+          NAM: 003
           19941120 CAMC HAYWARD
 
           CNT: 001 #612
@@ -80,12 +81,14 @@ module RapSheetParser
         expect(rap_sheet.personal_info.names['03']).to eq 'WOOKIE, CHEWBACCA'
 
         verify_event_looks_like(rap_sheet.convictions[0], {
+          name_code: nil,
           date: Date.new(1982, 9, 15),
           case_number: '456',
           courthouse: 'CAMC Los Angeles Metro',
           sentence: '',
         })
         verify_event_looks_like(rap_sheet.convictions[1], {
+          name_code: '003',
           date: Date.new(1994, 11, 20),
           case_number: '612',
           courthouse: 'CAMC Hayward',
@@ -157,19 +160,6 @@ module RapSheetParser
         expect(log.string).to include 'WARN -- : Unrecognized event:'
         expect(log.string).to include 'WARN -- : UNKNOWN EVENT???'
       end
-    end
-
-    def verify_event_looks_like(event, date:, case_number:, courthouse:, sentence:)
-      expect(event.date).to eq date
-      expect(event.case_number).to eq case_number
-      expect(event.courthouse).to eq courthouse
-      expect(event.sentence.to_s).to eq sentence
-    end
-
-    def verify_count_looks_like(count, code_section:, code_section_description:, severity:)
-      expect(count.code_section).to eq code_section
-      expect(count.code_section_description).to eq code_section_description
-      expect(count.severity).to eq severity
     end
   end
 end

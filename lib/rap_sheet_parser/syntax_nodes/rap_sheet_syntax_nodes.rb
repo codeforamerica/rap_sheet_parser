@@ -13,7 +13,5 @@ module RapSheetParser
     end
 
     class Name < Treetop::Runtime::SyntaxNode; end
-
-    class UnknownPersonalInfo < Treetop::Runtime::SyntaxNode; end
   end
 end

@@ -4,11 +4,12 @@ require 'date'
 module RapSheetParser
   RSpec.describe ConvictionEventBuilder do
     describe '.build' do
-      it 'returns arrest, custody, and court events with convictions' do
+      it 'builds court event from treetop node' do
         text = <<~TEXT
           info
           * * * *
-          COURT: NAME7OZ
+          COURT:
+          NAM:002
           19820915 CAMC LOS ANGELES METRO
 
           CNT:001 #456
@@ -21,6 +22,7 @@ module RapSheetParser
         event = build(text)
 
         verify_event_looks_like(event, {
+          name_code: '002',
           date: Date.new(1982, 9, 15),
           case_number: '456',
           courthouse: 'CAMC Los Angeles Metro',
@@ -56,6 +58,7 @@ module RapSheetParser
         event = build(text)
 
         verify_event_looks_like(event, {
+          name_code: nil,
           date: Date.new(1982, 9, 15),
           case_number: '123',
           courthouse: 'CAMC Los Angeles Metro',
@@ -90,7 +93,7 @@ module RapSheetParser
         })
       end
 
-      it 'populates 1203 dismissal field' do
+      it 'populates updates' do
         text = <<~TEXT
           info
           * * * *
@@ -138,19 +141,6 @@ module RapSheetParser
 
         expect(event.sentence.jail).to eq 1.month
       end
-    end
-
-    def verify_event_looks_like(event, date:, case_number:, courthouse:, sentence:)
-      expect(event.date).to eq date
-      expect(event.case_number).to eq case_number
-      expect(event.courthouse).to eq courthouse
-      expect(event.sentence.to_s).to eq sentence
-    end
-
-    def verify_count_looks_like(count, code_section:, code_section_description:, severity:)
-      expect(count.code_section).to eq code_section
-      expect(count.code_section_description).to eq code_section_description
-      expect(count.severity).to eq severity
     end
 
     def build(text)

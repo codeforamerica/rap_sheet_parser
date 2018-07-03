@@ -7,6 +7,7 @@ module RapSheetParser
         it 'parses' do
           text = <<~TEXT
             COURT:
+            NAM:02
             20040102  CASC SAN FRANCISCO fds
 
             CNT: 001  #346477
@@ -27,6 +28,8 @@ module RapSheetParser
           tree = parse(text)
 
           expect(tree).to be_a(EventGrammar::CourtEvent)
+
+          expect(tree.name.name_code.text_value).to eq ('02')
 
           expect(tree.date.text_value).to eq('20040102')
 
@@ -352,9 +355,10 @@ module RapSheetParser
         end
       end
     end
+
+    def parse(text)
+      described_class.new.parse(text)
+    end
   end
 end
 
-def parse(text)
-  described_class.new.parse(text)
-end

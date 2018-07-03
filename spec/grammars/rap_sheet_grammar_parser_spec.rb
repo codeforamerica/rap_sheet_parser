@@ -41,7 +41,7 @@ module RapSheetParser
         }
 
         it 'parses personal info' do
-          expect(subject.personal_info).to be_a(RapSheetGrammar::UnknownPersonalInfo)
+          expect(subject.personal_info).to be_a(Unknown)
         end
       end
 
