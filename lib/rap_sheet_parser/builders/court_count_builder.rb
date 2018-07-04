@@ -1,16 +1,18 @@
 module RapSheetParser
-  class ConvictionCountBuilder
+  class CourtCountBuilder
     def initialize(count)
       @count = count
     end
 
     def build
-      ConvictionCount.new(
+      court_count = CourtCount.new(
         code_section_description: code_section_description,
         severity: severity,
         code: code,
         section: section
       )
+      court_count.save!
+      court_count
     end
 
     private

@@ -1,7 +1,3 @@
 module RapSheetParser
-  class ApplicationRecord
-    def self.new(params={})
-      OpenStruct.new(params)
-    end
-  end
+  class ApplicationRecord < OpenStruct; end
 end

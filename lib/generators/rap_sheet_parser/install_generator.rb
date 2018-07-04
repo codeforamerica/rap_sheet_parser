@@ -12,7 +12,8 @@ module RapSheetParser
       def create_migrations
         Dir["#{self.class.source_root}/migrations/*.rb"].sort.each do |filepath|
           name = File.basename(filepath)
-          migration_template "migrations/#{name}", "db/migrate/#{name}", skip: true
+          new_name = name.split("_")[1..-1].join("_")
+          migration_template "migrations/#{name}", "db/migrate/#{new_name}", skip: true
           sleep 1
         end
       end

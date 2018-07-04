@@ -1,5 +1,5 @@
 module RapSheetParser
-  class ConvictionCount
+  class CourtCount < ApplicationRecord
     SUPERSTRIKES = [
       'PC 187',
       'PC 191.5',
@@ -38,18 +38,17 @@ module RapSheetParser
       'PC 11418(a)(1)'
     ].freeze
 
-    def initialize(code_section_description:, severity:, code:, section:)
-      @section = section
-      @code = code
-      @severity = severity
-      @code_section_description = code_section_description
+    def severity_felony
+      where(severity: 'F')
     end
 
-    def inspect
-      OkayPrint.new(self).exclude_ivars(:@event).inspect
+    def severity_misdemeanor
+      where(severity: 'M')
     end
 
-    attr_reader :code_section_description, :severity, :code, :section
+    def severity_unknown
+      where(severity: nil)
+    end
 
     def long_severity
       case severity

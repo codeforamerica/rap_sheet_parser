@@ -12,7 +12,7 @@ module RapSheetParser
     private
 
     def count
-      ConvictionCountBuilder.new(event_syntax_node.counts[0]).build
+      CourtCountBuilder.new(event_syntax_node.counts[0]).build
     end
     
     def code_section

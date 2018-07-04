@@ -19,7 +19,7 @@ module RapSheetParser
         counts.any? { |c| c.disposition.is_a? CountGrammar::Convicted }
       end
 
-      def conviction_counts
+      def court_counts
         counts.select { |c| c.disposition.is_a? CountGrammar::Convicted }
       end
     end

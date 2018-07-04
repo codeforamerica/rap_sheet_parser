@@ -1,7 +1,7 @@
 require "bundler/setup"
+require 'ostruct'
 require 'fake_application_record'
 require "rap_sheet_parser/parser"
-require 'ostruct'
 require 'rap_sheet_factory'
 
 RSpec.configure do |config|

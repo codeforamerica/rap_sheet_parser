@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module RapSheetParser
-  RSpec.describe ConvictionCountBuilder do
+  RSpec.describe CourtCountBuilder do
     let(:event) { { some: 'event' } }
 
     it 'populates values representing count' do

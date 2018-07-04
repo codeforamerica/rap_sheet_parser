@@ -25,13 +25,13 @@ module RapSheetParser
       RapSheet.new(events: events, personal_info: personal_info)
     end
 
-    def build_conviction_count(
+    def build_court_count(
       severity: 'M',
       code: 'PC',
       section: '123',
       code_section_description: 'foo'
     )
-      RapSheetParser::ConvictionCount.new(
+      RapSheetParser::CourtCount.new(
         code_section_description: code_section_description,
         severity: severity,
         code: code,
