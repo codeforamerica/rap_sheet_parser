@@ -22,28 +22,26 @@ module RapSheetParser
     attr_reader :details
 
     def prison_string
-      return unless prison
-
-      "#{duration_string(prison)} prison"
+      duration_string(prison, "prison")
     end
 
     def probation_string
-      return unless probation
-
-      "#{duration_string(probation)} probation"
+      duration_string(probation, "probation")
     end
 
     def jail_string
-      return unless jail
-
-      "#{duration_string(jail)} jail"
+      duration_string(jail, "jail")
     end
 
-    def duration_string(duration)
+    def duration_string(duration, type)
+      return unless duration
+
+      return type if duration == 0
+
       key = duration.parts.keys[0]
       value = duration.parts[key]
 
-      "#{value}#{key[0]}"
+      "#{value}#{key[0]} #{type}"
     end
   end
 end

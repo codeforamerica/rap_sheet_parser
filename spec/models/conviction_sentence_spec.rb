@@ -21,6 +21,11 @@ module RapSheetParser
         ).to_s
         expect(result).to eq('10y prison, 2d probation, 6m jail, fine')
       end
+
+      it 'returns jail for missing jail durations' do
+        result = described_class.new(jail: 0.seconds).to_s
+        expect(result).to eq('jail')
+      end
     end
   end
 end
