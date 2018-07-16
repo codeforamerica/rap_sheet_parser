@@ -38,5 +38,9 @@ module RapSheetParser
         section: section
       )
     end
+
+    def build_personal_info(names: nil, sex: nil)
+      RapSheetParser::PersonalInfo.new(names: names, sex: sex)
+    end
   end
 end
