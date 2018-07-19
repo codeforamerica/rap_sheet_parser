@@ -42,7 +42,7 @@ module RapSheetParser
     def registration_event_with_code(code)
       registration_events.
         map(&:code_section).
-        include?(code)
+        any? { |code_section| code_section.start_with?(code) }
     end
 
     def filtered_events(klass)

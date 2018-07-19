@@ -13,6 +13,16 @@ module RapSheetParser
         expect(rap_sheet.sex_offender_registration?).to eq true
       end
 
+      it 'returns true if registration event starting with PC 290' do
+        event = RegistrationEvent.new(
+          date: nil,
+          code_section: 'PC 290(a)'
+        )
+
+        rap_sheet = build_rap_sheet(events: [event])
+        expect(rap_sheet.sex_offender_registration?).to eq true
+      end
+
       it 'returns false if no registration event containing PC 290' do
         event = RegistrationEvent.new(
           date: nil,
