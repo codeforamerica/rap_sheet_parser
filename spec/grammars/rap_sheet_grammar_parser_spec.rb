@@ -45,22 +45,6 @@ module RapSheetParser
         end
       end
 
-      context 'parsing one cycle' do
-        let(:text) {
-          <<~TEXT
-            arbitrary text
-
-            * * * *
-            cycle text
-            * * * END OF MESSAGE * * *
-          TEXT
-        }
-
-        it 'parses cycle content' do
-          expect(subject.cycles[0].cycle_content.text_value).to eq('cycle text')
-        end
-      end
-
       context 'parsing multiple cycles' do
         let(:text) {
           <<~TEXT
@@ -71,13 +55,48 @@ module RapSheetParser
             cycle text
             * * * *
             another cycle text
+            * * * *
+            REGISTRATION:
+            hi i am registered
             * * * END OF MESSAGE * * *
           TEXT
         }
 
-        it 'has an events method that calls the cycle parser' do
+        it 'parses cycles to their correct type' do
+          expect(subject.cycles[0].cycle_content).to be_a RapSheetGrammar::CycleContent
           expect(subject.cycles[0].cycle_content.text_value).to eq('cycle text')
+          expect(subject.cycles[1].cycle_content).to be_a RapSheetGrammar::CycleContent
           expect(subject.cycles[1].cycle_content.text_value).to eq('another cycle text')
+          expect(subject.cycles[2].cycle_content).to be_a RapSheetGrammar::RegistrationCycleContent
+          expect(subject.cycles[2].cycle_content.text_value).to eq("REGISTRATION:\nhi i am registered")
+        end
+      end
+
+      context 'registration cycle with multiple events' do
+        let(:text) do
+          <<~TEXT
+            super
+            arbitrary
+            * * * *
+            REGISTRATION:
+  
+            19960101
+  
+            CNT:01 #ABCDE
+              11590 HS-REGISTRATION OF CNTL SUB OFFENDER
+            - - - -
+            20030101
+  
+            CNT:01 #EFHIHJ
+              290 PC-PREREGISTRATION OF SEX OFFENDER
+          TEXT
+        end
+
+        it "can parse out many registration events even though they don't all have the word REGISTRATION in them" do
+          events = subject.cycles[0].events
+          expect(events.length).to eq 2
+          expect(events[0]).to be_a(RapSheetParser::EventGrammar::RegistrationEvent)
+          expect(events[1]).to be_a(RapSheetParser::EventGrammar::RegistrationEvent)
         end
       end
 

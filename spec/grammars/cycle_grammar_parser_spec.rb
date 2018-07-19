@@ -3,115 +3,99 @@ require 'spec_helper'
 module RapSheetParser
   RSpec.describe CycleGrammarParser do
     describe '#parse' do
-      subject { described_class.new.parse(text) }
+      def subject(text)
+        text_with_personal_info = <<~TEXT
+          arbitrary
+          * * * *
+          #{text.strip}
+        TEXT
 
-      context 'parsing one event' do
-        let(:text) {
-          <<~TEXT
-            event one text
-          TEXT
-        }
-
-        it 'parses one event' do
-          events = subject.events
-          expect(events[0].text_value).to eq "event one text\n"
-        end
+        RapSheetGrammarParser.new.parse(text_with_personal_info).cycles[0].events
       end
 
-      context 'parsing many events' do
-        let(:text) {
-          <<~TEXT
-            event one text
-            - - - -
-            another event
-            with multiple lines
-            - - - -
-            more events
-          TEXT
-        }
+      it 'parses one event' do
+        text = <<~TEXT
+          event one text
+        TEXT
 
-        it 'parses many events' do
-          events = subject.events
-          expect(events[0].text_value).to eq 'event one text'
-          expect(events[1].text_value).to eq "another event\nwith multiple lines"
-          expect(events[2].text_value).to eq "more events\n"
-        end
+        events = subject(text)
+        expect(events[0].text_value).to eq "event one text\n"
       end
 
-      context 'when the cycle delimiters have extra dashes' do
-        let(:text) {
-          <<~TEXT
-            event one text
-            - - -- --
-            another event
-            --- - ---
-            more events
-          TEXT
-        }
+      it 'parses many events' do
+        text = <<~TEXT
+          event one text
+          - - - -
+          another event
+          with multiple lines
+          - - - -
+          more events
+        TEXT
 
-        it 'parses many events' do
-          events = subject.events
-          expect(events[0].text_value).to eq 'event one text'
-          expect(events[1].text_value).to eq 'another event'
-          expect(events[2].text_value).to eq "more events\n"
-        end
+        events = subject(text)
+        expect(events[0].text_value).to eq 'event one text'
+        expect(events[1].text_value).to eq "another event\nwith multiple lines"
+        expect(events[2].text_value).to eq "more events\n"
       end
 
-      context 'when the cycle delimiters have stray quotes' do
-        let(:text) {
-          <<~TEXT
-            event one text
-            - '- -- --
-            another event
-            --- - ---
-            more events
-          TEXT
-        }
-
-        it 'parses many events' do
-          events = subject.events
-          expect(events[0].text_value).to eq 'event one text'
-          expect(events[1].text_value).to eq 'another event'
-          expect(events[2].text_value).to eq "more events\n"
-        end
+      it 'parses many events when the cycle delimiters have extra dashes' do
+        text = <<~TEXT
+          event one text
+          - - -- --
+          another event
+          --- - ---
+          more events
+        TEXT
+        
+        events = subject(text)
+        expect(events[0].text_value).to eq 'event one text'
+        expect(events[1].text_value).to eq 'another event'
+        expect(events[2].text_value).to eq "more events\n"
       end
 
-      context 'when court event has missing event delimiter' do
-        let(:text) {
-          <<~TEXT
-            event one text
-            COURT:
-            another event
-            --- - ---
-            more events
-          TEXT
-        }
+      it 'parses many events when the cycle delimiters have stray quotes' do
+        text = <<~TEXT
+          event one text
+          - '- -- --
+          another event
+          --- - ---
+          more events
+        TEXT
 
-        it 'parses many events' do
-          events = subject.events
-          expect(events[0].text_value).to eq 'event one text'
-          expect(events[1].text_value).to eq "COURT:\nanother event"
-          expect(events[2].text_value).to eq "more events\n"
-        end
+        events = subject(text)
+        expect(events[0].text_value).to eq 'event one text'
+        expect(events[1].text_value).to eq 'another event'
+        expect(events[2].text_value).to eq "more events\n"
       end
 
-      context 'when arrest event has missing event delimiter' do
-        let(:text) {
-          <<~TEXT
-            event one text
-            ARR/DET/CITE:
-            another event
-            --- - ---
-            more events
-          TEXT
-        }
+      it 'parses many events when court event has missing event delimiter' do
+        text = <<~TEXT
+          event one text
+          COURT:
+          another event
+          --- - ---
+          more events
+        TEXT
 
-        it 'parses many events' do
-          events = subject.events
-          expect(events[0].text_value).to eq 'event one text'
-          expect(events[1].text_value).to eq "ARR/DET/CITE:\nanother event"
-          expect(events[2].text_value).to eq "more events\n"
-        end
+        events = subject(text)
+        expect(events[0].text_value).to eq 'event one text'
+        expect(events[1].text_value).to eq "COURT:\nanother event"
+        expect(events[2].text_value).to eq "more events\n"
+      end
+
+      it 'parses many events when arrest event has missing event delimiter' do
+        text = <<~TEXT
+          event one text
+          ARR/DET/CITE:
+          another event
+          --- - ---
+          more events
+        TEXT
+
+        events = subject(text)
+        expect(events[0].text_value).to eq 'event one text'
+        expect(events[1].text_value).to eq "ARR/DET/CITE:\nanother event"
+        expect(events[2].text_value).to eq "more events\n"
       end
 
       it 'handles when court event has extra whitespace' do
@@ -123,7 +107,7 @@ module RapSheetParser
           more events
         TEXT
 
-        events = described_class.new.parse(text).events
+        events = subject(text)
         expect(events[0].text_value).to eq 'event one text'
         expect(events[1].text_value).to eq "COURT :\nanother event"
         expect(events[2].text_value).to eq "more events\n"
@@ -138,7 +122,7 @@ module RapSheetParser
           another event
         TEXT
 
-        events = described_class.new.parse(text).events
+        events = subject(text)
         expect(events.length).to eq 2
         expect(events[0].text_value).to eq "event\n-\none text"
         expect(events[1].text_value).to eq "another event\n"
@@ -155,11 +139,11 @@ module RapSheetParser
           another event
         TEXT
 
-        events = described_class.new.parse(text).events
+        events = subject(text)
         expect(events.length).to eq 2
         expect(events[0].text_value).to eq "event\n"
         expect(events[1].text_value).to eq "another event\n"
-        end
+      end
 
       it 'parses events with trailing felony strike section' do
         text = <<~TEXT
@@ -170,7 +154,7 @@ module RapSheetParser
 
         TEXT
 
-        events = described_class.new.parse(text).events
+        events = subject(text)
         expect(events.length).to eq 1
         expect(events[0].text_value).to eq "event\n"
       end

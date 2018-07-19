@@ -55,7 +55,15 @@ module RapSheetParser
     end
 
     rule cycle_content
-      (!(cycle_delimiter / end_of_message) .)*
+      registration_cycle / other_cycle
+    end
+    
+    rule registration_cycle
+      w 'REGISTRATION' (!(cycle_delimiter / end_of_message) .)* <RegistrationCycleContent>
+    end
+    
+    rule other_cycle
+      (!(cycle_delimiter / end_of_message) .)* <OtherCycleContent>
     end
 
     rule end_of_message

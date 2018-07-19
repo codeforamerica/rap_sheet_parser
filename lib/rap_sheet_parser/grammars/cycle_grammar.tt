@@ -3,7 +3,7 @@ module RapSheetParser
     include CommonGrammar
 
     rule root
-      event_content felony_strike? (event_delimiter event_content felony_strike?)* n <Cycle>
+      event_content felony_strike? (event_delimiter event_content felony_strike?)* n
     end
 
     rule event_content
