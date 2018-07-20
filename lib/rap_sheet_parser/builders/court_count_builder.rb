@@ -1,10 +1,16 @@
 module RapSheetParser
   class CourtCountBuilder
-    def initialize(count)
+    def initialize(count, logger:)
       @count = count
+      @logger = logger
     end
 
+    attr_reader :logger
+
     def build
+      if code_section_description.try(:include?, '28.5')
+        logger.warn('Charge description includes "28.5"')
+      end
       court_count = CourtCount.new(
         code_section_description: code_section_description,
         severity: severity,

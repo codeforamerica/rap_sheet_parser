@@ -3,6 +3,8 @@ require 'spec_helper'
 module RapSheetParser
   RSpec.describe CourtCountBuilder do
     let(:event) { { some: 'event' } }
+    let(:log) { StringIO.new }
+    let(:logger) { Logger.new(log) }
 
     it 'populates values representing count' do
       text = <<~TEXT
@@ -23,10 +25,11 @@ module RapSheetParser
       tree = RapSheetGrammarParser.new.parse(text)
       count_node = tree.cycles[0].events[0].counts[0]
 
-      subject = described_class.new(count_node).build
+      subject = described_class.new(count_node, logger: logger).build
       expect(subject.code_section).to eq 'PC 496'
       expect(subject.code_section_description).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
       expect(subject.severity).to eq 'M'
+      expect(log.string).to eq('')
     end
 
     it 'returns nil fields when information not present' do
@@ -44,7 +47,7 @@ module RapSheetParser
       tree = RapSheetGrammarParser.new.parse(text)
       count_node = tree.cycles[0].events[0].counts[0]
 
-      subject = described_class.new(count_node).build
+      subject = described_class.new(count_node, logger: logger).build
       expect(subject.code_section).to be_nil
       expect(subject.code_section_description).to be_nil
       expect(subject.severity).to be_nil
@@ -69,7 +72,7 @@ module RapSheetParser
       tree = RapSheetGrammarParser.new.parse(text)
       count_node = tree.cycles[0].events[0].counts[0]
 
-      subject = described_class.new(count_node).build
+      subject = described_class.new(count_node, logger: logger).build
       expect(subject.code_section).to eq 'PC 496(a)(2)'
       expect(subject.code_section_description).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
       expect(subject.severity).to eq 'M'
@@ -93,10 +96,31 @@ module RapSheetParser
 
       tree = RapSheetGrammarParser.new.parse(text)
       count_node = tree.cycles[0].events[0].counts[0]
-      subject = described_class.new(count_node).build
+      subject = described_class.new(count_node, logger: logger).build
       expect(subject.code_section).to eq 'PC 496.3(a)(2)'
       expect(subject.code_section_description).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
       expect(subject.severity).to eq 'M'
+    end
+
+
+    it 'emits warnings if charge descriptions mention 28.5' do
+      text = <<~TEXT
+        info
+        * * * *
+        COURT:
+        20040102  CASC SAN FRANCISCO CO
+
+        CNT: 001 #346477
+          1136(A) HS-GIVE/ETC MARIJ OVER 1 OZ/28.5 GRM
+        *DISPO:CONVICTED
+        * * * END OF MESSAGE * * *
+      TEXT
+
+      tree = RapSheetGrammarParser.new.parse(text)
+      count_node = tree.cycles[0].events[0].counts[0]
+      subject = described_class.new(count_node, logger: logger).build
+
+      expect(log.string).to include 'WARN -- : Charge description includes "28.5"'
     end
   end
 end
