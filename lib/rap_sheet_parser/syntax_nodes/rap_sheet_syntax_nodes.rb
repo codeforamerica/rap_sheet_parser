@@ -23,7 +23,7 @@ module RapSheetParser
     class OtherCycleContent < CycleContent
       def events
         parsed_cycle.recursive_select(CycleGrammar::EventContent).map do |event|
-          do_parsing(EventGrammarParser.new, event.text_value)
+          do_parsing(OtherCycleEventGrammarParser.new, event.text_value)
         end
       end
     end
@@ -32,7 +32,7 @@ module RapSheetParser
       def events
         parsed_cycle.recursive_select(CycleGrammar::EventContent).each_with_index.map do |event, index|
           do_parsing(
-            EventGrammarParser.new,
+            RegistrationCycleEventGrammarParser.new,
             index == 0 ? event.text_value : "REGISTRATION:\n#{event.text_value}"
           )
         end

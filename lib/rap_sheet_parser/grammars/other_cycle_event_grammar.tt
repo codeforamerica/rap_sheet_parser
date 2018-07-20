@@ -1,0 +1,25 @@
+module RapSheetParser
+  grammar OtherCycleEventGrammar
+    include EventGrammar
+
+    rule event
+     court_event / arrest_event / custody_event / unknown_event
+    end
+
+    rule court_event
+      w court_identifier wn name (!date .)* date wn [.']* wn name? wn courthouse wn toc? (!count_identifier .)* counts updates <EventGrammar::CourtEvent>
+    end
+
+    rule arrest_event
+      (!arrest_identifier .)* arrest_identifier (!date .)* date .* <EventGrammar::ArrestEvent>
+    end
+
+    rule custody_event
+      (!custody_identifier .)* custody_identifier (!date .)* date .* <EventGrammar::CustodyEvent>
+    end
+
+    rule unknown_event
+      .*
+    end
+  end
+end

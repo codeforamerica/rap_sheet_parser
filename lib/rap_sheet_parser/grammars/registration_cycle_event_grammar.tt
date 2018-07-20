@@ -1,0 +1,17 @@
+module RapSheetParser
+  grammar RegistrationCycleEventGrammar
+    include EventGrammar
+
+    rule event
+      registration_event
+    end
+
+    rule registration_event
+      w registration_identifier name (!date .)* date wn [.']* wn courthouse wn toc? (!count_identifier .)* counts updates <EventGrammar::RegistrationEvent>
+    end
+    
+    rule registration_identifier
+      'R' w 'E' w 'G' w 'I' w 'S' w 'T' w 'R' w 'A' w 'T' w 'I' w 'O' w 'N' w ':'
+    end
+  end
+end

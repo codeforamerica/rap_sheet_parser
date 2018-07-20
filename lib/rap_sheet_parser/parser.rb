@@ -43,6 +43,8 @@ require 'rap_sheet_parser/grammars/sentence_grammar'
 require 'rap_sheet_parser/grammars/cycle_grammar'
 require 'rap_sheet_parser/grammars/count_grammar'
 require 'rap_sheet_parser/grammars/event_grammar'
+require 'rap_sheet_parser/grammars/registration_cycle_event_grammar'
+require 'rap_sheet_parser/grammars/other_cycle_event_grammar'
 require 'rap_sheet_parser/grammars/rap_sheet_grammar'
 
 require 'rap_sheet_parser/text_cleaner'

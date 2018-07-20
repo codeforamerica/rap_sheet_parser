@@ -2,34 +2,6 @@ module RapSheetParser
   grammar EventGrammar
     include CommonGrammar
 
-    rule event
-     court_event / arrest_event / custody_event / registration_event / unknown_event
-    end
-
-    rule court_event
-      w court_identifier wn name (!date .)* date wn [.']* wn name? wn courthouse wn toc? (!count_identifier .)* counts updates <CourtEvent>
-    end
-
-    rule arrest_event
-      (!arrest_identifier .)* arrest_identifier (!date .)* date .* <ArrestEvent>
-    end
-
-    rule custody_event
-      (!custody_identifier .)* custody_identifier (!date .)* date .* <CustodyEvent>
-    end
-
-    rule registration_event
-      w registration_identifier name (!date .)* date wn [.']* wn courthouse wn toc? (!count_identifier .)* counts updates <RegistrationEvent>
-    end
-    
-    rule registration_identifier
-      'R' w 'E' w 'G' w 'I' w 'S' w 'T' w 'R' w 'A' w 'T' w 'I' w 'O' w 'N' w ':'
-    end
-
-    rule unknown_event
-      .*
-    end
-
     rule name
        found_name / unknown_name
     end
