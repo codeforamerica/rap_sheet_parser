@@ -3,6 +3,11 @@ module RapSheetParser
     include EventBuilder
 
     def build
+      event_syntax_node.updates.each do |update|
+        logger.warn('Update on registration event:')
+        logger.warn(update.text_value)
+      end
+
       RegistrationEvent.new(
         date: date,
         code_section: code_section

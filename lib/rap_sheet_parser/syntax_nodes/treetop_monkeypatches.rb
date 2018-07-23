@@ -5,7 +5,7 @@ require 'forwardable'
 class Treetop::Runtime::SyntaxNode
   extend Forwardable
 
-  def_delegators :elements, :[], :length, :any?, :select, :flat_map, :find, :map
+  def_delegators :elements, :[], :length, :any?, :select, :flat_map, :find, :map, :each
 
   # Traverse the syntax tree recursively.
   # The order should respect the order of the configuration file as it is read
