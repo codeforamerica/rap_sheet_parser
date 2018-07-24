@@ -29,6 +29,7 @@ module RapSheetParser
       expect(subject.code_section).to eq 'PC 496'
       expect(subject.code_section_description).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
       expect(subject.severity).to eq 'M'
+      expect(subject.disposition).to eq 'convicted'
       expect(log.string).to eq('')
     end
 

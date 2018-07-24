@@ -13,10 +13,14 @@ module RapSheetParser
           19820915 CAMC LOS ANGELES METRO
 
           CNT:001 #456
+          123 PC-BAD STUFF
+          *DISPO:DISMISSED
+          MORE INFO ABOUT THIS COUNT
+
+          CNT:002
           4056 PC-BREAKING AND ENTERING
           *DISPO:CONVICTED
           MORE INFO ABOUT THIS COUNT
-          * * * END OF MESSAGE * * *
         TEXT
 
         event = build(text)
@@ -28,6 +32,8 @@ module RapSheetParser
           courthouse: 'CAMC Los Angeles Metro',
           sentence: '',
         })
+
+        expect(event.counts.length).to eq 1
 
         verify_count_looks_like(event.counts[0], {
           code_section: 'PC 4056',

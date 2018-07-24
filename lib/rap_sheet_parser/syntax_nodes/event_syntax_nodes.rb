@@ -18,10 +18,6 @@ module RapSheetParser
       def is_conviction?
         counts.any? { |c| c.disposition.is_a? CountGrammar::Convicted }
       end
-
-      def court_counts
-        counts.select { |c| c.disposition.is_a? CountGrammar::Convicted }
-      end
     end
 
     class Count < Treetop::Runtime::SyntaxNode

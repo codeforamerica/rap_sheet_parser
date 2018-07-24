@@ -15,7 +15,8 @@ module RapSheetParser
         code_section_description: code_section_description,
         severity: severity,
         code: code,
-        section: section
+        section: section,
+        disposition: disposition
       )
       court_count.save!
       court_count
@@ -27,6 +28,10 @@ module RapSheetParser
 
     def code_section_description
       count.code_section_description.text_value.chomp if count.code_section_description
+    end
+    
+    def disposition
+      count.disposition.class.name.demodulize.downcase
     end
 
     def severity

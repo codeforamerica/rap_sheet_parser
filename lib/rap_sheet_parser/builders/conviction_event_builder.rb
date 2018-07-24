@@ -23,11 +23,13 @@ module RapSheetParser
     end
 
     def counts
-      event_syntax_node.court_counts.map do |count|
+      event_syntax_node.counts.map do |count|
         num_counts(count).times.map do |_|
           CourtCountBuilder.new(count, logger: logger).build
         end
-      end.flatten
+      end.flatten.select { |c|
+        c.disposition == "convicted"
+      }
     end
 
     def num_counts(count)
