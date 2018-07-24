@@ -102,25 +102,44 @@ module RapSheetParser
       expect(subject.severity).to eq 'M'
     end
 
+    context 'when the charge description contains 28.5' do
+      let(:text) do
+        <<~TEXT
+          info
+          * * * *
+          COURT:
+          20040102  CASC SAN FRANCISCO CO
+  
+          CNT: 001 #346477
+            1136(A) HS-GIVE/ETC MARIJ OVER 1 OZ/#{quantity} GRM
+          *DISPO:CONVICTED
+          * * * END OF MESSAGE * * *
+        TEXT
+      end
 
-    it 'emits warnings if charge descriptions mention 28.5' do
-      text = <<~TEXT
-        info
-        * * * *
-        COURT:
-        20040102  CASC SAN FRANCISCO CO
+      context 'with a period' do
+        let(:quantity) { '28.5' }
 
-        CNT: 001 #346477
-          1136(A) HS-GIVE/ETC MARIJ OVER 1 OZ/28.5 GRM
-        *DISPO:CONVICTED
-        * * * END OF MESSAGE * * *
-      TEXT
+        it 'emits a warning' do
+          tree = RapSheetGrammarParser.new.parse(text)
+          count_node = tree.cycles[0].events[0].counts[0]
+          described_class.new(count_node, logger: logger).build
 
-      tree = RapSheetGrammarParser.new.parse(text)
-      count_node = tree.cycles[0].events[0].counts[0]
-      subject = described_class.new(count_node, logger: logger).build
+          expect(log.string).to include 'WARN -- : Charge description includes "28.5"'
+        end
+      end
 
-      expect(log.string).to include 'WARN -- : Charge description includes "28.5"'
+      context 'with a comma' do
+        let(:quantity) { '28,5' }
+
+        it 'emits a warning' do
+          tree = RapSheetGrammarParser.new.parse(text)
+          count_node = tree.cycles[0].events[0].counts[0]
+          described_class.new(count_node, logger: logger).build
+
+          expect(log.string).to include 'WARN -- : Charge description includes "28.5"'
+        end
+      end
     end
   end
 end

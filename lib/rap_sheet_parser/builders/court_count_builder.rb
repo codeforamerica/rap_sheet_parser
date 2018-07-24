@@ -8,7 +8,7 @@ module RapSheetParser
     attr_reader :logger
 
     def build
-      if code_section_description.try(:include?, '28.5')
+      if code_section_description.try(:match, /28[.,]5/)
         logger.warn('Charge description includes "28.5"')
       end
       court_count = CourtCount.new(
