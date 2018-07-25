@@ -17,7 +17,7 @@ module RapSheetParser
         expect(count.code_section.number.text_value).to eq '496'
         expect(count.code_section_description.text_value).to eq "RECEIVE/ETC KNOWN STOLEN PROPERTY\n"
 
-        expect(count.disposition).to be_a CountGrammar::Convicted
+        expect(count.disposition.disposition_type).to be_a CountGrammar::Convicted
         expect(count.disposition.severity.text_value).to eq 'MISDEMEANOR'
         expect(count.disposition.sentence.text_value).to eq '012 MONTHS PROBATION, 045 DAYS JAIL'
         expect(count.disposition.sentence.probation.text_value).to eq '012 MONTHS PROBATION'
@@ -36,7 +36,7 @@ module RapSheetParser
         expect(count.code_section.number.text_value).to eq '496'
         expect(count.code_section_description.text_value).to eq "RECEIVE/ETC KNOWN STOLEN PROPERTY\n"
 
-        expect(count.disposition).to be_a CountGrammar::Convicted
+        expect(count.disposition.disposition_type).to be_a CountGrammar::Convicted
         expect(count.disposition.severity.text_value).to eq 'MISDEMEANOR'
       end
 
@@ -49,7 +49,7 @@ module RapSheetParser
 
         count = described_class.new.parse(text)
 
-        expect(count.disposition).to be_a CountGrammar::Convicted
+        expect(count.disposition.disposition_type).to be_a CountGrammar::Convicted
       end
 
       it 'can parse convictions with spaces in dispo convicted' do
@@ -61,7 +61,7 @@ module RapSheetParser
 
         count = described_class.new.parse(text)
 
-        expect(count.disposition).to be_a CountGrammar::Convicted
+        expect(count.disposition.disposition_type).to be_a CountGrammar::Convicted
       end
 
       it 'can parse convictions with missing severity lines' do
@@ -72,7 +72,7 @@ module RapSheetParser
 
         count = described_class.new.parse(text)
 
-        expect(count.disposition).to be_a CountGrammar::Convicted
+        expect(count.disposition.disposition_type).to be_a CountGrammar::Convicted
       end
 
       it 'can parse whitespace in severity lines' do
@@ -98,7 +98,7 @@ module RapSheetParser
 
         count = described_class.new.parse(text)
         expect(count.charge_line.text_value).to eq('SEE COMMENT FOR CHARGE')
-        expect(count.disposition).to be_a CountGrammar::Convicted
+        expect(count.disposition.disposition_type).to be_a CountGrammar::Convicted
 
         expect(count.code_section.code.text_value).to eq 'PC'
         expect(count.code_section.number.text_value).to eq '484-487 (A)'
@@ -116,7 +116,7 @@ module RapSheetParser
 
         count = described_class.new.parse(text)
         expect(count.charge_line).to be_a CountGrammar::SeeCommentForCharge
-        expect(count.disposition).to be_a CountGrammar::Convicted
+        expect(count.disposition.disposition_type).to be_a CountGrammar::Convicted
         expect(count.code_section.code.text_value).to eq 'PC'
         expect(count.code_section.number.text_value).to eq '490,2'
       end
@@ -268,6 +268,17 @@ module RapSheetParser
         count = described_class.new.parse(text)
         expect(count.code_section).to be_nil
       end
+      
+      # it 'parses dismissed' do
+      #   text = <<~TEXT
+      #     123 PC-BAD STUFF
+      #     *DISPO:DISMISSED
+      #     MORE INFO ABOUT THIS COUNT
+      #   TEXT
+      # 
+      #   count = described_class.new.parse(text)
+      #   expect(count.disposition.disposition_type).to be_a CountGrammar::Dismissed
+      # end
     end
   end
 end

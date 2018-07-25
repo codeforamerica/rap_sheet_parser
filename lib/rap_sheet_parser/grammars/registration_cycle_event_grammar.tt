@@ -3,10 +3,6 @@ module RapSheetParser
     include EventGrammar
 
     rule event
-      registration_event
-    end
-
-    rule registration_event
       w registration_identifier? name (!date .)* date wn [.']* wn courthouse wn toc? (!count_identifier .)* counts updates <EventGrammar::RegistrationEvent>
     end
     

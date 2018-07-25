@@ -84,7 +84,12 @@ module RapSheetParser
     end
 
     rule disposition
-      convicted / dismissed / empty_disposition
+      w dispo_header disposition_type to_eol w disposition_info <Disposition> /
+      ''
+    end
+    
+    rule disposition_type
+      convicted / dismissed
     end
 
     rule severity_line
@@ -108,23 +113,15 @@ module RapSheetParser
     end
 
     rule convicted
-      dispo_header convicted_tag to_eol w extra_conviction_info <Convicted>
+      w 'C' w 'O' w 'N' w 'V' w 'I' w 'C' w 'T' w 'E' w 'D' w <Convicted>
     end
 
-    rule convicted_tag
-      w 'C' w 'O' w 'N' w 'V' w 'I' w 'C' w 'T' w 'E' w 'D' w
-    end
-
-    rule extra_conviction_info
+    rule disposition_info
       (comment_charge_line / severity_line / sentence_line / comment_sentence_line / unknown_content_line)*
     end
 
     rule dismissed
-      dispo_header 'DISMISSED' <Disposition>
-    end
-
-    rule empty_disposition
-      '' <Disposition>
+      'DISMISSED' <Dismissed>
     end
   end
 end

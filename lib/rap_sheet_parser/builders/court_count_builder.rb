@@ -31,11 +31,15 @@ module RapSheetParser
     end
     
     def disposition
-      count.disposition.class.name.demodulize.downcase
+      return unless count.disposition.is_a? CountGrammar::Disposition
+
+      count.disposition.disposition_type.class.name.demodulize.downcase
     end
 
     def severity
-      if count.disposition.is_a? CountGrammar::Convicted
+      return unless count.disposition.is_a? CountGrammar::Disposition
+      
+      if count.disposition.disposition_type.is_a? CountGrammar::Convicted
         if count.disposition.severity
           count.disposition.severity.text_value[0]
         end

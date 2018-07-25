@@ -16,7 +16,7 @@ module RapSheetParser
       end
 
       def is_conviction?
-        counts.any? { |c| c.disposition.is_a? CountGrammar::Convicted }
+        counts.any? { |c| c.disposition.disposition_type.is_a? CountGrammar::Convicted }
       end
     end
 

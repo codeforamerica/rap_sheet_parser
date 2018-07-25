@@ -5,8 +5,8 @@ module RapSheetParser
         if charge_line.is_a? CodeSectionLine
           charge_line.code_section
         elsif charge_line.is_a? SeeCommentForCharge
-          if disposition.is_a? Convicted
-            comment_charge_line = disposition.extra_conviction_info.select do |l|
+          if disposition.disposition_type.is_a? Convicted
+            comment_charge_line = disposition.disposition_info.select do |l|
               l.is_a? CommentChargeLine
             end
 
@@ -23,14 +23,8 @@ module RapSheetParser
     end
 
     class Disposition < Treetop::Runtime::SyntaxNode
-      def sentence
-        nil
-      end
-    end
-
-    class Convicted < Disposition
       def severity
-        extra_conviction_info.find { |l| l.is_a? SeverityLine }&.severity
+        disposition_info.find { |l| l.is_a? SeverityLine }&.severity
       end
 
       def sentence
@@ -45,13 +39,15 @@ module RapSheetParser
       private
 
       def sentence_line
-        extra_conviction_info.find do |l|
+        disposition_info.find do |l|
           l.is_a? SentenceLine or l.is_a? CommentSentenceLine
         end
       end
     end
 
     class SeeCommentForCharge < Treetop::Runtime::SyntaxNode; end
+    class Convicted < Treetop::Runtime::SyntaxNode; end
+    class Dismissed < Treetop::Runtime::SyntaxNode; end
 
     class CodeSectionLine < Treetop::Runtime::SyntaxNode; end
 

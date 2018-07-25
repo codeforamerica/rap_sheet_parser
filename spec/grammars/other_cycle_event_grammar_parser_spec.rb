@@ -38,15 +38,15 @@ module RapSheetParser
           expect(tree.case_number.text_value).to eq('#346477')
 
           count_1 = tree.counts[0]
-          expect(count_1.disposition).to be_a CountGrammar::Convicted
+          expect(count_1.disposition.disposition_type).to be_a CountGrammar::Convicted
           expect(count_1.code_section.code.text_value).to eq 'PC'
           expect(count_1.code_section.number.text_value).to eq '496'
           expect(count_1.code_section_description.text_value).to eq "RECEIVE/ETC KNOWN STOLEN PROPERTY\n"
 
           count_2 = tree.counts[1]
-          expect(count_2.disposition.text_value).to eq('DISPO:DISMISSED')
+          expect(count_2.disposition.disposition_type).to be_a CountGrammar::Dismissed
           count_3 = tree.counts[2]
-          expect(count_3.disposition.text_value).to eq('')
+          expect(count_3.disposition.text_value).to eq("\n")
         end
 
         it 'can parse count ranges' do

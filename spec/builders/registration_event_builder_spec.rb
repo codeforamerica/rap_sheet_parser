@@ -19,9 +19,7 @@ module RapSheetParser
       TEXT
 
       log = StringIO.new
-      logger = Logger.new(log)
-
-      build(text, logger)
+      build(text, Logger.new(log))
 
       expect(log.string).to include('Update on registration event:')
       expect(log.string).to include('DISPO:NO LONGER REQUIRED TO REGISTER/DRUG REG')
