@@ -11,7 +11,7 @@ module RapSheetParser
     end
 
     rule arrest_event
-      (!arrest_identifier .)* arrest_identifier (!date .)* date .* <EventGrammar::ArrestEvent>
+      (!arrest_identifier .)* arrest_identifier (!date .)* date wn [.']* wn name? wn (!count_identifier .)* counts updates <EventGrammar::ArrestEvent>
     end
 
     rule custody_event

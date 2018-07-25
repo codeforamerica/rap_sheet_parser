@@ -3,7 +3,11 @@ module RapSheetParser
     include EventBuilder
 
     def build
-      ArrestEvent.new(date: date)
+      ArrestEvent.new(
+        cycle_events: cycle_events,
+        date: date,
+        counts: counts
+      )
     end
   end
 end

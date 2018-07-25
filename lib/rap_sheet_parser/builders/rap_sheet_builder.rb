@@ -12,33 +12,43 @@ module RapSheetParser
     private
 
     def conviction_event(event)
-      event.is_a? EventGrammar::CourtEvent and event.is_conviction?
+      event.is_a?(EventGrammar::CourtEvent) && event.is_conviction?
     end
 
     def events
-      event_nodes.map do |e|
-        if conviction_event(e)
-          ConvictionEventBuilder.new(e, logger: @logger).build
-        elsif e.is_a? EventGrammar::ArrestEvent
-          ArrestEventBuilder.new(e, logger: @logger).build
-        elsif e.is_a? EventGrammar::CustodyEvent
-          CustodyEventBuilder.new(e, logger: @logger).build
-        elsif e.is_a? EventGrammar::RegistrationEvent
-          RegistrationEventBuilder.new(e, logger: @logger).build
+      @parsed_rap_sheet.cycles.flat_map do |cycle_syntax_node|
+        cycle_events = []
+        cycle_syntax_node.events.each do |event_syntax_node|
+          if event_syntax_node.is_a? EventGrammar::Event
+            cycle_events.push(event_for_node(cycle_events, event_syntax_node))
+          else
+            @logger.warn('Unrecognized event:')
+            @logger.warn(event_syntax_node.text_value)
+            nil
+          end
         end
+        cycle_events
       end.compact
     end
 
-    def event_nodes
-      @parsed_rap_sheet.cycles.flat_map do |cycle|
-        cycle.events.select do |event|
-          if event.is_a? EventGrammar::Event
-            true
-          else
-            @logger.warn('Unrecognized event:')
-            @logger.warn(event.text_value)
-          end
-        end
+    def event_for_node(cycle_events, event_syntax_node)
+      builder_class = event_builder_class_for_node(event_syntax_node)
+      builder_class&.new(
+        event_syntax_node,
+        cycle_events: cycle_events,
+        logger: @logger
+      )&.build
+    end
+
+    def event_builder_class_for_node(event_syntax_node)
+      if conviction_event(event_syntax_node)
+        ConvictionEventBuilder
+      elsif event_syntax_node.is_a? EventGrammar::ArrestEvent
+        ArrestEventBuilder
+      elsif event_syntax_node.is_a? EventGrammar::CustodyEvent
+        CustodyEventBuilder
+      elsif event_syntax_node.is_a? EventGrammar::RegistrationEvent
+        RegistrationEventBuilder
       end
     end
 

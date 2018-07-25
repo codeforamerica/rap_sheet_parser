@@ -1,6 +1,7 @@
 module RapSheetParser
   class ConvictionEvent
-    def initialize(date:, name_code:, pii:, courthouse:, sentence:, counts:, updates:)
+    def initialize(cycle_events: [], date:, name_code:, pii:, courthouse:, sentence:, counts:, updates:)
+      @cycle_events = cycle_events
       @sentence = sentence
       @courthouse = courthouse
       @pii = pii
@@ -10,7 +11,7 @@ module RapSheetParser
       @name_code = name_code
     end
 
-    attr_reader :date, :courthouse, :sentence, :counts, :name_code
+    attr_reader :cycle_events, :date, :courthouse, :sentence, :counts, :name_code
     delegate :case_number, to: :pii
 
     def successfully_completed_probation?(rap_sheet)

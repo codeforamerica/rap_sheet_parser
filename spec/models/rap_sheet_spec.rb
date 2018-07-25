@@ -47,7 +47,7 @@ module RapSheetParser
 
     describe '#arrests' do
       it 'returns arrests' do
-        arrest = ArrestEvent.new(date: Date.today)
+        arrest = ArrestEvent.new(date: Date.today, counts: [])
         custody = CustodyEvent.new(date: Date.today)
 
         rap_sheet = build_rap_sheet(events: [arrest, custody])
