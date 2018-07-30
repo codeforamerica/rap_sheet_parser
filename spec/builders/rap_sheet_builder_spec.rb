@@ -101,16 +101,25 @@ module RapSheetParser
           code_section: nil,
           code_section_description: nil,
           severity: nil,
+          disposition: 'convicted'
         })
         verify_count_looks_like(rap_sheet.convictions[0].counts[1], {
+          code_section: nil,
+          code_section_description: nil,
+          severity: nil,
+          disposition: 'dismissed'
+        })
+        verify_count_looks_like(rap_sheet.convictions[0].counts[2], {
           code_section: 'PC 4056',
           code_section_description: 'BREAKING AND ENTERING',
           severity: nil,
+          disposition: 'convicted'
         })
         verify_count_looks_like(rap_sheet.convictions[1].counts[0], {
           code_section: 'PC 487.2',
           code_section_description: 'GRAND THEFT FROM PERSON',
           severity: 'M',
+          disposition: 'convicted'
         })
 
         expect(rap_sheet.registration_events[0].date).to eq Date.new(2017, 12, 16)

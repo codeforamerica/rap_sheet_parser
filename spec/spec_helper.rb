@@ -26,8 +26,9 @@ def verify_event_looks_like(event, name_code:, date:, case_number:, courthouse:,
   expect(event.sentence.to_s).to eq sentence
 end
 
-def verify_count_looks_like(count, code_section:, code_section_description:, severity:)
+def verify_count_looks_like(count, code_section:, code_section_description:, severity:, disposition:)
   expect(count.code_section).to eq code_section
   expect(count.code_section_description).to eq code_section_description
   expect(count.severity).to eq severity
+  expect(count.disposition).to eq disposition
 end

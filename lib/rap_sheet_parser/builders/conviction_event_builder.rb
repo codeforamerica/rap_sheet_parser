@@ -23,12 +23,6 @@ module RapSheetParser
       event_syntax_node.name.name_code.text_value
     end
 
-    def counts
-      super.select { |c|
-        c.disposition == "convicted"
-      }
-    end
-
     def pii
       ConvictionEventPII.new(
         case_number: CaseNumberBuilder.new(event_syntax_node.case_number).build

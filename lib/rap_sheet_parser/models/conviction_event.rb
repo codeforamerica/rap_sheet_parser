@@ -14,6 +14,10 @@ module RapSheetParser
     attr_reader :cycle_events, :date, :courthouse, :sentence, :counts, :name_code
     delegate :case_number, to: :pii
 
+    def convicted_counts
+      counts.select { |count| count.disposition == 'convicted' }
+    end
+
     def successfully_completed_probation?(rap_sheet)
       successfully_completed_duration?(rap_sheet, sentence.probation)
     end

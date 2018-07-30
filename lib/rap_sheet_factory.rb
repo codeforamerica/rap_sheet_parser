@@ -29,13 +29,15 @@ module RapSheetParser
       severity: 'M',
       code: 'PC',
       section: '123',
-      code_section_description: 'foo'
+      code_section_description: 'foo',
+      disposition: 'convicted'
     )
       RapSheetParser::CourtCount.new(
         code_section_description: code_section_description,
         severity: severity,
         code: code,
-        section: section
+        section: section,
+        disposition: disposition
       )
     end
 
