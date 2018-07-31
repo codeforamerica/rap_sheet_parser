@@ -54,5 +54,23 @@ module RapSheetParser
         expect(rap_sheet.arrests[0]).to eq arrest
       end
     end
+
+    describe '#superstrikes' do
+      it 'returns any superstrike convictions' do
+        count = build_court_count(code: 'PC', section: '187', disposition: 'convicted')
+        conviction = build_conviction_event(counts: [count])
+
+        rap_sheet = build_rap_sheet(events: [conviction])
+        expect(rap_sheet.superstrikes).to contain_exactly(count)
+      end
+
+      it 'returns empty list if no superstrike convictions' do
+        count = build_court_count(code: 'PC', section: '187', disposition: 'dismissed')
+        conviction = build_conviction_event(counts: [count])
+
+        rap_sheet = build_rap_sheet(events: [conviction])
+        expect(rap_sheet.superstrikes).to be_empty
+      end
+    end
   end
 end
