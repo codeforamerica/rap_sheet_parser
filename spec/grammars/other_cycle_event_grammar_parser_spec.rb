@@ -49,6 +49,23 @@ module RapSheetParser
           expect(count_3.disposition.text_value).to eq("\n")
         end
 
+        it 'parses other disposition types' do
+          text = <<~TEXT
+          COURT: NAM:01 19960718 CASC SAN FRANCISCO CO
+          CNT:01     #164789
+          11360(A) HS-SELL/FURNISH/ETC MARIJUANA/HASH
+          DISPO: CLARIFICATION REQUESTED
+          TEXT
+
+          tree = parse(text)
+
+          expect(tree).to be_a(EventGrammar::CourtEvent)
+
+          count_1 = tree.counts[0]
+          puts "disposition type: #{count_1.disposition.disposition_type}"
+          expect(count_1.disposition.disposition_type).to be_a CountGrammar::OtherDispositionType
+        end
+
         it 'can parse count ranges' do
           text = <<~TEXT
             COURT:

@@ -48,6 +48,7 @@ module RapSheetParser
     class SeeCommentForCharge < Treetop::Runtime::SyntaxNode; end
     class Convicted < Treetop::Runtime::SyntaxNode; end
     class Dismissed < Treetop::Runtime::SyntaxNode; end
+    class OtherDispositionType < Treetop::Runtime::SyntaxNode; end
     class ProsecutorRejected < Treetop::Runtime::SyntaxNode; end
 
     class CodeSectionLine < Treetop::Runtime::SyntaxNode; end

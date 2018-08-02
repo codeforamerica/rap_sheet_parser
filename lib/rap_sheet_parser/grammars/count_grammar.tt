@@ -89,7 +89,7 @@ module RapSheetParser
     end
     
     rule disposition_type
-      convicted / dismissed / prosecutor_rejected / .*
+      convicted / dismissed / prosecutor_rejected / other_disposition_type
     end
 
     rule severity_line
@@ -120,12 +120,17 @@ module RapSheetParser
       'PROS REJ-' <ProsecutorRejected>
     end
 
-    rule disposition_info
-      (comment_charge_line / severity_line / sentence_line / comment_sentence_line / unknown_content_line)*
+    rule other_disposition_type
+      (!N .)* <OtherDispositionType>
     end
 
     rule dismissed
       'DISMISSED' <Dismissed>
     end
+
+    rule disposition_info
+      (comment_charge_line / severity_line / sentence_line / comment_sentence_line / unknown_content_line)*
+    end
+
   end
 end
