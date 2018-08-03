@@ -104,6 +104,16 @@ module RapSheetParser
         expect(count.code_section.number.text_value).to eq '484-487 (A)'
       end
 
+      it 'parses when charge is in the comments but missing disposition' do
+        text = <<~TEXT
+           SEE COMMENT FOR CHARGE
+        TEXT
+
+        count = described_class.new.parse(text)
+        expect(count.charge_line.text_value).to eq('SEE COMMENT FOR CHARGE')
+        expect(count.code_section).to be_nil
+      end
+
       it 'parses malformed charge comments' do
         text = <<~TEXT
            SEE. COMMENT FOR CHARGE

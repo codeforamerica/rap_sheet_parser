@@ -51,7 +51,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activemodel
   bundler (~> 1.16)
   rake (~> 12.3)
   rap_sheet_parser!

@@ -5,7 +5,7 @@ module RapSheetParser
         if charge_line.is_a? CodeSectionLine
           charge_line.code_section
         elsif charge_line.is_a? SeeCommentForCharge
-          if disposition.disposition_type.is_a? Convicted
+          if disposition.is_a? Disposition
             comment_charge_line = disposition.disposition_info.select do |l|
               l.is_a? CommentChargeLine
             end
