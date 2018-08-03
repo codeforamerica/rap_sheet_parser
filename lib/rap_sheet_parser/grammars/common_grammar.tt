@@ -37,11 +37,15 @@ module RapSheetParser
     end
 
     rule event_identifier
-      court_identifier / arrest_identifier / custody_identifier
+      court_identifier / arrest_identifier / custody_identifier / applicant_identifier
     end
 
     rule court_identifier
       'COURT' w ':'
+    end
+
+    rule applicant_identifier
+      'APPLICANT' w ':'
     end
 
     rule arrest_identifier

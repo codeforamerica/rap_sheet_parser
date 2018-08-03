@@ -333,6 +333,29 @@ module RapSheetParser
           expect(subject.date.text_value).to eq '20120503'
         end
       end
+
+      context 'parsing an applicant event' do
+        it 'parses' do
+          text = <<~TEXT
+            APPLICANT:             NAM:02
+            20100715  CASD SOCIAL SERV CCL-CRCB, LOS ANGELES
+
+            CNT:01     #29292929
+              APPLICANT ADULT DAY/RESIDENT REHAB
+
+               COM: JKFHKJFKJHS
+
+            20140321
+             DISPO:NO LONGER INTERESTED
+               COM: AJFH-BJBDHJ
+          TEXT
+
+          subject = parse(text)
+          expect(subject).to be_a(EventGrammar::ApplicantEvent)
+          expect(subject.date.text_value).to eq '20100715'
+          expect(subject.courthouse.text_value).to eq 'CASD SOCIAL SERV CCL-CRCB, LOS ANGELES'
+        end
+      end
     end
 
     def parse(text)

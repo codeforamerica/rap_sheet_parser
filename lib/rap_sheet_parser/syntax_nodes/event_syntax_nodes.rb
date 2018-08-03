@@ -52,5 +52,6 @@ module RapSheetParser
     class ArrestEvent < Event; end
     class CustodyEvent < Event; end
     class RegistrationEvent < Event; end
+    class ApplicantEvent < Event; end
   end
 end
