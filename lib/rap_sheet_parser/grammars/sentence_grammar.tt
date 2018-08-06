@@ -3,7 +3,7 @@ module RapSheetParser
     include CommonGrammar
 
     rule sentence
-      (w (',' w)* sentence_content w ','? w)* <Sentence>
+      (w (',' w)* sentence_content w (',' w)*)* <Sentence>
     end
 
     rule sentence_content
