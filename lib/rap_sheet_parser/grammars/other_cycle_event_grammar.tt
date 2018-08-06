@@ -3,23 +3,11 @@ module RapSheetParser
     include EventGrammar
 
     rule event
-     court_event / arrest_event / custody_event / applicant_event / unknown_event
+      detected_event / unknown_event
     end
-
-    rule court_event
-      w court_identifier wn name (!date .)* date wn [.']* wn name? wn courthouse wn toc? (!count_identifier .)* counts updates <EventGrammar::CourtEvent>
-    end
-
-    rule applicant_event
-      w applicant_identifier wn name (!date .)* date wn [.']* wn name? wn courthouse wn toc? (!count_identifier .)* counts updates <EventGrammar::ApplicantEvent>
-    end
-
-    rule arrest_event
-      (!arrest_identifier .)* arrest_identifier (!date .)* date wn [.']* wn name? wn (!count_identifier .)* counts updates <EventGrammar::ArrestEvent>
-    end
-
-    rule custody_event
-      (!custody_identifier .)* custody_identifier (!date .)* date .* <EventGrammar::CustodyEvent>
+    
+    rule detected_event
+      (!event_identifier .)* event_identifier wn name (!date .)* date wn [.']* wn name? wn courthouse wn toc? (!count_identifier .)* counts updates <EventGrammar::Event>
     end
 
     rule unknown_event

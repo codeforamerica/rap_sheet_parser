@@ -41,19 +41,19 @@ module RapSheetParser
     end
 
     rule court_identifier
-      'COURT' w ':'
+      'COURT' w ':' <EventGrammar::CourtEventIdentifier>
     end
 
     rule applicant_identifier
-      'APPLICANT' w ':'
+      'APPLICANT' w ':' <EventGrammar::ApplicantEventIdentifier>
     end
 
     rule arrest_identifier
-      'ARR' stray_punctuation '/' stray_punctuation 'DET' stray_punctuation '/' stray_punctuation 'CITE'
+      'ARR' stray_punctuation '/' stray_punctuation 'DET' stray_punctuation '/' stray_punctuation 'CITE' <EventGrammar::ArrestEventIdentifier>
     end
 
     rule custody_identifier
-      stray_punctuation 'CUSTODY'
+      stray_punctuation 'CUSTODY' <EventGrammar::CustodyEventIdentifier>
     end
 
     rule dispo_header

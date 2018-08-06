@@ -95,8 +95,10 @@ module RapSheetParser
         it "can parse out many registration events even though they don't all have the word REGISTRATION in them" do
           events = subject.cycles[0].events
           expect(events.length).to eq 2
-          expect(events[0]).to be_a(EventGrammar::RegistrationEvent)
-          expect(events[1]).to be_a(EventGrammar::RegistrationEvent)
+          expect(events[0]).to be_a(EventGrammar::Event)
+          expect(events[0].event_identifier).to be_a(EventGrammar::RegistrationEventIdentifier)
+          expect(events[1]).to be_a(EventGrammar::Event)
+          expect(events[1].event_identifier).to be_a(EventGrammar::RegistrationEventIdentifier)
         end
       end
 

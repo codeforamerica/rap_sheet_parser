@@ -13,7 +13,7 @@ module RapSheetParser
           TEXT
 
           subject = parse(text)
-          expect(subject).to be_a(RegistrationCycleEventGrammar::RegistrationEvent)
+          expect(subject.event_identifier).to be_a(RegistrationCycleEventGrammar::RegistrationEventIdentifier)
           expect(subject.date.text_value).to eq '20171216'
           expect(subject.courthouse.text_value).to eq 'CASO SAN DIEGO'
           expect(subject.counts.length).to eq 1
@@ -28,7 +28,7 @@ module RapSheetParser
           TEXT
 
           subject = parse(text)
-          expect(subject).to be_a(RegistrationCycleEventGrammar::RegistrationEvent)
+          expect(subject.event_identifier).to be_a(RegistrationCycleEventGrammar::RegistrationEventIdentifier)
           expect(subject.date.text_value).to eq '20171216'
           expect(subject.courthouse.text_value).to eq 'CASO SAN DIEGO'
           expect(subject.counts.length).to eq 1
@@ -47,7 +47,7 @@ module RapSheetParser
           TEXT
 
           subject = parse(text)
-          expect(subject).to be_a(RegistrationCycleEventGrammar::RegistrationEvent)
+          expect(subject.event_identifier).to be_a(RegistrationCycleEventGrammar::RegistrationEventIdentifier)
           expect(subject.date.text_value).to eq '20171216'
           expect(subject.courthouse.text_value).to eq 'CASO SAN DIEGO'
           expect(subject.counts.length).to eq 1

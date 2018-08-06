@@ -27,7 +27,7 @@ module RapSheetParser
 
           tree = parse(text)
 
-          expect(tree).to be_a(EventGrammar::CourtEvent)
+          expect(tree.event_identifier).to be_a(EventGrammar::CourtEventIdentifier)
 
           expect(tree.name.name_code.text_value).to eq ('02')
 
@@ -59,7 +59,7 @@ module RapSheetParser
 
           tree = parse(text)
 
-          expect(tree).to be_a(EventGrammar::CourtEvent)
+          expect(tree.event_identifier).to be_a(EventGrammar::CourtEventIdentifier)
 
           count_1 = tree.counts[0]
           puts "disposition type: #{count_1.disposition.disposition_type}"
@@ -151,7 +151,7 @@ module RapSheetParser
 
           subject = parse(text)
 
-          expect(subject).to be_a(EventGrammar::CourtEvent)
+          expect(subject.event_identifier).to be_a(EventGrammar::CourtEventIdentifier)
         end
 
         it 'can parse court identifier with preceding whitespace' do
@@ -164,7 +164,7 @@ module RapSheetParser
 
           subject = parse(text)
 
-          expect(subject).to be_a(EventGrammar::CourtEvent)
+          expect(subject.event_identifier).to be_a(EventGrammar::CourtEventIdentifier)
         end
 
         it 'can parse case number even if first CNT number is not 001' do
@@ -252,7 +252,7 @@ module RapSheetParser
           TEXT
 
           subject = parse(text)
-          expect(subject).to be_a(EventGrammar::ArrestEvent)
+          expect(subject.event_identifier).to be_a(EventGrammar::ArrestEventIdentifier)
           expect(subject.date.text_value).to eq '19910105'
         end
 
@@ -268,7 +268,7 @@ module RapSheetParser
           TEXT
 
           subject = parse(text)
-          expect(subject).to be_a(EventGrammar::ArrestEvent)
+          expect(subject.event_identifier).to be_a(EventGrammar::ArrestEventIdentifier)
           expect(subject.date.text_value).to eq '19910105'
         end
 
@@ -283,7 +283,7 @@ module RapSheetParser
           TEXT
 
           subject = parse(text)
-          expect(subject).to be_a(EventGrammar::ArrestEvent)
+          expect(subject.event_identifier).to be_a(EventGrammar::ArrestEventIdentifier)
           expect(subject.date.text_value).to eq '19910105'
         end
       end
@@ -300,7 +300,7 @@ module RapSheetParser
           TEXT
 
           subject = parse(text)
-          expect(subject).to be_a(EventGrammar::CustodyEvent)
+          expect(subject.event_identifier).to be_a(EventGrammar::CustodyEventIdentifier)
           expect(subject.date.text_value).to eq '20120503'
         end
 
@@ -315,7 +315,7 @@ module RapSheetParser
           TEXT
 
           subject = parse(text)
-          expect(subject).to be_a(EventGrammar::CustodyEvent)
+          expect(subject.event_identifier).to be_a(EventGrammar::CustodyEventIdentifier)
           expect(subject.date.text_value).to eq '20120503'
         end
 
@@ -329,7 +329,7 @@ module RapSheetParser
           TEXT
 
           subject = parse(text)
-          expect(subject).to be_a(EventGrammar::CustodyEvent)
+          expect(subject.event_identifier).to be_a(EventGrammar::CustodyEventIdentifier)
           expect(subject.date.text_value).to eq '20120503'
         end
       end
@@ -351,7 +351,7 @@ module RapSheetParser
           TEXT
 
           subject = parse(text)
-          expect(subject).to be_a(EventGrammar::ApplicantEvent)
+          expect(subject.event_identifier).to be_a(EventGrammar::ApplicantEventIdentifier)
           expect(subject.date.text_value).to eq '20100715'
           expect(subject.courthouse.text_value).to eq 'CASD SOCIAL SERV CCL-CRCB, LOS ANGELES'
         end

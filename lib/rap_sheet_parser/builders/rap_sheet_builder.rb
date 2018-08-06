@@ -47,13 +47,15 @@ module RapSheetParser
     end
 
     def event_builder_class_for_node(event_syntax_node)
-      if event_syntax_node.is_a? EventGrammar::CourtEvent
+      event_identifier = event_syntax_node.event_identifier
+
+      if event_identifier.is_a? EventGrammar::CourtEventIdentifier
         CourtEventBuilder
-      elsif event_syntax_node.is_a? EventGrammar::ArrestEvent
+      elsif event_identifier.is_a? EventGrammar::ArrestEventIdentifier
         ArrestEventBuilder
-      elsif event_syntax_node.is_a? EventGrammar::CustodyEvent
+      elsif event_identifier.is_a? EventGrammar::CustodyEventIdentifier
         CustodyEventBuilder
-      elsif event_syntax_node.is_a? EventGrammar::RegistrationEvent
+      elsif event_identifier.is_a? EventGrammar::RegistrationEventIdentifier
         RegistrationEventBuilder
       end
     end
