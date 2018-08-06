@@ -1,6 +1,6 @@
 module RapSheetParser
   module RapSheetFactory
-    def build_conviction_event(
+    def build_court_event(
       date: Date.new(1994, 1, 2),
       case_number: '12345',
       courthouse: 'CASC SAN FRANCISCO',
@@ -10,7 +10,7 @@ module RapSheetParser
       name_code: nil
     )
 
-      RapSheetParser::ConvictionEvent.new(
+      RapSheetParser::CourtEvent.new(
         date: date,
         courthouse: courthouse,
         pii: ConvictionEventPII.new(case_number: case_number),

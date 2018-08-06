@@ -58,7 +58,7 @@ module RapSheetParser
     describe '#superstrikes' do
       it 'returns any superstrike convictions' do
         count = build_court_count(code: 'PC', section: '187', disposition: 'convicted')
-        conviction = build_conviction_event(counts: [count])
+        conviction = build_court_event(counts: [count])
 
         rap_sheet = build_rap_sheet(events: [conviction])
         expect(rap_sheet.superstrikes).to contain_exactly(count)
@@ -66,7 +66,7 @@ module RapSheetParser
 
       it 'returns empty list if no superstrike convictions' do
         count = build_court_count(code: 'PC', section: '187', disposition: 'dismissed')
-        conviction = build_conviction_event(counts: [count])
+        conviction = build_court_event(counts: [count])
 
         rap_sheet = build_rap_sheet(events: [conviction])
         expect(rap_sheet.superstrikes).to be_empty
@@ -76,8 +76,8 @@ module RapSheetParser
       it 'returns an array of convicted court events' do
         convicted_count = build_court_count(code: 'PC', section: '32', disposition: 'convicted')
         dismissed_count = build_court_count(code: 'HS', section: '11359', disposition: 'dismissed')
-        court_event_1 = build_conviction_event(counts: [convicted_count])
-        court_event_2 = build_conviction_event(counts: [dismissed_count])
+        court_event_1 = build_court_event(counts: [convicted_count])
+        court_event_2 = build_court_event(counts: [dismissed_count])
         rap_sheet =  build_rap_sheet(events: [court_event_1, court_event_2, build_arrest_event])
         expect(rap_sheet.convictions).to contain_exactly(court_event_1)
       end

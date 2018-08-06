@@ -1,9 +1,9 @@
 module RapSheetParser
-  class ConvictionEventBuilder
+  class CourtEventBuilder
     include EventBuilder
 
     def build
-      ConvictionEvent.new(
+      CourtEvent.new(
         cycle_events: cycle_events,
         name_code: name_code,
         date: date,

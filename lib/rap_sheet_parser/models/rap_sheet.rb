@@ -8,7 +8,7 @@ module RapSheetParser
     end
 
     def convictions
-      filtered_events(ConvictionEvent).select(&:conviction?)
+      filtered_events(CourtEvent).select(&:conviction?)
     end
 
     def arrests

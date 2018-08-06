@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'date'
 
 module RapSheetParser
-  RSpec.describe ConvictionEventBuilder do
+  RSpec.describe CourtEventBuilder do
     describe '.build' do
       it 'builds court event from treetop node' do
         text = <<~TEXT

@@ -1,5 +1,5 @@
 module RapSheetParser
-  class ConvictionEvent
+  class CourtEvent
     def initialize(cycle_events: [], date:, name_code:, pii:, courthouse:, sentence:, counts:, updates:)
       @cycle_events = cycle_events
       @sentence = sentence

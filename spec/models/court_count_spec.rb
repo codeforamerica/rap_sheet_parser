@@ -47,7 +47,7 @@ RSpec.describe RapSheetParser::CourtCount do
       count_2 = build_court_count(severity: 'M')
       count_3 = build_court_count(severity: nil)
 
-      subject = build_conviction_event(counts: [count_1, count_2, count_3]).counts
+      subject = build_court_event(counts: [count_1, count_2, count_3]).counts
 
       expect(subject.severity_felony).to eq [count_1]
       expect(subject.severity_misdemeanor).to eq [count_2]
