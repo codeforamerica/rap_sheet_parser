@@ -72,7 +72,7 @@ module RapSheetParser
           * * * END OF MESSAGE * * *
         TEXT
 
-        rap_sheet = RapSheetParser::Parser.new.parse(text, logger: nil)
+        rap_sheet = RapSheetParser::Parser.new.parse(text)
 
         expect(rap_sheet.arrests[0].date).to eq Date.new(1991, 1, 5)
         expect(rap_sheet.personal_info.sex).to eq 'M'
@@ -126,6 +126,40 @@ module RapSheetParser
         expect(rap_sheet.registration_events[0].code_section).to eq 'PC 290'
         expect(rap_sheet.registration_events[1].date).to eq Date.new(1990, 10, 22)
         expect(rap_sheet.registration_events[1].code_section).to eq 'HS 11590'
+      end
+
+      it 'populates cycle events for each event' do
+        text = <<~TEXT
+          blah blah
+          * * * *
+          ARR/DET/CITE:
+          NAM:001
+          19910105 CAPD CONCORD
+          TOC:F
+          CNT:001
+          #65131
+          496.1 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
+          - - - -        
+          COURT:
+          19740102 CASC SAN PRANCISCU rm
+
+          CNT: 001 #123
+          DISPO:DISMISSED/FURTHERANCE OF JUSTICE
+          - - - -
+          COURT: NAME7OZ
+          19820915 CAMC LOS ANGELES METRO
+
+          CNT: 001 #456
+          4056 PC-BREAKING AND ENTERING
+          *DISPO:CONVICTED
+          MORE INFO ABOUT THIS COUNT
+          * * * END OF MESSAGE * * *
+        TEXT
+
+        rap_sheet = RapSheetParser::Parser.new.parse(text)
+
+        expect(rap_sheet.events.length).to eq 3
+        expect(rap_sheet.arrests[0].cycle_events.length).to eq 3
       end
 
       context 'inferring probation violations' do

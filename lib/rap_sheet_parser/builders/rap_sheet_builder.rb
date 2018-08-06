@@ -11,37 +11,43 @@ module RapSheetParser
 
     private
 
-    def conviction_event(event)
-      event.is_a?(EventGrammar::CourtEvent) && event.is_conviction?
+    def known_events_for_cycle(cycle_syntax_node)
+      cycle_syntax_node.events.select do |event_syntax_node|
+        if event_syntax_node.is_a? EventGrammar::Event
+          true
+        else
+          @logger.warn('Unrecognized event:')
+          @logger.warn(event_syntax_node.text_value)
+          false
+        end
+      end
     end
 
     def events
       @parsed_rap_sheet.cycles.flat_map do |cycle_syntax_node|
+        known_events = known_events_for_cycle(cycle_syntax_node)
+
         cycle_events = []
-        cycle_syntax_node.events.each do |event_syntax_node|
-          if event_syntax_node.is_a? EventGrammar::Event
-            cycle_events.push(event_for_node(cycle_events, event_syntax_node))
-          else
-            @logger.warn('Unrecognized event:')
-            @logger.warn(event_syntax_node.text_value)
-            nil
-          end
+
+        known_events.each do |event_syntax_node|
+          cycle_events.push(event_for_node(cycle_events, event_syntax_node))
         end
+
         cycle_events
       end.compact
     end
 
     def event_for_node(cycle_events, event_syntax_node)
       builder_class = event_builder_class_for_node(event_syntax_node)
-      builder_class&.new(
+      builder_class.new(
         event_syntax_node,
         cycle_events: cycle_events,
         logger: @logger
-      )&.build
+      ).build
     end
 
     def event_builder_class_for_node(event_syntax_node)
-      if conviction_event(event_syntax_node)
+      if event_syntax_node.is_a? EventGrammar::CourtEvent
         ConvictionEventBuilder
       elsif event_syntax_node.is_a? EventGrammar::ArrestEvent
         ArrestEventBuilder

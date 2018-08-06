@@ -8,7 +8,7 @@ module RapSheetParser
     end
 
     def convictions
-      filtered_events(ConvictionEvent)
+      filtered_events(ConvictionEvent).select(&:conviction?)
     end
 
     def arrests
@@ -32,7 +32,7 @@ module RapSheetParser
     def sex_offender_registration?
       registration_event_with_code('PC 290')
     end
-    
+
     def narcotics_offender_registration?
       registration_event_with_code('HS 11590')
     end

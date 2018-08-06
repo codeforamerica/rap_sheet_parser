@@ -14,10 +14,6 @@ module RapSheetParser
 
         count.disposition.sentence
       end
-
-      def is_conviction?
-        counts.any? { |c| c.disposition.disposition_type.is_a? CountGrammar::Convicted }
-      end
     end
 
     class Count < Treetop::Runtime::SyntaxNode

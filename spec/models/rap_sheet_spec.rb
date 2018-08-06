@@ -47,7 +47,7 @@ module RapSheetParser
 
     describe '#arrests' do
       it 'returns arrests' do
-        arrest = ArrestEvent.new(date: Date.today, counts: [])
+        arrest = build_arrest_event
         custody = CustodyEvent.new(date: Date.today)
 
         rap_sheet = build_rap_sheet(events: [arrest, custody])
@@ -70,6 +70,16 @@ module RapSheetParser
 
         rap_sheet = build_rap_sheet(events: [conviction])
         expect(rap_sheet.superstrikes).to be_empty
+      end
+    end
+    describe '#convictions' do
+      it 'returns an array of convicted court events' do
+        convicted_count = build_court_count(code: 'PC', section: '32', disposition: 'convicted')
+        dismissed_count = build_court_count(code: 'HS', section: '11359', disposition: 'dismissed')
+        court_event_1 = build_conviction_event(counts: [convicted_count])
+        court_event_2 = build_conviction_event(counts: [dismissed_count])
+        rap_sheet =  build_rap_sheet(events: [court_event_1, court_event_2, build_arrest_event])
+        expect(rap_sheet.convictions).to contain_exactly(court_event_1)
       end
     end
   end

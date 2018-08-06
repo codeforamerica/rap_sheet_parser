@@ -18,6 +18,10 @@ module RapSheetParser
       counts.select { |count| count.disposition == 'convicted' }
     end
 
+    def conviction?
+      counts.any? { |count| count.disposition == 'convicted' }
+    end
+
     def successfully_completed_probation?(rap_sheet)
       successfully_completed_duration?(rap_sheet, sentence.probation)
     end

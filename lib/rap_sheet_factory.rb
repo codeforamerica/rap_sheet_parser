@@ -5,7 +5,7 @@ module RapSheetParser
       case_number: '12345',
       courthouse: 'CASC SAN FRANCISCO',
       sentence: RapSheetParser::ConvictionSentence.new(probation: 1.year),
-      counts: [],
+      counts: [build_court_count],
       updates: [],
       name_code: nil
     )
@@ -19,6 +19,10 @@ module RapSheetParser
         counts: counts,
         name_code: name_code
       )
+    end
+
+    def build_arrest_event(cycle_events: [], date: Date.today, counts: [])
+      ArrestEvent.new(cycle_events: cycle_events, date: date, counts: counts)
     end
 
     def build_rap_sheet(events: [], personal_info: nil)
