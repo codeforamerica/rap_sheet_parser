@@ -16,7 +16,15 @@ module RapSheetParser
     end
 
     def custody_events
-      filtered_events(CustodyEvent)
+      filtered_events(OtherEvent).select do |event|
+        event.header == 'custody'
+      end
+    end
+
+    def applicant_events
+      filtered_events(OtherEvent).select do |event|
+        event.header == 'applicant'
+      end
     end
 
     def registration_events

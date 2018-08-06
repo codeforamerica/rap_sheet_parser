@@ -48,7 +48,7 @@ module RapSheetParser
     describe '#arrests' do
       it 'returns arrests' do
         arrest = build_arrest_event
-        custody = CustodyEvent.new(date: Date.today)
+        custody = OtherEvent.new(date: Date.today, counts: [], header: 'custody')
 
         rap_sheet = build_rap_sheet(events: [arrest, custody])
         expect(rap_sheet.arrests[0]).to eq arrest
