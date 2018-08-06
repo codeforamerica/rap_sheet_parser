@@ -70,8 +70,12 @@ module RapSheetParser
           459 PC-BURGLARY
           TOC:F
           * * * *
-          ****
           APPLICANT:            NAM:04
+          20051221  CASC SACRAMENTO
+          CNT:01     #ABCBA
+            APPLICANT ADULT DAY/RESIDENT REHAB
+          * * * *
+          PROBATION:            NAM:04
           20051221  CASC SACRAMENTO
           CNT:01     #ABCBA
             APPLICANT ADULT DAY/RESIDENT REHAB
@@ -132,7 +136,9 @@ module RapSheetParser
         expect(rap_sheet.registration_events[0].code_section).to eq 'PC 290'
         expect(rap_sheet.registration_events[1].date).to eq Date.new(1990, 10, 22)
         expect(rap_sheet.registration_events[1].code_section).to eq 'HS 11590'
-        expect(rap_sheet.applicant_events[0].date).to eq Date.new(2005, 12, 21)
+
+        expect(rap_sheet.applicant_events.length).to eq 1
+        expect(rap_sheet.probation_events.length).to eq 1
       end
 
       it 'populates cycle events for each event' do

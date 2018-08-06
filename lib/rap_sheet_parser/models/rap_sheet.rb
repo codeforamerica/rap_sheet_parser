@@ -22,9 +22,11 @@ module RapSheetParser
     end
 
     def applicant_events
-      filtered_events(OtherEvent).select do |event|
-        event.header == 'applicant'
-      end
+      other_events('applicant')
+    end
+
+    def probation_events
+      other_events('probation')
     end
 
     def registration_events
@@ -55,6 +57,10 @@ module RapSheetParser
 
     def filtered_events(klass)
       events.select { |e| e.is_a? klass }
+    end
+
+    def other_events(header)
+      filtered_events(OtherEvent).select { |event| event.header == header }
     end
   end
 end

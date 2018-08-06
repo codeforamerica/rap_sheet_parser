@@ -37,11 +37,19 @@ module RapSheetParser
     end
 
     rule event_identifier
-      court_identifier / arrest_identifier / custody_identifier / applicant_identifier
+      court_identifier /
+      arrest_identifier /
+      custody_identifier /
+      applicant_identifier /
+      probation_identifier
     end
 
     rule court_identifier
       'COURT' w ':' <EventGrammar::CourtEventIdentifier>
+    end
+
+    rule probation_identifier
+      'PROBATION' w ':' <EventGrammar::ProbationEventIdentifier>
     end
 
     rule applicant_identifier

@@ -51,6 +51,7 @@ module RapSheetParser
     class EventIdentifier < Treetop::Runtime::SyntaxNode; end
     class RegistrationEventIdentifier < EventIdentifier; end
     class CourtEventIdentifier < EventIdentifier; end
+    class ProbationEventIdentifier < EventIdentifier; end
     class ArrestEventIdentifier < EventIdentifier; end
     class CustodyEventIdentifier < EventIdentifier; end
     class ApplicantEventIdentifier < EventIdentifier; end
