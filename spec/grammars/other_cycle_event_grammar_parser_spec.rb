@@ -356,8 +356,26 @@ module RapSheetParser
           expect(subject.courthouse.text_value).to eq 'CASD SOCIAL SERV CCL-CRCB, LOS ANGELES'
         end
       end
-    end
 
+      context 'parsing a probation event' do
+        it 'parses' do
+          text = <<~TEXT
+            PROBATION:             NAM:01
+            20100715  CAPR SAN FRANCISCO
+
+            CNT:01     #555787(87)
+            11360 HS-SELL/TRANSPORT/ETC MARIJUANA/HASH
+            SEN: 3 YEARS PROBATION
+            COM: CRT CASE NBR 123488
+          TEXT
+
+          subject = parse(text)
+          expect(subject.event_identifier).to be_a(EventGrammar::ProbationEventIdentifier)
+          expect(subject.date.text_value).to eq '20100715'
+          expect(subject.courthouse.text_value).to eq 'CAPR SAN FRANCISCO'
+        end
+      end
+    end
     def parse(text)
       described_class.new.parse(text)
     end
