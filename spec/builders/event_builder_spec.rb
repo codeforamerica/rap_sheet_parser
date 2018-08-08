@@ -1,3 +1,4 @@
+require 'ostruct'
 require 'spec_helper'
 
 module RapSheetParser

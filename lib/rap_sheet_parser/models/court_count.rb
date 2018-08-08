@@ -1,5 +1,5 @@
 module RapSheetParser
-  class CourtCount < ApplicationRecord
+  class CourtCount
     SUPERSTRIKES = [
       'PC 187',
       'PC 191.5',
@@ -38,17 +38,15 @@ module RapSheetParser
       'PC 11418(a)(1)'
     ].freeze
 
-    def severity_felony
-      where(severity: 'F')
+    def initialize(code_section_description:, severity:, code:, section:, disposition:)
+      @section = section
+      @code = code
+      @severity = severity
+      @code_section_description = code_section_description
+      @disposition = disposition
     end
 
-    def severity_misdemeanor
-      where(severity: 'M')
-    end
-
-    def severity_unknown
-      where(severity: nil)
-    end
+    attr_reader :code_section_description, :severity, :code, :section, :disposition
 
     def long_severity
       case severity

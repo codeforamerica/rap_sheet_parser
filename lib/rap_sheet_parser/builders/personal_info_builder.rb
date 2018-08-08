@@ -7,9 +7,7 @@ module RapSheetParser
     def build
       return if personal_info_node.is_a? Unknown
       
-      personal_info = PersonalInfo.new(sex: sex, names: names)
-      personal_info.save!
-      personal_info
+      PersonalInfo.new(sex: sex, names: names)
     end
 
     private

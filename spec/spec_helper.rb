@@ -1,6 +1,4 @@
 require "bundler/setup"
-require 'ostruct'
-require 'fake_application_record'
 require "rap_sheet_parser/parser"
 require 'rap_sheet_factory'
 

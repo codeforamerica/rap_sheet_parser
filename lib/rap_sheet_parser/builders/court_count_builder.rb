@@ -11,15 +11,14 @@ module RapSheetParser
       if code_section_description.try(:match, /28[.,]5/)
         logger.warn('Charge description includes "28.5"')
       end
-      court_count = CourtCount.new(
+
+      CourtCount.new(
         code_section_description: code_section_description,
         severity: severity,
         code: code,
         section: section,
         disposition: disposition
       )
-      court_count.save!
-      court_count
     end
 
     private

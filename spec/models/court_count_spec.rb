@@ -40,18 +40,4 @@ RSpec.describe RapSheetParser::CourtCount do
       expect(count.code_section_starts_with(['PC 11359'])).to eq false
     end
   end
-
-  describe 'severity filters' do
-    xit 'can filter counts by severity strings' do
-      count_1 = build_court_count(severity: 'F')
-      count_2 = build_court_count(severity: 'M')
-      count_3 = build_court_count(severity: nil)
-
-      subject = build_court_event(counts: [count_1, count_2, count_3]).counts
-
-      expect(subject.severity_felony).to eq [count_1]
-      expect(subject.severity_misdemeanor).to eq [count_2]
-      expect(subject.severity_unknown).to eq [count_3]
-    end
-  end
 end
