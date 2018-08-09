@@ -22,12 +22,14 @@ module RapSheetParser
       counts.any? { |count| count.disposition == 'convicted' }
     end
 
-    def successfully_completed_probation?(rap_sheet)
-      successfully_completed_duration?(rap_sheet, sentence.probation)
-    end
+    def successfully_completed_duration?(rap_sheet, duration)
+      return nil if date.nil?
 
-    def successfully_completed_year?(rap_sheet)
-      successfully_completed_duration?(rap_sheet, 1.year)
+      events_with_dates = (rap_sheet.arrests + rap_sheet.custody_events + rap_sheet.probation_events).reject do |e|
+        e.date.nil?
+      end
+
+      events_with_dates.all? { |e| event_outside_duration(e, duration) }
     end
 
     def inspect
@@ -50,16 +52,6 @@ module RapSheetParser
     private
 
     attr_reader :updates, :pii
-
-    def successfully_completed_duration?(rap_sheet, duration)
-      return nil if date.nil?
-
-      events_with_dates = (rap_sheet.arrests + rap_sheet.custody_events).reject do |e|
-        e.date.nil?
-      end
-
-      events_with_dates.all? { |e| event_outside_duration(e, duration) }
-    end
 
     def event_outside_duration(e, duration)
       e.date < date or e.date > (date + duration)
