@@ -41,6 +41,28 @@ module RapSheetParser
       expect(log.string).to include 'WARN -- : CASC ANYTOWN USA'
     end
 
+    it 'correctly logs warning when an unknown courthouse begins with text matching a known courthouse' do
+      text = <<~TEXT
+        info
+        * * * *
+        COURT: NAME7OZ
+        19820915 CASC SN JOSE CENTRAL
+
+        CNT: 001 #45      6
+        DISPO:CONVICTED
+        * * * END OF MESSAGE * * *
+      TEXT
+
+      log = StringIO.new
+      logger = Logger.new(log)
+      tree = RapSheetGrammarParser.new.parse(text)
+      courthouse_node = tree.cycles[0].events[0].courthouse
+      expect(described_class.new(courthouse_node, logger: logger).build).to eq 'CASC SN JOSE CENTRAL'
+
+      expect(log.string).to include 'WARN -- : Unrecognized courthouse:'
+      expect(log.string).to include 'WARN -- : CASC SN JOSE CENTRAL'
+    end
+
     it 'strips periods from courthouse names' do
       text = <<~TEXT
         info

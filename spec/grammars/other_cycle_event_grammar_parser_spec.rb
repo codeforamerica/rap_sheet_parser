@@ -8,7 +8,7 @@ module RapSheetParser
           text = <<~TEXT
             COURT:
             NAM:02
-            20040102  CASC SAN FRANCISCO fds
+            20040102  CASC SAN FRANCISCO
 
             CNT: 001  #346477
               496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
