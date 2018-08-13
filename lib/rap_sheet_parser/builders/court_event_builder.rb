@@ -9,7 +9,6 @@ module RapSheetParser
         date: date,
         pii: pii,
         courthouse: courthouse,
-        sentence: sentence,
         updates: updates,
         counts: counts
       )
@@ -33,22 +32,8 @@ module RapSheetParser
       CourthouseBuilder.new(event_syntax_node.courthouse, logger: logger).build
     end
 
-    def sentence
-      if event_syntax_node.sentence
-        sentence_modified_disposition = updates.flat_map(&:dispositions).find do |d|
-          d.is_a?(SentenceModifiedDisposition)
-        end
-
-        if sentence_modified_disposition
-          sentence_modified_disposition.sentence
-        else
-          ConvictionSentenceBuilder.new(event_syntax_node.sentence).build
-        end
-      end
-    end
-
     def updates
-      event_syntax_node.updates.map { |u| UpdateBuilder.new(u).build }
+      event_syntax_node.updates.map { |u| UpdateBuilder.new(u, logger: logger).build }
     end
   end
 end

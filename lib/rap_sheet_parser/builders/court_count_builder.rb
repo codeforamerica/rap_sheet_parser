@@ -32,7 +32,7 @@ module RapSheetParser
     def disposition
       return unless count.disposition.is_a? CountGrammar::Disposition
 
-      count.disposition.disposition_type.class.name.demodulize.underscore
+      DispositionBuilder.new(count.disposition, logger: logger).build
     end
 
     def severity

@@ -39,14 +39,16 @@ module RapSheetParser
           code_section: 'PC 123',
           code_section_description: 'BAD STUFF',
           severity: nil,
-          disposition: 'dismissed'
+          disposition: 'dismissed',
+          sentence: '',
         })
 
         verify_count_looks_like(event.counts[1], {
           code_section: 'PC 4056',
           code_section_description: 'BREAKING AND ENTERING',
           severity: nil,
-          disposition: 'convicted'
+          disposition: 'convicted',
+          sentence: '',
         })
       end
 
@@ -83,32 +85,37 @@ module RapSheetParser
           code_section: 'PC 420',
           code_section_description: 'BREAKING AND ENTERING',
           severity: nil,
-          disposition: 'convicted'
+          disposition: 'convicted',
+          sentence: '',
         })
 
         verify_count_looks_like(event.counts[1], {
           code_section: 'PC 420',
           code_section_description: 'BREAKING AND ENTERING',
           severity: nil,
-          disposition: 'convicted'
+          disposition: 'convicted',
+          sentence: '',
         })
         verify_count_looks_like(event.counts[2], {
           code_section: 'PC 4056',
           code_section_description: 'SECOND DESCRIPTION',
           severity: nil,
-          disposition: 'convicted'
+          disposition: 'convicted',
+          sentence: '',
         })
         verify_count_looks_like(event.counts[3], {
           code_section: 'PC 4056',
           code_section_description: 'SECOND DESCRIPTION',
           severity: nil,
-          disposition: 'convicted'
+          disposition: 'convicted',
+          sentence: '',
         })
         verify_count_looks_like(event.counts[4], {
           code_section: 'PC 4056',
           code_section_description: 'SECOND DESCRIPTION',
           severity: nil,
-          disposition: 'convicted'
+          disposition: 'convicted',
+          sentence: '',
         })
       end
 

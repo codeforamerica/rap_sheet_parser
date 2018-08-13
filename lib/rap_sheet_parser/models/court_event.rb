@@ -1,8 +1,7 @@
 module RapSheetParser
   class CourtEvent
-    def initialize(cycle_events: [], date:, name_code:, pii:, courthouse:, sentence:, counts:, updates:)
+    def initialize(cycle_events: [], date:, name_code:, pii:, courthouse:, counts:, updates:)
       @cycle_events = cycle_events
-      @sentence = sentence
       @courthouse = courthouse
       @pii = pii
       @date = date
@@ -11,15 +10,15 @@ module RapSheetParser
       @name_code = name_code
     end
 
-    attr_reader :cycle_events, :date, :courthouse, :sentence, :counts, :name_code
+    attr_reader :cycle_events, :date, :courthouse, :counts, :name_code
     delegate :case_number, to: :pii
 
     def convicted_counts
-      counts.select { |count| count.disposition == 'convicted' }
+      counts.select { |count| count.disposition.type == 'convicted'}
     end
 
     def conviction?
-      counts.any? { |count| count.disposition == 'convicted' }
+      counts.any? { |count| count.disposition.type == 'convicted' }
     end
 
     def successfully_completed_duration?(rap_sheet, duration)
@@ -30,6 +29,24 @@ module RapSheetParser
       end
 
       events_with_dates.all? { |e| event_outside_duration(e, duration) }
+    end
+
+    def sentence
+      count_with_sentence = counts.find { |c| c.disposition.sentence }
+
+      return unless count_with_sentence
+
+      original_sentence = count_with_sentence.disposition.sentence
+
+      sentence_modified_disposition = updates.flat_map(&:dispositions).find do |d|
+        d.type == 'sentence_modified'
+      end
+
+      if sentence_modified_disposition
+        sentence_modified_disposition.sentence
+      else
+        original_sentence
+      end
     end
 
     def inspect
@@ -45,7 +62,7 @@ module RapSheetParser
 
     def dismissed_by_pc1203?
       updates.flat_map(&:dispositions).any? do |d|
-        d.is_a?(PC1203DismissedDisposition)
+        d.type == 'pc1203_dismissed'
       end
     end
 

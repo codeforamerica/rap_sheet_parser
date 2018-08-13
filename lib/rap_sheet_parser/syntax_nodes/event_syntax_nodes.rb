@@ -4,14 +4,6 @@ module RapSheetParser
       def case_number
         counts[0].case_number if counts[0].is_a? CountWithCaseNumber
       end
-
-      def sentence
-        count = counts.find { |c| c.disposition.sentence }
-
-        return unless count
-
-        count.disposition.sentence
-      end
     end
 
     class Count < Treetop::Runtime::SyntaxNode

@@ -4,7 +4,6 @@ module RapSheetParser
       date: Date.new(1994, 1, 2),
       case_number: '12345',
       courthouse: 'CASC SAN FRANCISCO',
-      sentence: RapSheetParser::ConvictionSentence.new(probation: 1.year),
       counts: [build_court_count],
       updates: [],
       name_code: nil
@@ -14,7 +13,6 @@ module RapSheetParser
         date: date,
         courthouse: courthouse,
         pii: ConvictionEventPII.new(case_number: case_number),
-        sentence: sentence,
         updates: updates,
         counts: counts,
         name_code: name_code
@@ -34,14 +32,15 @@ module RapSheetParser
       code: 'PC',
       section: '123',
       code_section_description: 'foo',
-      disposition: 'convicted'
+      disposition_type: 'convicted',
+      disposition_sentence: nil
     )
       RapSheetParser::CourtCount.new(
         code_section_description: code_section_description,
         severity: severity,
         code: code,
         section: section,
-        disposition: disposition
+        disposition: Disposition.new(type: disposition_type, sentence: disposition_sentence)
       )
     end
 

@@ -1,7 +1,8 @@
 module RapSheetParser
   class UpdateBuilder
-    def initialize(node)
+    def initialize(node, logger:)
       @node = node
+      @logger = logger
     end
     
     def build
@@ -15,13 +16,7 @@ module RapSheetParser
     attr_reader :node
     
     def dispositions
-      node.dispositions.map do |d|
-        if d.disposition_type.is_a?(UpdateGrammar::PC1203Dismissed)
-          PC1203DismissedDisposition.new
-        elsif d.disposition_type.is_a?(UpdateGrammar::SentenceModified)
-          SentenceModifiedDisposition.new(sentence: ConvictionSentenceBuilder.new(d.sentence).build)
-        end
-      end
+      node.dispositions.map { |d| DispositionBuilder.new(d, logger: @logger).build }
     end
   end
 end
