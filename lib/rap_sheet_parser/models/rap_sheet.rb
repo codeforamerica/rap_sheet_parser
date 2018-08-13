@@ -1,10 +1,14 @@
 module RapSheetParser
   class RapSheet
-    attr_reader :events, :personal_info
+    attr_reader :cycles, :personal_info
 
-    def initialize(events:, personal_info:)
-      @events = events
+    def initialize(cycles:, personal_info:)
+      @cycles = cycles
       @personal_info = personal_info
+    end
+
+    def events
+      cycles.flat_map(&:events)
     end
 
     def convictions

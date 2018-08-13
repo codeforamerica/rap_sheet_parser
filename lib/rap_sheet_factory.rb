@@ -24,7 +24,8 @@ module RapSheetParser
     end
 
     def build_rap_sheet(events: [], personal_info: nil)
-      RapSheet.new(events: events, personal_info: personal_info)
+      cycles = events.map {|e| Cycle.new(events:[e])}
+      RapSheet.new(cycles: cycles, personal_info: personal_info)
     end
 
     def build_court_count(
