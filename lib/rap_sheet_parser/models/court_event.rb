@@ -1,17 +1,16 @@
 module RapSheetParser
   class CourtEvent
-    def initialize(cycle_events: [], date:, name_code:, pii:, courthouse:, counts:, updates:)
+    def initialize(cycle_events: [], date:, name_code:, case_number:, courthouse:, counts:, updates:)
       @cycle_events = cycle_events
       @courthouse = courthouse
-      @pii = pii
+      @case_number = case_number
       @date = date
       @counts = counts
       @updates = updates
       @name_code = name_code
     end
 
-    attr_reader :cycle_events, :date, :courthouse, :counts, :name_code
-    delegate :case_number, to: :pii
+    attr_reader :cycle_events, :date, :courthouse, :counts, :name_code, :case_number
 
     def convicted_counts
       counts.select { |count| count.disposition.type == 'convicted'}
@@ -68,7 +67,7 @@ module RapSheetParser
 
     private
 
-    attr_reader :updates, :pii
+    attr_reader :updates
 
     def event_outside_duration(e, duration)
       e.date < date or e.date > (date + duration)

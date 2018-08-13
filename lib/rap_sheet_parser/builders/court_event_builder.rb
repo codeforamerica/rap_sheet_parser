@@ -7,7 +7,7 @@ module RapSheetParser
         cycle_events: cycle_events,
         name_code: name_code,
         date: date,
-        pii: pii,
+        case_number: case_number,
         courthouse: courthouse,
         updates: updates,
         counts: counts
@@ -22,10 +22,8 @@ module RapSheetParser
       event_syntax_node.name.name_code.text_value
     end
 
-    def pii
-      ConvictionEventPII.new(
-        case_number: CaseNumberBuilder.new(event_syntax_node.case_number).build
-      )
+    def case_number
+      CaseNumberBuilder.new(event_syntax_node.case_number).build
     end
 
     def courthouse
