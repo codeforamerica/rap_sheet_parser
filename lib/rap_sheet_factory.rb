@@ -18,6 +18,15 @@ module RapSheetParser
         name_code: name_code
       )
     end
+    
+    def build_other_event(cycle_events: [], date: Date.today, counts: [], header:)
+      OtherEvent.new(
+        cycle_events: cycle_events,
+        date: date,
+        counts: counts,
+        header: header
+      )
+    end
 
     def build_arrest_event(cycle_events: [], date: Date.today, counts: [])
       ArrestEvent.new(cycle_events: cycle_events, date: date, counts: counts)

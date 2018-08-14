@@ -34,7 +34,7 @@ module RapSheetParser
     end
 
     def registration_events
-      filtered_events(RegistrationEvent)
+      other_events('registration')
     end
 
     def superstrikes
@@ -55,8 +55,8 @@ module RapSheetParser
 
     def registration_event_with_code(code)
       registration_events.
-        map(&:code_section).
-        any? { |code_section| code_section.start_with?(code) }
+        flat_map(&:counts).
+        any? { |count| count.code_section_starts_with([code]) }
     end
 
     def filtered_events(klass)
