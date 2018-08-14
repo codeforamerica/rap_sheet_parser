@@ -139,7 +139,7 @@ module RapSheetParser
         'CASC WALNUT CREEK' => 'CASC Walnut Creek',
         'CASC WEST COVINA' => 'CASC West Covina',
         'CASC WEST LA AIRPORT' => 'CASC West LA Airport',
-        'CASC WEST LOS ANGELES' => 'CASC West Long Angeles',
+        'CASC WEST LOS ANGELES' => 'CASC West Los Angeles',
         'CASC WESTMINSTER' => 'CASC Westminster',
         'CASC WILLITS' => 'CASC Willits',
         'CASC WOODLAND' => 'CASC Woodland',
