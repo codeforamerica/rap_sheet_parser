@@ -28,7 +28,7 @@ module RapSheetParser
     def code_section_description
       count.code_section_description.text_value.chomp if count.code_section_description
     end
-    
+
     def disposition
       return unless count.disposition.is_a? CountGrammar::Disposition
 
@@ -37,7 +37,7 @@ module RapSheetParser
 
     def severity
       return unless count.disposition.is_a? CountGrammar::Disposition
-      
+
       if count.disposition.disposition_type.is_a? CountGrammar::Convicted
         if count.disposition.severity
           count.disposition.severity.text_value[0]
@@ -50,9 +50,9 @@ module RapSheetParser
     end
 
     def section
-      if count.code_section
-        count.code_section.number.text_value.delete(' ').downcase.gsub(',', '.')
-      end
+      return unless count.code_section
+
+      count.code_section.section.text_value.delete(' ').downcase.gsub(',', '.')
     end
   end
 end

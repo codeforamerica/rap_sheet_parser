@@ -14,7 +14,7 @@ module RapSheetParser
 
         count = described_class.new.parse(text)
         expect(count.code_section.code.text_value).to eq 'PC'
-        expect(count.code_section.number.text_value).to eq '496'
+        expect(count.code_section.section.text_value).to eq '496'
         expect(count.code_section_description.text_value).to eq "RECEIVE/ETC KNOWN STOLEN PROPERTY\n"
 
         expect(count.disposition.disposition_type).to be_a CountGrammar::Convicted
@@ -33,7 +33,7 @@ module RapSheetParser
 
         count = described_class.new.parse(text)
         expect(count.code_section.code.text_value).to eq 'PC'
-        expect(count.code_section.number.text_value).to eq '496'
+        expect(count.code_section.section.text_value).to eq '496'
         expect(count.code_section_description.text_value).to eq "RECEIVE/ETC KNOWN STOLEN PROPERTY\n"
 
         expect(count.disposition.disposition_type).to be_a CountGrammar::Convicted
@@ -101,7 +101,7 @@ module RapSheetParser
         expect(count.disposition.disposition_type).to be_a CountGrammar::Convicted
 
         expect(count.code_section.code.text_value).to eq 'PC'
-        expect(count.code_section.number.text_value).to eq '484-487 (A)'
+        expect(count.code_section.section.text_value).to eq '484-487 (A)'
       end
 
       it 'parses when charge is in the comments but missing disposition' do
@@ -128,7 +128,7 @@ module RapSheetParser
         expect(count.charge_line).to be_a CountGrammar::SeeCommentForCharge
         expect(count.disposition.disposition_type).to be_a CountGrammar::Convicted
         expect(count.code_section.code.text_value).to eq 'PC'
-        expect(count.code_section.number.text_value).to eq '490,2'
+        expect(count.code_section.section.text_value).to eq '490,2'
       end
 
       it 'parses code section when sentencing line exists' do
@@ -143,7 +143,7 @@ module RapSheetParser
 
         count = described_class.new.parse(text)
         expect(count.code_section.code.text_value).to eq 'PC'
-        expect(count.code_section.number.text_value).to eq '496'
+        expect(count.code_section.section.text_value).to eq '496'
         expect(count.code_section_description.text_value).to eq "RECEIVE/ETC KNOWN STOLEN PROPERTY\n"
       end
 
@@ -251,7 +251,7 @@ module RapSheetParser
         expect(count.disposition.sentence.details[0].text_value).to eq 'FINE FNSS RSTN'
       end
 
-      it 'parses out punctuation around code section number' do
+      it 'parses out punctuation around code section' do
         text = <<~TEXT
             -496. PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
           *DISPO:CONVICTED
@@ -262,7 +262,7 @@ module RapSheetParser
 
         count = described_class.new.parse(text)
         expect(count.code_section.code.text_value).to eq 'PC'
-        expect(count.code_section.number.text_value).to eq '496'
+        expect(count.code_section.section.text_value).to eq '496'
         expect(count.code_section_description.text_value).to eq "RECEIVE/ETC KNOWN STOLEN PROPERTY\n"
       end
 

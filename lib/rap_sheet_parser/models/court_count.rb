@@ -72,12 +72,18 @@ module RapSheetParser
       SUPERSTRIKES.include? code_section
     end
 
-    def code_section_starts_with(codes)
+    def subsection_of?(codes)
       return false unless code_section
 
       codes.any? do |d|
-        code_section.start_with? d
+        strip_subsection(code_section) == strip_subsection(d) && code_section.start_with?(d)
       end
+    end
+    
+    private
+    
+    def strip_subsection(code_section)
+      code_section.split('(')[0]
     end
   end
 end

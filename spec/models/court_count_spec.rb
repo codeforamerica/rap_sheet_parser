@@ -19,7 +19,7 @@ RSpec.describe RapSheetParser::CourtCount do
 
       expect(count.superstrike?).to eq false
     end
-    
+
     it 'returns false if code section is not associated with superstrikes' do
       count = build_court_count(code: 'PC', section: '11359')
 
@@ -27,17 +27,29 @@ RSpec.describe RapSheetParser::CourtCount do
     end
   end
 
-  describe '#code_section_starts_with' do
-    it 'returns true if the count code section starts with specified codes' do
+  describe '#subsection_of?' do
+    it 'returns true if code sections the same' do
       count = build_court_count(code: 'PC', section: '11359(a)')
 
-      expect(count.code_section_starts_with(['PC 11359'])).to eq true
+      expect(count.subsection_of?(['PC 11359'])).to eq true
+    end
+
+    it 'returns true if code sections and specified subsection same' do
+      count = build_court_count(code: 'PC', section: '11359(a)(b)')
+
+      expect(count.subsection_of?(['PC 11359(a)'])).to eq true
     end
 
     it 'returns false if no code section' do
       count = build_court_count(code: nil, section: nil)
 
-      expect(count.code_section_starts_with(['PC 11359'])).to eq false
+      expect(count.subsection_of?(['PC 11359'])).to eq false
+    end
+
+    it 'returns false for codes with different sections' do
+      count = build_court_count(code: 'PC', section: '11359')
+
+      expect(count.subsection_of?(['PC 1135'])).to eq false
     end
   end
 end

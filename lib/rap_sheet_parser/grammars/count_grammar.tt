@@ -29,10 +29,10 @@ module RapSheetParser
     end
 
     rule code_section
-       number stray_punctuation code
+       section stray_punctuation code
     end
 
-    rule number
+    rule section
       (!code !dispo_header !(stray_punctuation &code) .)*
     end
 
