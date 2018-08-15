@@ -50,6 +50,19 @@ module RapSheetParser
         expect(count.arrest_by.text_value).to eq "ARR BY: CAPD MOUNTAIN VIEW\n"
       end
 
+      it 'does not include warrant number in charge description' do
+        text = <<~TEXT
+          496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
+            WARRANT #ABCD
+        TEXT
+
+        count = described_class.new.parse(text)
+        expect(count.code_section.code.text_value).to eq 'PC'
+        expect(count.code_section.section.text_value).to eq '496'
+        expect(count.code_section_description.text_value).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
+        expect(count.warrant_number.text_value).to eq "WARRANT #ABCD\n"
+      end
+
       it 'handles stray characters and whitespace in the disposition line' do
         text = <<~TEXT
           496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
