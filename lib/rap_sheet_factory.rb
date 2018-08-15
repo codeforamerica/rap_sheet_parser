@@ -28,8 +28,8 @@ module RapSheetParser
       )
     end
 
-    def build_arrest_event(cycle_events: [], date: Date.today, counts: [])
-      ArrestEvent.new(cycle_events: cycle_events, date: date, counts: counts)
+    def build_arrest_event(cycle_events: [], date: Date.today, counts: [], agency: 'CAPD SAN FRANCISCO')
+      ArrestEvent.new(cycle_events: cycle_events, date: date, counts: counts, agency: agency)
     end
 
     def build_rap_sheet(events: [], personal_info: nil)

@@ -22,7 +22,7 @@ module RapSheetParser
     describe '#successfully_completed_probation?' do
       it 'returns false if any arrests within probation period' do
         conviction_event = build_court_event(date: Date.new(1994, 1, 2))
-        arrest_event = ArrestEvent.new(date: Date.new(1994, 6, 2), counts: [])
+        arrest_event = build_arrest_event(date: Date.new(1994, 6, 2))
         rap_sheet = build_rap_sheet(events: [conviction_event, arrest_event])
 
         expect(conviction_event.successfully_completed_duration?(rap_sheet, 1.year)).to eq false
@@ -46,7 +46,7 @@ module RapSheetParser
 
       it 'skips events without dates' do
         conviction_event = build_court_event(date: Date.new(1994, 1, 2))
-        arrest_no_date_event = ArrestEvent.new(date: nil, counts: [])
+        arrest_no_date_event = build_arrest_event(date: nil)
         rap_sheet = build_rap_sheet(events: [conviction_event, arrest_no_date_event])
 
         expect(conviction_event.successfully_completed_duration?(rap_sheet, 1.year)).to eq true
@@ -54,7 +54,7 @@ module RapSheetParser
 
       it 'returns nil if event does not have a date' do
         conviction_event = build_court_event(date: nil)
-        arrest_no_date_event = ArrestEvent.new(date: nil, counts: [])
+        arrest_no_date_event = build_arrest_event(date: nil)
         events = build_rap_sheet(events: [conviction_event, arrest_no_date_event]).events
 
         expect(conviction_event.successfully_completed_duration?(events, 1.year)).to be_nil

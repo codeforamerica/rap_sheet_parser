@@ -51,10 +51,10 @@ module RapSheetParser
 
         it 'parses other disposition types' do
           text = <<~TEXT
-          COURT: NAM:01 19960718 CASC SAN FRANCISCO CO
-          CNT:01     #164789
-          11360(A) HS-SELL/FURNISH/ETC MARIJUANA/HASH
-          DISPO: CLARIFICATION REQUESTED
+            COURT: NAM:01 19960718 CASC SAN FRANCISCO CO
+            CNT:01     #164789
+            11360(A) HS-SELL/FURNISH/ETC MARIJUANA/HASH
+            DISPO: CLARIFICATION REQUESTED
           TEXT
 
           tree = parse(text)
@@ -242,6 +242,23 @@ module RapSheetParser
       context 'parsing an arrest event' do
         it 'parses' do
           text = <<~TEXT
+            ARR/DET/CITE: NAM:001  DOB:19750405
+            19910105 CAPD CONCORD
+            TOC:F
+            CNT:001
+            #65131
+            496.1 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
+          TEXT
+
+          subject = parse(text)
+          expect(subject.event_identifier).to be_a(EventGrammar::ArrestEventIdentifier)
+          expect(subject.dob.text_value).to eq 'DOB:19750405'
+          expect(subject.date.text_value).to eq '19910105'
+          expect(subject.courthouse.text_value).to eq 'CAPD CONCORD'
+        end
+
+        it 'parses with a missing date of birth' do
+          text = <<~TEXT
             ARR/DET/CITE:
             NAM:001
             19910105 CAPD CONCORD
@@ -376,6 +393,7 @@ module RapSheetParser
         end
       end
     end
+
     def parse(text)
       described_class.new.parse(text)
     end

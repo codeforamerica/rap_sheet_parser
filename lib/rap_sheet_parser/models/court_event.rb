@@ -13,7 +13,11 @@ module RapSheetParser
     attr_reader :cycle_events, :date, :courthouse, :counts, :name_code, :case_number
 
     def convicted_counts
-      counts.select { |count| count.disposition.type == 'convicted'}
+      counts.select { |count| count.disposition.type == 'convicted' }
+    end
+
+    def agency
+      courthouse
     end
 
     def conviction?

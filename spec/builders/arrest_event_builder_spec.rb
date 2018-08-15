@@ -23,6 +23,7 @@ module RapSheetParser
 
       expect(subject).to be_a ArrestEvent
       expect(subject.date).to eq Date.new(1991, 1, 5)
+      expect(subject.agency).to eq 'CAPD CONCORD'
     end
   end
 end
