@@ -40,5 +40,9 @@ module RapSheetParser
       event_syntax_node.date.text_value.
         gsub('.', '')
     end
+
+    def agency
+      event_syntax_node.courthouse.text_value
+    end
   end
 end

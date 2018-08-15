@@ -19,17 +19,18 @@ module RapSheetParser
       )
     end
     
-    def build_other_event(cycle_events: [], date: Date.today, counts: [], header:)
+    def build_other_event(cycle_events: [], date: Date.today, counts: [], header:, agency: 'CAPD SAN FRANCISCO')
       OtherEvent.new(
         cycle_events: cycle_events,
         date: date,
         counts: counts,
-        header: header
+        header: header,
+        agency: agency
       )
     end
 
-    def build_arrest_event(cycle_events: [], date: Date.today, counts: [], agency: 'CAPD SAN FRANCISCO')
-      ArrestEvent.new(cycle_events: cycle_events, date: date, counts: counts, agency: agency)
+    def build_arrest_event(**params)
+      build_other_event(params.merge(header: 'arrest'))
     end
 
     def build_rap_sheet(events: [], personal_info: nil)

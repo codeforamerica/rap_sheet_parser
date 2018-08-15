@@ -47,8 +47,6 @@ module RapSheetParser
 
       if event_identifier.is_a? EventGrammar::CourtEventIdentifier
         CourtEventBuilder
-      elsif event_identifier.is_a? EventGrammar::ArrestEventIdentifier
-        ArrestEventBuilder
       elsif event_identifier.is_a? EventGrammar::RegistrationEventIdentifier
         RegistrationEventBuilder
       else

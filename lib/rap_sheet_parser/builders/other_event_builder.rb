@@ -7,7 +7,8 @@ module RapSheetParser
         cycle_events: cycle_events,
         date: date,
         counts: counts,
-        header: header
+        header: header,
+        agency: agency
       )
     end
 

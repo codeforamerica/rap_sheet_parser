@@ -30,7 +30,7 @@ module RapSheetParser
 
       it 'returns false if any custody events within probation period' do
         conviction_event = build_court_event(date: Date.new(1994, 1, 2))
-        custody_event = OtherEvent.new(date: Date.new(1994, 6, 2), counts: [], header: 'custody')
+        custody_event = build_other_event(date: Date.new(1994, 6, 2), counts: [], header: 'custody')
         rap_sheet = build_rap_sheet(events: [conviction_event, custody_event])
 
         expect(conviction_event.successfully_completed_duration?(rap_sheet, 1.year)).to eq false
@@ -38,7 +38,7 @@ module RapSheetParser
 
       it 'returns false if any probation events within probation period' do
         conviction_event = build_court_event(date: Date.new(1994, 1, 2))
-        probation_event = OtherEvent.new(date: Date.new(1994, 6, 2), counts: [], header: 'probation')
+        probation_event = build_other_event(date: Date.new(1994, 6, 2), counts: [], header: 'probation')
         rap_sheet = build_rap_sheet(events: [conviction_event, probation_event])
 
         expect(conviction_event.successfully_completed_duration?(rap_sheet, 1.year)).to eq false

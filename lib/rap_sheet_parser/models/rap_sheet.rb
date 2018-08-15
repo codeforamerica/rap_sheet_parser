@@ -16,7 +16,7 @@ module RapSheetParser
     end
 
     def arrests
-      filtered_events(ArrestEvent)
+      other_events('arrest')
     end
 
     def custody_events
