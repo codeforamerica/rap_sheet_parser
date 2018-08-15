@@ -41,7 +41,7 @@ module RapSheetParser
           expect(count_1.disposition.disposition_type).to be_a CountGrammar::Convicted
           expect(count_1.code_section.code.text_value).to eq 'PC'
           expect(count_1.code_section.section.text_value).to eq '496'
-          expect(count_1.code_section_description.text_value).to eq "RECEIVE/ETC KNOWN STOLEN PROPERTY\n"
+          expect(count_1.code_section_description.text_value).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
 
           count_2 = tree.counts[1]
           expect(count_2.disposition.disposition_type).to be_a CountGrammar::Dismissed

@@ -3,7 +3,7 @@ module RapSheetParser
     include CommonGrammar
 
     rule count
-      sentencing_line? w charge_line wn toc? wn disposition extra_count_info <Count>
+      sentencing_line? w charge_line wn toc? wn comments wn disposition extra_count_info <Count>
     end
 
     rule sentencing_line
@@ -25,7 +25,7 @@ module RapSheetParser
     end
 
     rule code_section_description
-      (!dispo_header .)*
+      (!(wn (dispo_header / comment_tag)) .)*
     end
 
     rule code_section
@@ -69,6 +69,10 @@ module RapSheetParser
 
     rule comment_charge_line
       stray_punctuation comment_tag (!'CHRG' !N .)* 'CHRG' '-'? w code_section to_eol <CommentChargeLine>
+    end
+
+    rule comments
+      (stray_punctuation comment_tag to_eol)*
     end
 
     rule comment_sentence_line

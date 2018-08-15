@@ -15,13 +15,26 @@ module RapSheetParser
         count = described_class.new.parse(text)
         expect(count.code_section.code.text_value).to eq 'PC'
         expect(count.code_section.section.text_value).to eq '496'
-        expect(count.code_section_description.text_value).to eq "RECEIVE/ETC KNOWN STOLEN PROPERTY\n"
+        expect(count.code_section_description.text_value).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
 
         expect(count.disposition.disposition_type).to be_a CountGrammar::Convicted
         expect(count.disposition.severity.text_value).to eq 'MISDEMEANOR'
         expect(count.disposition.sentence.text_value).to eq '012 MONTHS PROBATION, 045 DAYS JAIL'
         expect(count.disposition.sentence.probation.text_value).to eq '012 MONTHS PROBATION'
         expect(count.disposition.sentence.jail.text_value).to eq '045 DAYS JAIL'
+      end
+
+      it 'does not include comments in charge description' do
+        text = <<~TEXT
+          496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
+            COM: SCN-WHO KNOWS
+        TEXT
+
+        count = described_class.new.parse(text)
+        expect(count.code_section.code.text_value).to eq 'PC'
+        expect(count.code_section.section.text_value).to eq '496'
+        expect(count.code_section_description.text_value).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
+        expect(count.comments[0].text_value).to eq "COM: SCN-WHO KNOWS\n"
       end
 
       it 'handles stray characters and whitespace in the disposition line' do
@@ -34,7 +47,7 @@ module RapSheetParser
         count = described_class.new.parse(text)
         expect(count.code_section.code.text_value).to eq 'PC'
         expect(count.code_section.section.text_value).to eq '496'
-        expect(count.code_section_description.text_value).to eq "RECEIVE/ETC KNOWN STOLEN PROPERTY\n"
+        expect(count.code_section_description.text_value).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
 
         expect(count.disposition.disposition_type).to be_a CountGrammar::Convicted
         expect(count.disposition.severity.text_value).to eq 'MISDEMEANOR'
@@ -106,7 +119,7 @@ module RapSheetParser
 
       it 'parses when charge is in the comments but missing disposition' do
         text = <<~TEXT
-           SEE COMMENT FOR CHARGE
+          SEE COMMENT FOR CHARGE
         TEXT
 
         count = described_class.new.parse(text)
@@ -144,7 +157,7 @@ module RapSheetParser
         count = described_class.new.parse(text)
         expect(count.code_section.code.text_value).to eq 'PC'
         expect(count.code_section.section.text_value).to eq '496'
-        expect(count.code_section_description.text_value).to eq "RECEIVE/ETC KNOWN STOLEN PROPERTY\n"
+        expect(count.code_section_description.text_value).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
       end
 
       it 'parses multiple line sentences where the sentence is last' do
@@ -263,7 +276,7 @@ module RapSheetParser
         count = described_class.new.parse(text)
         expect(count.code_section.code.text_value).to eq 'PC'
         expect(count.code_section.section.text_value).to eq '496'
-        expect(count.code_section_description.text_value).to eq "RECEIVE/ETC KNOWN STOLEN PROPERTY\n"
+        expect(count.code_section_description.text_value).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
       end
 
       it 'ignores "TRAFFIC VIOLATION" when looking for conviction codes' do
@@ -278,17 +291,6 @@ module RapSheetParser
         count = described_class.new.parse(text)
         expect(count.code_section).to be_nil
       end
-      
-      # it 'parses dismissed' do
-      #   text = <<~TEXT
-      #     123 PC-BAD STUFF
-      #     *DISPO:DISMISSED
-      #     MORE INFO ABOUT THIS COUNT
-      #   TEXT
-      # 
-      #   count = described_class.new.parse(text)
-      #   expect(count.disposition.disposition_type).to be_a CountGrammar::Dismissed
-      # end
     end
   end
 end
