@@ -11,7 +11,7 @@ module RapSheetParser
     end
 
     rule found_personal_info
-      date_of_birth (!sex .)* sex (!'NAM/' .)* name_lines (!cycle_delimiter .)* <PersonalInfo>
+      date_of_birth (!sex .)* sex (!race .)* race (!'NAM/' .)* name_lines (!cycle_delimiter .)* <PersonalInfo>
     end
 
     rule unknown_personal_info
@@ -24,6 +24,10 @@ module RapSheetParser
 
     rule sex
       'SEX/' .
+    end
+
+    rule race
+      'RAC/' to_eol
     end
 
     rule name_lines

@@ -29,6 +29,7 @@ module RapSheetParser
           expect(subject.personal_info.names[0].text_value).to eq '01 LAST, FIRST'
           expect(subject.personal_info.names[1].text_value).to eq '02 NAME, BOB'
           expect(subject.personal_info.date_of_birth.date.text_value).to eq '19681122'
+          expect(subject.personal_info.race.text_value).to eq "RAC/WHITE\n"
         end
       end
 
