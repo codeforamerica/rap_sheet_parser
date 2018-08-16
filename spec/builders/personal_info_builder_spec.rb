@@ -9,6 +9,7 @@ module RapSheetParser
           DOB/19890102
           blah blah
           SEX/F RAC/WOOKIE
+
           blah blah
           NAM/01 BACCA, CHEW
               02 BACCA, CHEW E.

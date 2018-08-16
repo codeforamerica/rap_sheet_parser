@@ -19,7 +19,7 @@ module RapSheetParser
     end
 
     def race
-      personal_info_node.race.text_value.split('RAC/')[1].chomp
+      personal_info_node.race.text_value.split('RAC/')[1].chomp('')
     end
 
     def names
