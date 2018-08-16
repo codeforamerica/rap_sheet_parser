@@ -7,7 +7,7 @@ module RapSheetParser
     def build
       return if personal_info_node.is_a? Unknown
       
-      PersonalInfo.new(sex: sex, names: names)
+      PersonalInfo.new(sex: sex, names: names, date_of_birth: date_of_birth)
     end
 
     private
@@ -24,6 +24,10 @@ module RapSheetParser
         names[n.name_code.text_value] = n.name_value.text_value
       end
       names
+    end
+
+    def date_of_birth
+      DateBuilder.new(personal_info_node.date_of_birth.date).build
     end
   end
 end

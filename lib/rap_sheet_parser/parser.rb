@@ -13,6 +13,7 @@ require 'rap_sheet_parser/models/disposition'
 require 'rap_sheet_parser/models/personal_info'
 require 'rap_sheet_parser/models/cycle'
 
+require 'rap_sheet_parser/builders/date_builder'
 require 'rap_sheet_parser/builders/case_number_builder'
 require 'rap_sheet_parser/builders/court_count_builder'
 require 'rap_sheet_parser/builders/event_builder'

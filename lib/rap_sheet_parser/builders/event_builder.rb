@@ -31,14 +31,7 @@ module RapSheetParser
     end
 
     def date
-      Date.strptime(date_string, '%Y%m%d')
-    rescue ArgumentError
-      nil
-    end
-
-    def date_string
-      event_syntax_node.date.text_value.
-        gsub('.', '')
+      DateBuilder.new(event_syntax_node.date).build
     end
 
     def agency

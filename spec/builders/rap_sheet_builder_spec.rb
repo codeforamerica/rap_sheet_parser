@@ -6,6 +6,7 @@ module RapSheetParser
       it 'returns arrest, custody, and court events with convictions' do
         text = <<~TEXT
           blah blah
+          DOB/19911010
           SEX/M
           NAM/01 BACCA, CHEW
               02 BACCA, CHEW E.
@@ -86,6 +87,7 @@ module RapSheetParser
 
         expect(rap_sheet.arrests[0].date).to eq Date.new(1991, 1, 5)
         expect(rap_sheet.personal_info.sex).to eq 'M'
+        expect(rap_sheet.personal_info.date_of_birth).to eq Date.new(1991, 10, 10)
         expect(rap_sheet.personal_info.names['01']).to eq 'BACCA, CHEW'
         expect(rap_sheet.personal_info.names['02']).to eq 'BACCA, CHEW E.'
         expect(rap_sheet.personal_info.names['03']).to eq 'WOOKIE, CHEWBACCA'

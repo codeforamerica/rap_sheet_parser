@@ -11,11 +11,15 @@ module RapSheetParser
     end
 
     rule found_personal_info
-      (!sex .)* sex (!'NAM/' .)* name_lines (!cycle_delimiter .)* <PersonalInfo>
+      date_of_birth (!sex .)* sex (!'NAM/' .)* name_lines (!cycle_delimiter .)* <PersonalInfo>
     end
 
     rule unknown_personal_info
       (!cycle_delimiter .)* <Unknown>
+    end
+
+    rule date_of_birth
+      ((!'DOB/' .)* 'DOB/' w date)?
     end
 
     rule sex
