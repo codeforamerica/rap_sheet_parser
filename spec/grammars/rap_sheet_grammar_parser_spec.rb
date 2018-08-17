@@ -8,6 +8,7 @@ module RapSheetParser
       context 'parsing personal info' do
         let(:text) {
           <<~TEXT
+            bla bla
             CII/A01234557
             DOB/19681122    SEX/M  RAC/WHITE
             HGT/511  WGT/265  EYE/BLU  HAI/BRO  POB/CA
@@ -25,12 +26,12 @@ module RapSheetParser
 
         it 'parses values in personal info' do
           expect(subject.personal_info).to be_a(RapSheetGrammar::PersonalInfo)
-          expect(subject.personal_info.sex.text_value).to eq 'SEX/M'
-          expect(subject.personal_info.cii.text_value).to eq 'CII/A01234557'
+          expect(subject.personal_info.sex.sex_value.text_value).to eq 'M'
+          expect(subject.personal_info.cii.cii_value.text_value).to eq 'A01234557'
           expect(subject.personal_info.names[0].text_value).to eq '01 LAST, FIRST'
           expect(subject.personal_info.names[1].text_value).to eq '02 NAME, BOB'
           expect(subject.personal_info.date_of_birth.date.text_value).to eq '19681122'
-          expect(subject.personal_info.race.text_value).to eq "RAC/WHITE\n"
+          expect(subject.personal_info.race.race_value.text_value).to eq "WHITE\n"
         end
       end
 

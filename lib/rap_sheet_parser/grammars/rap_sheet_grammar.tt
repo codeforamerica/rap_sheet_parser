@@ -11,7 +11,7 @@ module RapSheetParser
     end
 
     rule found_personal_info
-      (!cii .)* cii date_of_birth (!sex .)* sex (!race .)* race (!'NAM/' .)* name_lines (!cycle_delimiter .)* <PersonalInfo>
+      cii date_of_birth sex race name_lines (!cycle_delimiter .)* <PersonalInfo>
     end
 
     rule unknown_personal_info
@@ -23,19 +23,31 @@ module RapSheetParser
     end
 
     rule sex
-      'SEX/' .
+      ((!'SEX/' .)* 'SEX/' sex_value)?
+    end
+
+    rule sex_value
+      .
     end
 
     rule race
-      'RAC/' to_eol
+     ((!'RAC/' .)* 'RAC/' race_value)?
+    end
+
+    rule race_value
+     to_eol
     end
 
     rule cii
-      "CII/" [AHM] [0-9] 8..8
+      ((!'CII/' .)* 'CII/' cii_value)?
+    end
+
+    rule cii_value
+      [AHM] [0-9] 8..8
     end
 
     rule name_lines
-      "NAM/" name (N name)*
+      (!'NAM/' .)* "NAM/" name (N name)*
     end
 
     rule name

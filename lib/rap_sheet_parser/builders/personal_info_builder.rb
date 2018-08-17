@@ -21,15 +21,21 @@ module RapSheetParser
     attr_reader :personal_info_node
 
     def sex
-      personal_info_node.sex.text_value.slice(4)
+      if(personal_info_node.sex.respond_to? :sex_value)
+        personal_info_node.sex.sex_value.text_value
+      end
     end
 
     def cii
-      personal_info_node.cii.text_value.split('CII/')[1]
+      if(personal_info_node.cii.respond_to? :cii_value)
+        personal_info_node.cii.cii_value.text_value
+      end
     end
 
     def race
-      personal_info_node.race.text_value.split('RAC/')[1].chomp('')
+      if(personal_info_node.race.respond_to? :race_value)
+        personal_info_node.race.race_value.text_value.chomp('')
+      end
     end
 
     def names
@@ -41,7 +47,9 @@ module RapSheetParser
     end
 
     def date_of_birth
-      DateBuilder.new(personal_info_node.date_of_birth.date).build
+      if(personal_info_node.date_of_birth.respond_to? :date)
+        DateBuilder.new(personal_info_node.date_of_birth.date).build
+      end
     end
   end
 end

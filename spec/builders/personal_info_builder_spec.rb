@@ -35,10 +35,7 @@ module RapSheetParser
       it 'handles multi-word race values' do
         text = <<~TEXT
           blah blah
-          CII/A12345678
-          DOB/19890102
-          blah blah
-          SEX/F RAC/AMERICAN INDIAN
+          RAC/AMERICAN INDIAN
           blah blah
           NAM/01 BACCA, CHEW
           * * * *
@@ -50,6 +47,24 @@ module RapSheetParser
 
         personal_info = described_class.new(tree.personal_info).build
         expect(personal_info.race).to eq 'AMERICAN INDIAN'
+      end
+
+      it 'handles missing fields in personal info' do
+        text = <<~TEXT
+          blah blah
+          NAM/01 BACCA, CHEW
+          * * * *
+          cycle text
+          * * * END OF MESSAGE * * *
+        TEXT
+
+        tree = RapSheetGrammarParser.new.parse(text)
+
+        personal_info = described_class.new(tree.personal_info).build
+        expect(personal_info.race).to be_nil
+        expect(personal_info.cii).to be_nil
+        expect(personal_info.sex).to be_nil
+        expect(personal_info.date_of_birth).to be_nil
       end
 
       it 'returns an empty PersonalInfo if not found' do
