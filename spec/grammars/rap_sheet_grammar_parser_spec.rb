@@ -26,6 +26,7 @@ module RapSheetParser
         it 'parses values in personal info' do
           expect(subject.personal_info).to be_a(RapSheetGrammar::PersonalInfo)
           expect(subject.personal_info.sex.text_value).to eq 'SEX/M'
+          expect(subject.personal_info.cii.text_value).to eq 'CII/A01234557'
           expect(subject.personal_info.names[0].text_value).to eq '01 LAST, FIRST'
           expect(subject.personal_info.names[1].text_value).to eq '02 NAME, BOB'
           expect(subject.personal_info.date_of_birth.date.text_value).to eq '19681122'

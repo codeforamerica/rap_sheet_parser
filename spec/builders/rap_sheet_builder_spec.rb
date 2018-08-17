@@ -6,6 +6,7 @@ module RapSheetParser
       it 'returns arrest, custody, and court events with convictions' do
         text = <<~TEXT
           blah blah
+          CII/A12345678
           DOB/19911010    SEX/M   RAC/WOOKIE
           NAM/01 BACCA, CHEW
               02 BACCA, CHEW E.
@@ -91,6 +92,7 @@ module RapSheetParser
         expect(rap_sheet.personal_info.names['02']).to eq 'BACCA, CHEW E.'
         expect(rap_sheet.personal_info.names['03']).to eq 'WOOKIE, CHEWBACCA'
         expect(rap_sheet.personal_info.race).to eq 'WOOKIE'
+        expect(rap_sheet.personal_info.cii).to eq 'A12345678'
 
         verify_event_looks_like(rap_sheet.convictions[0], {
           name_code: nil,

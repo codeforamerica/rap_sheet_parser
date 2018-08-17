@@ -6,6 +6,7 @@ module RapSheetParser
       it 'populates PersonalInfo' do
         text = <<~TEXT
           blah blah
+          CII/A12345678
           DOB/19890102
           blah blah
           SEX/F RAC/WOOKIE
@@ -28,11 +29,13 @@ module RapSheetParser
         expect(personal_info.names['01']).to eq 'BACCA, CHEW'
         expect(personal_info.names['02']).to eq 'BACCA, CHEW E.'
         expect(personal_info.names['03']).to eq 'WOOKIE, CHEWBACCA'
+        expect(personal_info.cii).to eq 'A12345678'
       end
 
       it 'handles multi-word race values' do
         text = <<~TEXT
           blah blah
+          CII/A12345678
           DOB/19890102
           blah blah
           SEX/F RAC/AMERICAN INDIAN

@@ -7,7 +7,13 @@ module RapSheetParser
     def build
       return if personal_info_node.is_a? Unknown
       
-      PersonalInfo.new(sex: sex, names: names, date_of_birth: date_of_birth, race: race)
+      PersonalInfo.new(
+        cii: cii,
+        sex: sex,
+        names: names,
+        date_of_birth: date_of_birth,
+        race: race
+      )
     end
 
     private
@@ -16,6 +22,10 @@ module RapSheetParser
 
     def sex
       personal_info_node.sex.text_value.slice(4)
+    end
+
+    def cii
+      personal_info_node.cii.text_value.split('CII/')[1]
     end
 
     def race
