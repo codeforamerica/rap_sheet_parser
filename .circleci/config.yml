@@ -30,11 +30,11 @@ jobs:
 
     - run:
         name: Run rake
-        command: bin/rake
+        command: rake
 
     - run:
         name: Run integration
-        command: bin/rspec spec/integration_spec.rb --tag integration
+        command: rspec spec/integration_spec.rb --tag integration
 
     # Save artifacts
     - store_test_results:
