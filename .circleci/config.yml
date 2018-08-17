@@ -1,0 +1,41 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/rap-sheet-parser
+
+    # Primary container image where all commands run
+
+    docker:
+    - image: circleci/ruby:2.5.1
+
+    steps:
+    - checkout
+
+    # Restore bundle cache
+    - restore_cache:
+        keys:
+        - rap-sheet-parser-{{ checksum "Gemfile.lock" }}
+        - rap-sheet-parser-
+
+    # Bundle install dependencies
+    - run:
+        name: Install dependencies
+        command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs 4 --retry 3
+
+    # Store bundle cache
+    - save_cache:
+        key: rap-sheet-parser-{{ checksum "Gemfile.lock" }}
+        paths:
+        - vendor/bundle
+
+    - run:
+        name: Run rake
+        command: bin/rake
+
+    - run:
+        name: Run integration
+        command: bin/rspec spec/integration_spec.rb --tag integration
+
+    # Save artifacts
+    - store_test_results:
+        path: /tmp/test-results
