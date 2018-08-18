@@ -4,7 +4,7 @@ require 'fog/local'
 RSpec.describe 'integration', integration: true do
   let(:directory) do
     connection = Fog::Storage.new(fog_params)
-    connection.directories.new(key: 'rap-sheet-test-data')
+    connection.directories.new(key: 'redacted-rap-sheets')
   end
 
   it 'parses without errors' do
