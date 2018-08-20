@@ -15,14 +15,10 @@ RSpec.describe 'integration', integration: true do
 
   def parse_rap_sheet(filename)
     text = directory.files.get(filename).body.force_encoding('utf-8')
-    RapSheetParser::Parser.new.parse(text, logger: logger)
+    RapSheetParser::Parser.new.parse(text)
   rescue
     puts "error in file #{filename}"
     raise
-  end
-
-  def logger
-    @logger ||= Logger.new($stdout)
   end
 
   def fog_params
