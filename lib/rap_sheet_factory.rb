@@ -44,14 +44,15 @@ module RapSheetParser
       section: '123',
       code_section_description: 'foo',
       disposition_type: 'convicted',
-      disposition_sentence: nil
+      disposition_sentence: nil,
+      disposition_text: ''
     )
       RapSheetParser::CourtCount.new(
         code_section_description: code_section_description,
         severity: severity,
         code: code,
         section: section,
-        disposition: Disposition.new(type: disposition_type, sentence: disposition_sentence)
+        disposition: Disposition.new(type: disposition_type, sentence: disposition_sentence, text: disposition_text)
       )
     end
 
