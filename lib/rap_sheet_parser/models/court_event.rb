@@ -20,6 +20,10 @@ module RapSheetParser
       courthouse
     end
 
+    def header
+      'court'
+    end
+
     def conviction?
       counts.any? { |count| count.disposition.type == 'convicted' }
     end
