@@ -53,17 +53,12 @@ module RapSheetParser
   class Parser
     def parse(text, logger: Logger.new("/dev/null"))
       cleaned_text = TextCleaner.clean(text)
-      tree = do_parsing(RapSheetGrammarParser.new, cleaned_text)
-      RapSheetBuilder.new(tree, logger: logger).build
-    end
+      parser = RapSheetGrammarParser.new
 
-    private
+      result = parser.parse(cleaned_text)
+      raise RapSheetParserException.new(parser, cleaned_text) unless result
 
-    def do_parsing(parser, text)
-      result = parser.parse(text)
-      raise RapSheetParserException.new(parser, text) unless result
-
-      result
+      RapSheetBuilder.new(result, logger: logger).build
     end
   end
 end

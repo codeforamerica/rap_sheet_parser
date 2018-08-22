@@ -3,7 +3,7 @@ require 'spec_helper'
 module RapSheetParser
   RSpec.describe RapSheetBuilder do
     describe '.build' do
-      it 'returns arrest, custody, and court events with convictions' do
+      it 'returns a rap sheet object from a treetop node' do
         text = <<~TEXT
           blah blah
           CII/A12345678
@@ -31,9 +31,15 @@ module RapSheetParser
           CNT:001
           #65131
           496.1 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
+          - - - -
+          SUPPLEMENTAL ARR:      NAM:01
+          20110124  CASO SAN FRANCISCO
+          
+          CNT:01     #024435345
+            32 PC-ACCESSORY
           - - - -        
           COURT:
-          19740102 CASC SAN PRANCISCU rm
+          19740102 CASC SAN FRANCISCO
 
           CNT: 001 #123
           DISPO:DISMISSED/FURTHERANCE OF JUSTICE
@@ -83,9 +89,10 @@ module RapSheetParser
           * * * END OF MESSAGE * * *
         TEXT
 
-        rap_sheet = RapSheetParser::Parser.new.parse(text)
+        warnings = StringIO.new
+        rap_sheet = RapSheetParser::Parser.new.parse(text, logger: Logger.new(warnings))
 
-        expect(rap_sheet.arrests[0].date).to eq Date.new(1991, 1, 5)
+        expect(rap_sheet.arrest_events[0].date).to eq Date.new(1991, 1, 5)
         expect(rap_sheet.personal_info.sex).to eq 'M'
         expect(rap_sheet.personal_info.date_of_birth).to eq Date.new(1991, 10, 10)
         expect(rap_sheet.personal_info.names['01']).to eq 'BACCA, CHEW'
@@ -147,6 +154,8 @@ module RapSheetParser
 
         expect(rap_sheet.applicant_events.length).to eq 1
         expect(rap_sheet.probation_events.length).to eq 1
+
+        expect(warnings.string).to be_empty
       end
 
       it 'populates cycle events for each event' do
@@ -180,7 +189,7 @@ module RapSheetParser
         rap_sheet = RapSheetParser::Parser.new.parse(text)
 
         expect(rap_sheet.events.length).to eq 3
-        expect(rap_sheet.arrests[0].cycle_events.length).to eq 3
+        expect(rap_sheet.arrest_events[0].cycle_events.length).to eq 3
       end
 
       context 'inferring probation violations' do

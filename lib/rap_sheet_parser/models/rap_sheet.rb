@@ -2,6 +2,12 @@ module RapSheetParser
   class RapSheet
     attr_reader :cycles, :personal_info
 
+    %w(arrest custody applicant probation registration supplemental_arrest).each do |type|
+      define_method("#{type}_events") do
+        filtered_events(OtherEvent).select {|event| event.header == type}
+      end
+    end
+
     def initialize(cycles:, personal_info:)
       @cycles = cycles
       @personal_info = personal_info
@@ -13,28 +19,6 @@ module RapSheetParser
 
     def convictions
       filtered_events(CourtEvent).select(&:conviction?)
-    end
-
-    def arrests
-      other_events('arrest')
-    end
-
-    def custody_events
-      filtered_events(OtherEvent).select do |event|
-        event.header == 'custody'
-      end
-    end
-
-    def applicant_events
-      other_events('applicant')
-    end
-
-    def probation_events
-      other_events('probation')
-    end
-
-    def registration_events
-      other_events('registration')
     end
 
     def superstrikes
@@ -61,10 +45,6 @@ module RapSheetParser
 
     def filtered_events(klass)
       events.select { |e| e.is_a? klass }
-    end
-
-    def other_events(header)
-      filtered_events(OtherEvent).select { |event| event.header == header }
     end
   end
 end

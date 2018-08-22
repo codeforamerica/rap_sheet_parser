@@ -15,7 +15,7 @@ module RapSheetParser
     private
 
     def header
-      event_syntax_node.event_identifier.class.name.demodulize.underscore.gsub('_event_identifier','')
+      event_syntax_node.event_identifier.class.name.demodulize.underscore.gsub('_event_identifier', '')
     end
   end
 end

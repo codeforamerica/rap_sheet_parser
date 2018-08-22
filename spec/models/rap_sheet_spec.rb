@@ -35,13 +35,13 @@ module RapSheetParser
       end
     end
 
-    describe '#arrests' do
+    describe '#arrest_events' do
       it 'returns arrests' do
         arrest = build_arrest_event
         custody = build_other_event(header: 'custody')
 
         rap_sheet = build_rap_sheet(events: [arrest, custody])
-        expect(rap_sheet.arrests[0]).to eq arrest
+        expect(rap_sheet.arrest_events[0]).to eq arrest
       end
     end
 

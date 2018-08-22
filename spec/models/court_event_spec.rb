@@ -19,7 +19,7 @@ module RapSheetParser
       end
     end
 
-    describe '#successfully_completed_probation?' do
+    describe '#successfully_completed_duration?' do
       it 'returns false if any arrests within probation period' do
         conviction_event = build_court_event(date: Date.new(1994, 1, 2))
         arrest_event = build_arrest_event(date: Date.new(1994, 6, 2))
@@ -40,6 +40,14 @@ module RapSheetParser
         conviction_event = build_court_event(date: Date.new(1994, 1, 2))
         probation_event = build_other_event(date: Date.new(1994, 6, 2), counts: [], header: 'probation')
         rap_sheet = build_rap_sheet(events: [conviction_event, probation_event])
+
+        expect(conviction_event.successfully_completed_duration?(rap_sheet, 1.year)).to eq false
+      end
+
+      it 'returns false if any supplemental arrest events within probation period' do
+        conviction_event = build_court_event(date: Date.new(1994, 1, 2))
+        supplemental_arrest_event = build_other_event(date: Date.new(1994, 6, 2), counts: [], header: 'supplemental_arrest')
+        rap_sheet = build_rap_sheet(events: [conviction_event, supplemental_arrest_event])
 
         expect(conviction_event.successfully_completed_duration?(rap_sheet, 1.year)).to eq false
       end

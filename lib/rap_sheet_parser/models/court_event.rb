@@ -31,7 +31,7 @@ module RapSheetParser
     def successfully_completed_duration?(rap_sheet, duration)
       return nil if date.nil?
 
-      events_with_dates = (rap_sheet.arrests + rap_sheet.custody_events + rap_sheet.probation_events).reject do |e|
+      events_with_dates = (rap_sheet.arrest_events + rap_sheet.custody_events + rap_sheet.probation_events + rap_sheet.supplemental_arrest_events).reject do |e|
         e.date.nil?
       end
 

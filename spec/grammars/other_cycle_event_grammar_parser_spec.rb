@@ -392,6 +392,23 @@ module RapSheetParser
           expect(subject.courthouse.text_value).to eq 'CAPR SAN FRANCISCO'
         end
       end
+
+      context 'parsing a supplemental arrest event' do
+        it 'parses' do
+          text = <<~TEXT
+            SUPPLEMENTAL ARR:      NAM:01
+            20110124  CASO SAN FRANCISCO
+            
+            CNT:01     #024435345
+              32 PC-ACCESSORY
+          TEXT
+
+          subject = parse(text)
+          expect(subject.event_identifier).to be_a(EventGrammar::SupplementalArrestEventIdentifier)
+          expect(subject.date.text_value).to eq '20110124'
+          expect(subject.courthouse.text_value).to eq 'CASO SAN FRANCISCO'
+        end
+      end
     end
 
     def parse(text)

@@ -39,6 +39,7 @@ module RapSheetParser
     rule event_identifier
       court_identifier /
       arrest_identifier /
+      supplemental_arrest_identifier /
       custody_identifier /
       applicant_identifier /
       probation_identifier
@@ -54,6 +55,10 @@ module RapSheetParser
 
     rule applicant_identifier
       'APPLICANT' w ':' <EventGrammar::ApplicantEventIdentifier>
+    end
+
+    rule supplemental_arrest_identifier
+      'SUPPLEMENTAL ARR' w ':' <EventGrammar::SupplementalArrestEventIdentifier>
     end
 
     rule arrest_identifier
