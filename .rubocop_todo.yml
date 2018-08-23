@@ -14,12 +14,6 @@ Gemspec/OrderedDependencies:
   Exclude:
     - 'rap_sheet_parser.gemspec'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Layout/ClosingParenthesisIndentation:
-  Exclude:
-    - 'lib/rap_sheet_parser/builders/disposition_builder.rb'
-
 # Offense count: 7
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
@@ -51,7 +45,6 @@ Layout/EmptyLinesAroundBlockBody:
 Layout/EmptyLinesAroundClassBody:
   Exclude:
     - 'lib/rap_sheet_parser/builders/cycle_builder.rb'
-    - 'lib/rap_sheet_parser/models/disposition.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
@@ -73,7 +66,6 @@ Layout/IndentHash:
 # SupportedStyles: auto_detection, squiggly, active_support, powerpack, unindent
 Layout/IndentHeredoc:
   Exclude:
-    - 'spec/builders/court_count_builder_spec.rb'
     - 'spec/grammars/rap_sheet_grammar_parser_spec.rb'
 
 # Offense count: 1
@@ -81,14 +73,6 @@ Layout/IndentHeredoc:
 Layout/LeadingBlankLines:
   Exclude:
     - 'rap_sheet_parser.gemspec'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: symmetrical, new_line, same_line
-Layout/MultilineMethodCallBraceLayout:
-  Exclude:
-    - 'lib/rap_sheet_parser/builders/disposition_builder.rb'
 
 # Offense count: 8
 # Cop supports --auto-correct.
@@ -99,12 +83,6 @@ Layout/MultilineMethodCallIndentation:
     - 'lib/rap_sheet_parser/builders/conviction_sentence_builder.rb'
     - 'lib/rap_sheet_parser/models/rap_sheet.rb'
     - 'lib/rap_sheet_parser/text_cleaner.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Layout/SpaceAfterColon:
-  Exclude:
-    - 'lib/rap_sheet_factory.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
@@ -146,7 +124,6 @@ Layout/SpaceAroundOperators:
 Layout/SpaceInsideBlockBraces:
   Exclude:
     - 'Gemfile'
-    - 'lib/rap_sheet_factory.rb'
     - 'lib/rap_sheet_parser/models/rap_sheet.rb'
     - 'lib/rap_sheet_parser/syntax_nodes/treetop_monkeypatches.rb'
 
@@ -168,14 +145,9 @@ Layout/TrailingBlankLines:
 # Configuration parameters: AllowInHeredoc.
 Layout/TrailingWhitespace:
   Exclude:
-    - 'lib/rap_sheet_factory.rb'
     - 'lib/rap_sheet_parser/builders/conviction_sentence_builder.rb'
     - 'lib/rap_sheet_parser/builders/personal_info_builder.rb'
-    - 'lib/rap_sheet_parser/builders/update_builder.rb'
     - 'spec/builders/case_number_builder_spec.rb'
-    - 'spec/builders/court_count_builder_spec.rb'
-    - 'spec/builders/court_event_builder_spec.rb'
-    - 'spec/builders/rap_sheet_builder_spec.rb'
     - 'spec/grammars/cycle_grammar_parser_spec.rb'
     - 'spec/grammars/other_cycle_event_grammar_parser_spec.rb'
     - 'spec/grammars/rap_sheet_grammar_parser_spec.rb'
@@ -190,11 +162,6 @@ Lint/ParenthesesAsGroupedExpression:
 Lint/ShadowingOuterLocalVariable:
   Exclude:
     - 'lib/rap_sheet_parser/syntax_nodes/treetop_monkeypatches.rb'
-
-# Offense count: 1
-Lint/UselessAssignment:
-  Exclude:
-    - 'spec/builders/rap_sheet_builder_spec.rb'
 
 # Offense count: 5
 Metrics/AbcSize:
@@ -234,14 +201,6 @@ Naming/UncommunicativeMethodParamName:
     - 'lib/rap_sheet_parser/models/court_event.rb'
     - 'lib/rap_sheet_parser/syntax_nodes/treetop_monkeypatches.rb'
 
-# Offense count: 6
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: snake_case, normalcase, non_integer
-Naming/VariableNumber:
-  Exclude:
-    - 'spec/grammars/other_cycle_event_grammar_parser_spec.rb'
-    - 'spec/models/rap_sheet_spec.rb'
-
 # Offense count: 3
 # Cop supports --auto-correct.
 Performance/RedundantBlockCall:
@@ -252,7 +211,6 @@ Performance/RedundantBlockCall:
 # Cop supports --auto-correct.
 Performance/StringReplacement:
   Exclude:
-    - 'lib/rap_sheet_parser/builders/court_count_builder.rb'
     - 'lib/rap_sheet_parser/builders/courthouse_builder.rb'
     - 'lib/rap_sheet_parser/builders/date_builder.rb'
 
@@ -282,16 +240,6 @@ Style/AndOr:
 Style/BlockDelimiters:
   Exclude:
     - 'spec/grammars/rap_sheet_grammar_parser_spec.rb'
-
-# Offense count: 14
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: braces, no_braces, context_dependent
-Style/BracesAroundHashParameters:
-  Exclude:
-    - 'spec/builders/court_event_builder_spec.rb'
-    - 'spec/builders/event_builder_spec.rb'
-    - 'spec/builders/rap_sheet_builder_spec.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
@@ -330,7 +278,6 @@ Style/FrozenStringLiteralComment:
 # Configuration parameters: MinBodyLength.
 Style/GuardClause:
   Exclude:
-    - 'lib/rap_sheet_parser/builders/court_count_builder.rb'
     - 'lib/rap_sheet_parser/builders/personal_info_builder.rb'
     - 'lib/rap_sheet_parser/syntax_nodes/count_syntax_nodes.rb'
 
@@ -346,8 +293,6 @@ Style/HashSyntax:
 # Cop supports --auto-correct.
 Style/IfUnlessModifier:
   Exclude:
-    - 'lib/rap_sheet_parser/builders/court_count_builder.rb'
-    - 'lib/rap_sheet_parser/builders/disposition_builder.rb'
     - 'lib/rap_sheet_parser/builders/personal_info_builder.rb'
     - 'lib/rap_sheet_parser/syntax_nodes/count_syntax_nodes.rb'
 
@@ -415,7 +360,6 @@ Style/RescueStandardError:
 # Whitelist: present?, blank?, presence, try, try!
 Style/SafeNavigation:
   Exclude:
-    - 'lib/rap_sheet_parser/builders/court_count_builder.rb'
     - 'lib/rap_sheet_parser/syntax_nodes/treetop_monkeypatches.rb'
 
 # Offense count: 49
@@ -433,7 +377,6 @@ Style/StringLiterals:
     - 'rap_sheet_parser.gemspec'
     - 'spec/grammars/other_cycle_event_grammar_parser_spec.rb'
     - 'spec/rap_sheet_parser_spec.rb'
-    - 'spec/spec_helper.rb'
 
 # Offense count: 10
 # Cop supports --auto-correct.
@@ -441,9 +384,6 @@ Style/StringLiterals:
 # SupportedStylesForMultiline: comma, consistent_comma, no_comma
 Style/TrailingCommaInHashLiteral:
   Exclude:
-    - 'spec/builders/court_event_builder_spec.rb'
-    - 'spec/builders/event_builder_spec.rb'
-    - 'spec/builders/rap_sheet_builder_spec.rb'
     - 'spec/integration_spec.rb'
 
 # Offense count: 3

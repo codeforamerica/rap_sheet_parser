@@ -1,12 +1,12 @@
-require "bundler/setup"
-require "rap_sheet_parser/parser"
+require 'bundler/setup'
+require 'rap_sheet_parser/parser'
 require 'rap_sheet_factory'
 
 RSpec.configure do |config|
   config.include RapSheetParser::RapSheetFactory
 
   # Enable flags like --only-failures and --next-failure
-  config.example_status_persistence_file_path = ".rspec_status"
+  config.example_status_persistence_file_path = '.rspec_status'
 
   # Disable RSpec exposing methods globally on `Module` and `main`
   config.disable_monkey_patching!
@@ -24,10 +24,10 @@ def verify_event_looks_like(event, name_code:, date:, case_number:, courthouse:,
   expect(event.sentence.to_s).to eq sentence
 end
 
-def verify_count_looks_like(count, code_section:, code_section_description:, severity:, disposition:, sentence:)
+def verify_count_looks_like(count, code_section:, code_section_description:, disposition:)
   expect(count.code_section).to eq code_section
   expect(count.code_section_description).to eq code_section_description
-  expect(count.severity).to eq severity
-  expect(count.disposition.type).to eq disposition
-  expect(count.disposition.sentence.to_s).to eq sentence
+  expect(count.disposition.severity).to eq disposition.severity
+  expect(count.disposition.type).to eq disposition.type
+  expect(count.disposition.sentence.to_s).to eq disposition.sentence
 end

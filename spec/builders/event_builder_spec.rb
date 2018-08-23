@@ -45,42 +45,36 @@ module RapSheetParser
       event_node = OtherCycleEventGrammarParser.new.parse(text)
       event = RapSheetParser::TestBuilder.new(event_node, logger: nil).build
 
-      verify_count_looks_like(event.counts[0], {
+      verify_count_looks_like(
+        event.counts[0],
         code_section: 'PC 455',
         code_section_description: 'ARMED ROBBERY',
-        severity: nil,
-        disposition: 'convicted',
-        sentence: '',
-      })
-
-      verify_count_looks_like(event.counts[1], {
+        disposition: build_disposition(severity: nil, type: 'convicted', sentence: '')
+      )
+      verify_count_looks_like(
+        event.counts[1],
         code_section: 'PC 420',
         code_section_description: 'BREAKING AND ENTERING',
-        severity: nil,
-        disposition: 'dismissed',
-        sentence: '',
-      })
-      verify_count_looks_like(event.counts[2], {
+        disposition: build_disposition(severity: nil, type: 'dismissed', sentence: '')
+      )
+      verify_count_looks_like(
+        event.counts[2],
         code_section: 'PC 4056',
         code_section_description: 'SECOND DESCRIPTION',
-        severity: nil,
-        disposition: 'convicted',
-        sentence: '',
-      })
-      verify_count_looks_like(event.counts[3], {
+        disposition: build_disposition(severity: nil, type: 'convicted', sentence: '')
+      )
+      verify_count_looks_like(
+        event.counts[3],
         code_section: 'PC 4056',
         code_section_description: 'SECOND DESCRIPTION',
-        severity: nil,
-        disposition: 'convicted',
-        sentence: '',
-      })
-      verify_count_looks_like(event.counts[4], {
+        disposition: build_disposition(severity: nil, type: 'convicted', sentence: '')
+      )
+      verify_count_looks_like(
+        event.counts[4],
         code_section: 'PC 4056',
         code_section_description: 'SECOND DESCRIPTION',
-        severity: nil,
-        disposition: 'convicted',
-        sentence: '',
-      })
+        disposition: build_disposition(severity: nil, type: 'convicted', sentence: '')
+      )
     end
 
     class TestBuilder

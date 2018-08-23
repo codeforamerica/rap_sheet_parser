@@ -38,28 +38,14 @@ module RapSheetParser
       'PC 11418(a)(1)'
     ].freeze
 
-    def initialize(code_section_description:, severity:, code:, section:, disposition:)
+    def initialize(code_section_description:, code:, section:, disposition:)
       @section = section
       @code = code
-      @severity = severity
       @code_section_description = code_section_description
       @disposition = disposition
     end
 
-    attr_reader :code_section_description, :severity, :code, :section, :disposition
-
-    def long_severity
-      case severity
-      when 'F'
-        'felony'
-      when 'M'
-        'misdemeanor'
-      when 'I'
-        'infraction'
-      else
-        'unknown'
-      end
-    end
+    attr_reader :code_section_description, :code, :section, :disposition
 
     def code_section
       return unless code && section

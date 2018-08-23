@@ -25,31 +25,30 @@ module RapSheetParser
 
         event = build(text)
 
-        verify_event_looks_like(event, {
+        verify_event_looks_like(
+          event,
           name_code: '002',
           date: Date.new(1982, 9, 15),
           case_number: '456',
           courthouse: 'CAMC Los Angeles Metro',
-          sentence: '',
-        })
+          sentence: ''
+        )
 
         expect(event.counts.length).to eq 2
 
-        verify_count_looks_like(event.counts[0], {
+        verify_count_looks_like(
+          event.counts[0],
           code_section: 'PC 123',
           code_section_description: 'BAD STUFF',
-          severity: nil,
-          disposition: 'dismissed',
-          sentence: '',
-        })
+          disposition: build_disposition(severity: nil, type: 'dismissed', sentence: '')
+        )
 
-        verify_count_looks_like(event.counts[1], {
+        verify_count_looks_like(
+          event.counts[1],
           code_section: 'PC 4056',
           code_section_description: 'BREAKING AND ENTERING',
-          severity: nil,
-          disposition: 'convicted',
-          sentence: '',
-        })
+          disposition: build_disposition(severity: nil, type: 'convicted', sentence: '')
+        )
       end
 
       it 'populates updates' do
@@ -64,7 +63,7 @@ module RapSheetParser
           *DISPO:CONVICTED
           MORE INFO ABOUT THIS COUNT
 
-           19990205 
+           19990205
             DISPO:CONV SET ASIDE & DISM PER 1203.4 PC
           * * * END OF MESSAGE * * *
         TEXT

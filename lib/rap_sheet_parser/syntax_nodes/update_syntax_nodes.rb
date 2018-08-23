@@ -14,6 +14,10 @@ module RapSheetParser
         end
       end
 
+      def severity
+        nil
+      end
+
       private
 
       def sentence_line

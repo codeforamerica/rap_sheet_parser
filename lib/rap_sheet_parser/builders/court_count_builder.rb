@@ -8,13 +8,10 @@ module RapSheetParser
     attr_reader :logger
 
     def build
-      if code_section_description.try(:match, /28[.,]5/)
-        logger.warn('Charge description includes "28.5"')
-      end
+      logger.warn('Charge description includes "28.5"') if code_section_description.try(:match, /28[.,]5/)
 
       CourtCount.new(
         code_section_description: code_section_description,
-        severity: severity,
         code: code,
         section: section,
         disposition: disposition
@@ -26,7 +23,9 @@ module RapSheetParser
     attr_reader :count
 
     def code_section_description
-      count.code_section_description.text_value.chomp if count.code_section_description
+      return unless count.code_section_description
+
+      count.code_section_description.text_value.chomp
     end
 
     def disposition
@@ -35,24 +34,16 @@ module RapSheetParser
       DispositionBuilder.new(count.disposition, logger: logger).build
     end
 
-    def severity
-      return unless count.disposition.is_a? CountGrammar::Disposition
-
-      if count.disposition.disposition_type.is_a? CountGrammar::Convicted
-        if count.disposition.severity
-          count.disposition.severity.text_value[0]
-        end
-      end
-    end
-
     def code
-      count.code_section.code.text_value if count.code_section
+      return unless count.code_section
+
+      count.code_section.code.text_value
     end
 
     def section
       return unless count.code_section
 
-      count.code_section.section.text_value.delete(' ').downcase.gsub(',', '.')
+      count.code_section.section.text_value.delete(' ').downcase.tr(',', '.')
     end
   end
 end

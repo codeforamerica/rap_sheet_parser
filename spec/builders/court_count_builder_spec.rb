@@ -28,7 +28,7 @@ module RapSheetParser
       subject = described_class.new(count_node, logger: logger).build
       expect(subject.code_section).to eq 'PC 496'
       expect(subject.code_section_description).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
-      expect(subject.severity).to eq 'M'
+      expect(subject.disposition.severity).to eq 'M'
       expect(subject.disposition.type).to eq 'convicted'
       expect(subject.disposition.sentence.to_s).to eq '12m probation, 45d jail'
       expect(log.string).to eq('')
@@ -52,7 +52,7 @@ module RapSheetParser
       subject = described_class.new(count_node, logger: logger).build
       expect(subject.code_section).to be_nil
       expect(subject.code_section_description).to be_nil
-      expect(subject.severity).to be_nil
+      expect(subject.disposition.severity).to be_nil
     end
 
     it 'strips whitespace out of the code section number and downcases letters' do
@@ -77,7 +77,7 @@ module RapSheetParser
       subject = described_class.new(count_node, logger: logger).build
       expect(subject.code_section).to eq 'PC 496(a)(2)'
       expect(subject.code_section_description).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
-      expect(subject.severity).to eq 'M'
+      expect(subject.disposition.severity).to eq 'M'
     end
 
     it 'replaces commas with periods in the code section number' do
@@ -101,7 +101,7 @@ module RapSheetParser
       subject = described_class.new(count_node, logger: logger).build
       expect(subject.code_section).to eq 'PC 496.3(a)(2)'
       expect(subject.code_section_description).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
-      expect(subject.severity).to eq 'M'
+      expect(subject.disposition.severity).to eq 'M'
     end
 
     context 'when the charge description contains 28.5' do
@@ -111,7 +111,7 @@ module RapSheetParser
           * * * *
           COURT:
           20040102  CASC SAN FRANCISCO CO
-  
+
           CNT: 001 #346477
             1136(A) HS-GIVE/ETC MARIJ OVER 1 OZ/#{quantity} GRM
           *DISPO:CONVICTED

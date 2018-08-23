@@ -18,7 +18,7 @@ module RapSheetParser
         name_code: name_code
       )
     end
-    
+
     def build_other_event(cycle_events: [], date: Date.today, counts: [], header:, agency: 'CAPD SAN FRANCISCO')
       OtherEvent.new(
         cycle_events: cycle_events,
@@ -34,26 +34,26 @@ module RapSheetParser
     end
 
     def build_rap_sheet(events: [], personal_info: nil)
-      cycles = events.map {|e| Cycle.new(events:[e])}
+      cycles = events.map { |e| Cycle.new(events: [e]) }
       RapSheet.new(cycles: cycles, personal_info: personal_info)
     end
 
     def build_court_count(
-      severity: 'M',
       code: 'PC',
       section: '123',
       code_section_description: 'foo',
-      disposition_type: 'convicted',
-      disposition_sentence: nil,
-      disposition_text: ''
+      disposition: build_disposition
     )
-      RapSheetParser::CourtCount.new(
+      CourtCount.new(
         code_section_description: code_section_description,
-        severity: severity,
         code: code,
         section: section,
-        disposition: Disposition.new(type: disposition_type, sentence: disposition_sentence, text: disposition_text)
+        disposition: disposition
       )
+    end
+
+    def build_disposition(type: 'convicted', sentence: nil, severity: 'M', text: '')
+      Disposition.new(type: type, sentence: sentence, severity: severity, text: text)
     end
 
     def build_personal_info(names: nil, sex: nil, date_of_birth: nil, race: nil, cii: nil)

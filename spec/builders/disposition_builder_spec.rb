@@ -19,6 +19,7 @@ module RapSheetParser
         expect(disposition.type).to eq 'convicted'
         expect(disposition.sentence.to_s).to eq '12m probation, 45d jail'
         expect(disposition.text).to eq 'DISPO:CONVICTED'
+        expect(disposition.severity).to eq('M')
       end
 
       it 'builds disposition when sentence is nil' do
@@ -34,6 +35,7 @@ module RapSheetParser
         expect(disposition.type).to eq 'dismissed'
         expect(disposition.sentence).to eq nil
         expect(disposition.text).to eq 'DISPO:DISMISSED/FURTHERANCE OF JUSTICE'
+        expect(disposition.severity).to eq nil
       end
     end
   end

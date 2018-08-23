@@ -14,13 +14,13 @@ module RapSheetParser
           * * * *
           REGISTRATION:         NAM:01
           20171216 CASO SAN DIEGO
-          
+
           CNT:01
             290 PC-REGISTRATION OF SEX OFFENDER
           * * * *
           REGISTRATION:         NAM:01
           19901022  CAPD SAN FRANCISCO
-          
+
           CNT:01     #44345345
            11590 HS-REGISTRATION OF CNTL SUB OFFENDER
           * * * *
@@ -34,10 +34,10 @@ module RapSheetParser
           - - - -
           SUPPLEMENTAL ARR:      NAM:01
           20110124  CASO SAN FRANCISCO
-          
+
           CNT:01     #024435345
             32 PC-ACCESSORY
-          - - - -        
+          - - - -
           COURT:
           19740102 CASC SAN FRANCISCO
 
@@ -51,7 +51,7 @@ module RapSheetParser
           bla bla
           DISPO:CONVICTED
 
-          CNT:002 
+          CNT:002
           bla bla
           DISPO:DISMISSED
 
@@ -101,51 +101,49 @@ module RapSheetParser
         expect(rap_sheet.personal_info.race).to eq 'WOOKIE'
         expect(rap_sheet.personal_info.cii).to eq 'A12345678'
 
-        verify_event_looks_like(rap_sheet.convictions[0], {
+        verify_event_looks_like(
+          rap_sheet.convictions[0],
           name_code: nil,
           date: Date.new(1982, 9, 15),
           case_number: '456',
           courthouse: 'CAMC Los Angeles Metro',
-          sentence: '',
-        })
-        verify_event_looks_like(rap_sheet.convictions[1], {
+          sentence: ''
+        )
+        verify_event_looks_like(
+          rap_sheet.convictions[1],
           name_code: '003',
           date: Date.new(1994, 11, 20),
           case_number: '612',
           courthouse: 'CAMC Hayward',
           sentence: '12m probation, 45d jail'
-        })
+        )
 
         expect(rap_sheet.custody_events[0].date).to eq Date.new(2012, 5, 3)
 
-        verify_count_looks_like(rap_sheet.convictions[0].counts[0], {
+        verify_count_looks_like(
+          rap_sheet.convictions[0].counts[0],
           code_section: nil,
           code_section_description: nil,
-          severity: nil,
-          disposition: 'convicted',
-          sentence: ''
-        })
-        verify_count_looks_like(rap_sheet.convictions[0].counts[1], {
+          disposition: build_disposition(severity: nil, type: 'convicted', sentence: '')
+        )
+        verify_count_looks_like(
+          rap_sheet.convictions[0].counts[1],
           code_section: nil,
           code_section_description: nil,
-          severity: nil,
-          disposition: 'dismissed',
-          sentence: ''
-        })
-        verify_count_looks_like(rap_sheet.convictions[0].counts[2], {
+          disposition: build_disposition(severity: nil, type: 'dismissed', sentence: '')
+        )
+        verify_count_looks_like(
+          rap_sheet.convictions[0].counts[2],
           code_section: 'PC 4056',
           code_section_description: 'BREAKING AND ENTERING',
-          severity: nil,
-          disposition: 'convicted',
-          sentence: ''
-        })
-        verify_count_looks_like(rap_sheet.convictions[1].counts[0], {
+          disposition: build_disposition(severity: nil, type: 'convicted', sentence: '')
+        )
+        verify_count_looks_like(
+          rap_sheet.convictions[1].counts[0],
           code_section: 'PC 487.2',
           code_section_description: 'GRAND THEFT FROM PERSON',
-          severity: 'M',
-          disposition: 'convicted',
-          sentence: '12m probation, 45d jail'
-        })
+          disposition: build_disposition(severity: 'M', type: 'convicted', sentence: '12m probation, 45d jail')
+        )
 
         expect(rap_sheet.registration_events[0].date).to eq Date.new(2017, 12, 16)
         expect(rap_sheet.registration_events[0].counts[0].code_section).to eq 'PC 290'
@@ -169,7 +167,7 @@ module RapSheetParser
           CNT:001
           #65131
           496.1 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
-          - - - -        
+          - - - -
           COURT:
           19740102 CASC SAN PRANCISCU rm
 
@@ -190,33 +188,6 @@ module RapSheetParser
 
         expect(rap_sheet.events.length).to eq 3
         expect(rap_sheet.arrest_events[0].cycle_events.length).to eq 3
-      end
-
-      context 'inferring probation violations' do
-        it 'annotates conviction counts that might have violated probation' do
-          text = <<~TEXT
-            info
-            * * * *
-            ARR/DET/CITE: NAM:02 DOB:19550505
-            19840101  CASO LOS ANGELES
-
-            CNT:01     #1111111
-              496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
-               COM: WARRANT NBR A-400000 BOTH CNTS
-
-            - - - -
-
-            COURT:                NAM:01
-            19840918  CASC LOS ANGELES
-
-            CNT:01     #1234567
-              496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
-            *DISPO:CONVICTED
-               CONV STATUS:MISDEMEANOR
-               SEN: 2 YEARS PRISON
-            * * * END OF MESSAGE * * *
-          TEXT
-        end
       end
 
       it 'logs warnings for unrecognized events' do

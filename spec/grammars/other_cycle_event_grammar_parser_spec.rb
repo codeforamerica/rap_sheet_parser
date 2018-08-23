@@ -37,16 +37,16 @@ module RapSheetParser
 
           expect(tree.case_number.text_value).to eq('#346477')
 
-          count_1 = tree.counts[0]
-          expect(count_1.disposition.disposition_type).to be_a CountGrammar::Convicted
-          expect(count_1.code_section.code.text_value).to eq 'PC'
-          expect(count_1.code_section.section.text_value).to eq '496'
-          expect(count_1.code_section_description.text_value).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
+          count1 = tree.counts[0]
+          expect(count1.disposition.disposition_type).to be_a CountGrammar::Convicted
+          expect(count1.code_section.code.text_value).to eq 'PC'
+          expect(count1.code_section.section.text_value).to eq '496'
+          expect(count1.code_section_description.text_value).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
 
-          count_2 = tree.counts[1]
-          expect(count_2.disposition.disposition_type).to be_a CountGrammar::Dismissed
-          count_3 = tree.counts[2]
-          expect(count_3.disposition.text_value).to eq("\n")
+          count2 = tree.counts[1]
+          expect(count2.disposition.disposition_type).to be_a CountGrammar::Dismissed
+          count3 = tree.counts[2]
+          expect(count3.disposition.text_value).to eq("\n")
         end
 
         it 'parses other disposition types' do
@@ -61,9 +61,9 @@ module RapSheetParser
 
           expect(tree.event_identifier).to be_a(EventGrammar::CourtEventIdentifier)
 
-          count_1 = tree.counts[0]
-          puts "disposition type: #{count_1.disposition.disposition_type}"
-          expect(count_1.disposition.disposition_type).to be_a CountGrammar::OtherDispositionType
+          count1 = tree.counts[0]
+          puts "disposition type: #{count1.disposition.disposition_type}"
+          expect(count1.disposition.disposition_type).to be_a CountGrammar::OtherDispositionType
         end
 
         it 'can parse count ranges' do

@@ -6,16 +6,28 @@ module RapSheetParser
     end
 
     def build
-      sentence = nil
-      if @disposition_node.sentence
-        sentence = ConvictionSentenceBuilder.new(@disposition_node.sentence).build
-      end
-      Disposition.new(type: @disposition_node.disposition_type.class.name.demodulize.underscore,
-                      sentence: sentence,
-                      text: @disposition_node.text_value.split("\n")[0]
+      Disposition.new(
+        type: @disposition_node.disposition_type.class.name.demodulize.underscore,
+        sentence: sentence,
+        severity: severity,
+        text: @disposition_node.text_value.split("\n")[0]
       )
     end
 
+    private
+
     attr_reader :logger
+
+    def severity
+      return unless @disposition_node.severity
+
+      @disposition_node.severity.text_value[0]
+    end
+
+    def sentence
+      return unless @disposition_node.sentence
+
+      ConvictionSentenceBuilder.new(@disposition_node.sentence).build
+    end
   end
 end

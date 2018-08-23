@@ -4,7 +4,7 @@ module RapSheetParser
       @node = node
       @logger = logger
     end
-    
+
     def build
       Update.new(
         dispositions: dispositions
@@ -14,7 +14,7 @@ module RapSheetParser
     private
 
     attr_reader :node
-    
+
     def dispositions
       node.dispositions.map { |d| DispositionBuilder.new(d, logger: @logger).build }
     end
