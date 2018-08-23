@@ -38,7 +38,6 @@ RSpec.describe 'integration', integration: true do
     end
   end
 
-
   def to_hash(rap_sheet)
     cycles = rap_sheet.cycles.map do |cycle|
       events = cycle.events.map do |event|

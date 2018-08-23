@@ -4,7 +4,6 @@ module RapSheetParser
   RSpec.describe CourtEvent do
     describe '#severity' do
       it 'returns the highest severity found within the counts' do
-
         event = build_court_event(counts: [double(severity: 'F')])
         expect(event.severity).to eq 'F'
 

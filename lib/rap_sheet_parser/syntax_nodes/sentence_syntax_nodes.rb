@@ -25,8 +25,8 @@ module RapSheetParser
       private
 
       def content_class(klass)
-        map(&:sentence_content).
-          select { |c| c.is_a? klass }
+        map(&:sentence_content)
+          .select { |c| c.is_a? klass }
       end
     end
   end

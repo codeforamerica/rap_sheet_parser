@@ -10,7 +10,7 @@ module RapSheetParser
     attr_reader :probation, :jail, :prison
 
     def total_duration
-      (jail ? jail : 0.days) + (probation ? probation : 0.days) + (prison ? prison : 0.days)
+      (jail || 0.days) + (probation || 0.days) + (prison || 0.days)
     end
 
     def to_s

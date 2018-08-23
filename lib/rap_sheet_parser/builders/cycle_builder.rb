@@ -1,7 +1,6 @@
 module RapSheetParser
   class CycleBuilder
-
-    def initialize (cycle_node, logger:)
+    def initialize(cycle_node, logger:)
       @cycle_node = cycle_node
       @logger = logger
     end
@@ -53,6 +52,5 @@ module RapSheetParser
         OtherEventBuilder
       end
     end
-
   end
 end

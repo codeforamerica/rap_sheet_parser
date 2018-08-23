@@ -29,7 +29,7 @@ module RapSheetParser
       )
     end
 
-    def build_arrest_event(params={})
+    def build_arrest_event(params = {})
       build_other_event(params.merge(header: 'arrest'))
     end
 

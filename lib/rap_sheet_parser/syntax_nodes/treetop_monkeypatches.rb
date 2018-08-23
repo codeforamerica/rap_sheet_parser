@@ -10,13 +10,13 @@ class Treetop::Runtime::SyntaxNode
   # Traverse the syntax tree recursively.
   # The order should respect the order of the configuration file as it is read
   # and written by humans (and the order in which it is parsed).
-  def recurse(e, depth=0, &block)
+  def recurse(e, depth = 0, &block)
     r = block.call(e, depth)
     e.elements.each { |e| recurse(e, depth + 1, &block) } if r && e.elements
     nil
   end
 
-  def recursive_inject(results=[], &block)
+  def recursive_inject(results = [], &block)
     if !elements.nil?
       elements.each do |element|
         if block.call(element)
@@ -36,10 +36,10 @@ class Treetop::Runtime::SyntaxNode
   # To fetch a specific types of object we need to follow each branch
   # and ignore the empty nodes.
   def recursive_select(*klasses)
-    return recursive_inject { |e| klasses.any? {|k| e.is_a?(k)} }
+    return recursive_inject { |e| klasses.any? { |k| e.is_a?(k) } }
   end
 
-  def recursive_inject_parent(results=[], &block)
+  def recursive_inject_parent(results = [], &block)
     if !parent.nil?
       if block.call(parent)
         results << parent
@@ -50,7 +50,7 @@ class Treetop::Runtime::SyntaxNode
     return results
   end
 
-  def recursive_select_parent(results=[], klass)
+  def recursive_select_parent(results = [], klass)
     return recursive_inject_parent(results) { |e| e.is_a?(klass) }
   end
 

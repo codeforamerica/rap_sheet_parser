@@ -4,7 +4,7 @@ module RapSheetParser
 
     %w(arrest custody applicant probation registration supplemental_arrest).each do |type|
       define_method("#{type}_events") do
-        filtered_events(OtherEvent).select {|event| event.header == type}
+        filtered_events(OtherEvent).select { |event| event.header == type }
       end
     end
 
@@ -22,9 +22,9 @@ module RapSheetParser
     end
 
     def superstrikes
-      @superstrikes ||= convictions.
-        flat_map(&:convicted_counts).
-        select(&:superstrike?)
+      @superstrikes ||= convictions
+        .flat_map(&:convicted_counts)
+        .select(&:superstrike?)
     end
 
     def sex_offender_registration?
@@ -38,9 +38,9 @@ module RapSheetParser
     private
 
     def registration_event_with_code(code)
-      registration_events.
-        flat_map(&:counts).
-        any? { |count| count.subsection_of?([code]) }
+      registration_events
+        .flat_map(&:counts)
+        .any? { |count| count.subsection_of?([code]) }
     end
 
     def filtered_events(klass)

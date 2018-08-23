@@ -18,9 +18,7 @@ module RapSheetParser
     def strip_trailing_punctuation(str)
       new_str = str
 
-      while new_str.end_with?('.', ':', '-')
-        new_str = new_str[0..-2]
-      end
+      new_str = new_str[0..-2] while new_str.end_with?('.', ':', '-')
       new_str
     end
   end

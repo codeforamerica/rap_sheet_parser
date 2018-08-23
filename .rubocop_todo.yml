@@ -8,71 +8,11 @@
 
 # Offense count: 2
 # Cop supports --auto-correct.
-# Configuration parameters: Include, TreatCommentsAsGroupSeparators.
-# Include: **/*.gemspec
-Gemspec/OrderedDependencies:
-  Exclude:
-    - 'rap_sheet_parser.gemspec'
-
-# Offense count: 7
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: leading, trailing
-Layout/DotPosition:
-  Exclude:
-    - 'lib/rap_sheet_parser/builders/conviction_sentence_builder.rb'
-    - 'lib/rap_sheet_parser/models/rap_sheet.rb'
-    - 'lib/rap_sheet_parser/syntax_nodes/sentence_syntax_nodes.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Layout/EmptyLines:
-  Exclude:
-    - 'spec/integration_spec.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: empty_lines, no_empty_lines
-Layout/EmptyLinesAroundBlockBody:
-  Exclude:
-    - 'spec/models/court_event_spec.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: empty_lines, empty_lines_except_namespace, empty_lines_special, no_empty_lines, beginning_only, ending_only
-Layout/EmptyLinesAroundClassBody:
-  Exclude:
-    - 'lib/rap_sheet_parser/builders/cycle_builder.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment, ForceEqualSignAlignment.
-Layout/ExtraSpacing:
-  Exclude:
-    - 'rap_sheet_parser.gemspec'
-
-# Offense count: 28
-# Cop supports --auto-correct.
-# Configuration parameters: IndentationWidth.
-# SupportedStyles: special_inside_parentheses, consistent, align_braces
-Layout/IndentHash:
-  EnforcedStyle: consistent
-
-# Offense count: 2
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: auto_detection, squiggly, active_support, powerpack, unindent
 Layout/IndentHeredoc:
   Exclude:
     - 'spec/grammars/rap_sheet_grammar_parser_spec.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Layout/LeadingBlankLines:
-  Exclude:
-    - 'rap_sheet_parser.gemspec'
 
 # Offense count: 8
 # Cop supports --auto-correct.
@@ -86,46 +26,10 @@ Layout/MultilineMethodCallIndentation:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-Layout/SpaceAfterComma:
-  Exclude:
-    - 'lib/rap_sheet_parser/text_cleaner.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Layout/SpaceAfterMethodName:
-  Exclude:
-    - 'lib/rap_sheet_parser/builders/cycle_builder.rb'
-
-# Offense count: 5
-# Cop supports --auto-correct.
-# Configuration parameters: .
-# SupportedStyles: space, no_space
-Layout/SpaceAroundEqualsInParameterDefault:
-  EnforcedStyle: no_space
-
-# Offense count: 4
-# Cop supports --auto-correct.
-Layout/SpaceAroundKeyword:
-  Exclude:
-    - 'lib/rap_sheet_parser/builders/personal_info_builder.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
 # Configuration parameters: AllowForAlignment.
 Layout/SpaceAroundOperators:
   Exclude:
     - 'rap_sheet_parser.gemspec'
-
-# Offense count: 7
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces, SpaceBeforeBlockParameters.
-# SupportedStyles: space, no_space
-# SupportedStylesForEmptyBraces: space, no_space
-Layout/SpaceInsideBlockBraces:
-  Exclude:
-    - 'Gemfile'
-    - 'lib/rap_sheet_parser/models/rap_sheet.rb'
-    - 'lib/rap_sheet_parser/syntax_nodes/treetop_monkeypatches.rb'
 
 # Offense count: 6
 # Cop supports --auto-correct.
@@ -350,18 +254,6 @@ Style/StringLiterals:
 Style/TrailingCommaInHashLiteral:
   Exclude:
     - 'spec/integration_spec.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/UnneededCondition:
-  Exclude:
-    - 'lib/rap_sheet_parser/models/conviction_sentence.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/WhileUntilModifier:
-  Exclude:
-    - 'lib/rap_sheet_parser/builders/case_number_builder.rb'
 
 # Offense count: 2
 # Cop supports --auto-correct.
