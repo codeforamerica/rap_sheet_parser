@@ -79,9 +79,9 @@ module RapSheetParser
         strip_subsection(code_section) == strip_subsection(d) && code_section.start_with?(d)
       end
     end
-    
+
     private
-    
+
     def strip_subsection(code_section)
       code_section.split('(')[0]
     end

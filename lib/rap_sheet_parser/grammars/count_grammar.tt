@@ -94,11 +94,11 @@ module RapSheetParser
     rule comment_sentence_line
       stray_punctuation comment_tag (!comment_sentence_tag !N .)* comment_sentence_tag sentence <CommentSentenceLine>
     end
-    
+
     rule comment_sentence_tag
       ('SEN' w '-'? w 'X') / ('XSEN' w ':')
     end
-    
+
     rule unknown_content_line
       to_eol
     end
@@ -107,7 +107,7 @@ module RapSheetParser
       w dispo_header disposition_type to_eol w disposition_info <Disposition> /
       ''
     end
-    
+
     rule disposition_type
       convicted / dismissed / prosecutor_rejected / other_disposition_type
     end

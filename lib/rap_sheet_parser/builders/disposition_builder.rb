@@ -1,6 +1,6 @@
 module RapSheetParser
   class DispositionBuilder
-    def initialize (disposition_node, logger:)
+    def initialize(disposition_node, logger:)
       @disposition_node = disposition_node
       @logger = logger
     end
