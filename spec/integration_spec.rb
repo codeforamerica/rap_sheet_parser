@@ -48,6 +48,7 @@ RSpec.describe 'integration', integration: true do
               {
                 type: count.disposition.type,
                 text: count.disposition.text,
+                severity: count.disposition.severity,
                 sentence: count.disposition.sentence.to_s
               }
             end
@@ -55,7 +56,6 @@ RSpec.describe 'integration', integration: true do
           {
             code_section: count.code_section,
             code_section_description: count.code_section_description,
-            severity: count.severity,
             disposition: disposition
           }
         end
