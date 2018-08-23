@@ -147,7 +147,7 @@ module RapSheetParser
         'CASC YUBA CITY' => 'CASC Yuba City'
       }
 
-      courthouse_text = @courthouse_node.text_value.gsub('.', '').upcase
+      courthouse_text = @courthouse_node.text_value.delete('.').upcase
 
       if courthouse_names.key?(courthouse_text)
         courthouse_names[courthouse_text]

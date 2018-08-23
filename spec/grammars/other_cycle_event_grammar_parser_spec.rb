@@ -398,7 +398,7 @@ module RapSheetParser
           text = <<~TEXT
             SUPPLEMENTAL ARR:      NAM:01
             20110124  CASO SAN FRANCISCO
-            
+
             CNT:01     #024435345
               32 PC-ACCESSORY
           TEXT

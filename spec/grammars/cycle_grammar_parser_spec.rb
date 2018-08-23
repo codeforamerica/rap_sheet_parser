@@ -46,7 +46,7 @@ module RapSheetParser
           --- - ---
           more events
         TEXT
-        
+
         events = subject(text)
         expect(events[0].text_value).to eq 'event one text'
         expect(events[1].text_value).to eq 'another event'

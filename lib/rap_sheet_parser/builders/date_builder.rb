@@ -15,7 +15,7 @@ module RapSheetParser
     attr_reader :date_node
 
     def date_string
-      date_node.text_value.gsub('.', '')
+      date_node.text_value.delete('.')
     end
   end
 end

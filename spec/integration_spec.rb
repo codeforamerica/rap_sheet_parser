@@ -50,8 +50,6 @@ RSpec.describe 'integration', integration: true do
                 text: count.disposition.text,
                 sentence: count.disposition.sentence.to_s
               }
-            else
-              nil
             end
 
           {

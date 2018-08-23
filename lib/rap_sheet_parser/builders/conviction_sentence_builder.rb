@@ -36,7 +36,7 @@ module RapSheetParser
 
       words = node.text_value.split(' ')
       return 0.days if words.length < 3
-      
+
       amount = words[0].to_i
       unit = words[1][0]
 

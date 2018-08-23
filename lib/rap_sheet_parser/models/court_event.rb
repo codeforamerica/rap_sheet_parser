@@ -77,8 +77,8 @@ module RapSheetParser
 
     attr_reader :updates
 
-    def event_outside_duration(e, duration)
-      e.date < date or e.date > (date + duration)
+    def event_outside_duration(event, duration)
+      event.date < date or event.date > (date + duration)
     end
   end
 end

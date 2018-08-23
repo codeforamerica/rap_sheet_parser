@@ -8,7 +8,7 @@ module RapSheetParser
         * * * *
         COURT: NAME7OZ
         19820915 CAMC L05 ANGELES METRO
-        
+
         CNT: 001 #45      6
         DISPO:CONVICTED
         * * * END OF MESSAGE * * *
@@ -25,7 +25,7 @@ module RapSheetParser
         * * * *
         COURT: NAME7OZ
         19820915 CAMC L05 ANGELES METRO
-        
+
         CNT: 001 #456.:-
         DISPO:CONVICTED
         * * * END OF MESSAGE * * *
@@ -43,7 +43,7 @@ module RapSheetParser
         * * * *
         COURT: NAME7OZ
         19820915 CAMC L05 ANGELES METRO
-        
+
         CNT: 001 #4.5.6
         DISPO:CONVICTED
         * * * END OF MESSAGE * * *
@@ -61,7 +61,7 @@ module RapSheetParser
         * * * *
         COURT: NAME7OZ
         19990909 CAMC L05 ANGELES METRO
-        
+
         CNT: 002
         DISPO:CONVICTED
         * * * END OF MESSAGE * * *
@@ -79,7 +79,7 @@ module RapSheetParser
         * * * *
         COURT: NAME7OZ
         19820915 CAMC L05 ANGELES METRO
-        
+
         CNT: 001
         garbled
         DISPO:CONVICTED

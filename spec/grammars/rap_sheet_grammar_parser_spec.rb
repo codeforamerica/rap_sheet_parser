@@ -14,9 +14,9 @@ module RapSheetParser
             HGT/511  WGT/265  EYE/BLU  HAI/BRO  POB/CA
             NAM/01 LAST, FIRST
             02 NAME, BOB
-            FBI/7778889LA2 
-            CDL/C45667234 C14546456 
-            SOC/549377146 
+            FBI/7778889LA2
+            CDL/C45667234 C14546456
+            SOC/549377146
             OCC/CONCRET
             * * * *
             cycle text
@@ -84,14 +84,14 @@ module RapSheetParser
             arbitrary
             * * * *
             REGISTRATION:
-  
+
             19960101
-  
+
             CNT:01 #ABCDE
               11590 HS-REGISTRATION OF CNTL SUB OFFENDER
             - - - -
             20030101
-  
+
             CNT:01 #EFHIHJ
               290 PC-PREREGISTRATION OF SEX OFFENDER
           TEXT
@@ -112,7 +112,7 @@ module RapSheetParser
           super
           arbitrary
 
-            .   * *, * *.  
+            .   * *, * *.
           cycle text
           .,* * ·* * .
           another cycle text
@@ -132,7 +132,7 @@ module RapSheetParser
           *
           *
           *
-          *  
+          *
           cycle text
           * * * *
           another cycle text
