@@ -76,5 +76,40 @@ module RapSheetParser
     rule asterisks
       ('*' / W)*
     end
+
+    rule comment_tag
+      'COM' w (':' / ';')
+    end
+
+    rule code_section
+       section stray_punctuation code
+    end
+
+    rule section
+      (!code !dispo_header !(stray_punctuation &code) .)*
+    end
+
+    rule code
+      'PC' / # Penal Code
+      'BP' / # Business and Professions Code
+      'CC' / # Corporations Code
+      'CI' / # Civil Code
+      'EC' / # Education Code
+      'FA' / # Food and Agriculture Code
+      'FC' / # Financial Code
+      'FG' / # Fish and Game Code
+      'GC' / # Government Code
+      'HN' / # Harbors and Navigation Code
+      'HS' / # Health and Safety Code
+      'IC' / # Insurance Code
+      'LC' / # Labor Code
+      'MV' / # Military and Veterans Code
+      'PR' / # Public Resources Code
+      'RT' / # Revenue and Taxation Code
+      'SH' / # Streets and Highways Code
+      'UI' / # Unemployment Insurance Code
+      'VC' / # Vehicle Code
+      'WI'   # Welfare and Institutions Code
+    end
   end
 end

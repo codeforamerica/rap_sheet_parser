@@ -1,9 +1,9 @@
 module RapSheetParser
   grammar CountGrammar
-    include CommonGrammar
+    include DispositionGrammar
 
     rule count
-      sentencing_line? w charge_line wn toc? wn arrest_by wn warrant_number wn comments wn disposition extra_count_info <Count>
+      sentencing_line? w charge_line wn toc? wn arrest_by wn warrant_number wn comments wn disposition_content extra_count_info <Count>
     end
 
     rule sentencing_line
@@ -28,43 +28,8 @@ module RapSheetParser
       (!(wn (dispo_header / comment_tag / arr_by_tag / warrant_tag)) .)*
     end
 
-    rule code_section
-       section stray_punctuation code
-    end
-
-    rule section
-      (!code !dispo_header !(stray_punctuation &code) .)*
-    end
-
-    rule code
-      'PC' / # Penal Code
-      'BP' / # Business and Professions Code
-      'CC' / # Corporations Code
-      'CI' / # Civil Code
-      'EC' / # Education Code
-      'FA' / # Food and Agriculture Code
-      'FC' / # Financial Code
-      'FG' / # Fish and Game Code
-      'GC' / # Government Code
-      'HN' / # Harbors and Navigation Code
-      'HS' / # Health and Safety Code
-      'IC' / # Insurance Code
-      'LC' / # Labor Code
-      'MV' / # Military and Veterans Code
-      'PR' / # Public Resources Code
-      'RT' / # Revenue and Taxation Code
-      'SH' / # Streets and Highways Code
-      'UI' / # Unemployment Insurance Code
-      'VC' / # Vehicle Code
-      'WI'   # Welfare and Institutions Code
-    end
-
     rule extra_count_info
       .*
-    end
-
-    rule comment_tag
-      'COM' w (':' / ';')
     end
 
     rule arrest_by
@@ -83,74 +48,12 @@ module RapSheetParser
      'WARRANT'
     end
 
-    rule comment_charge_line
-      stray_punctuation comment_tag (!'CHRG' !N .)* 'CHRG' '-'? w code_section to_eol <CommentChargeLine>
-    end
-
     rule comments
       (stray_punctuation comment_tag to_eol)*
     end
 
-    rule comment_sentence_line
-      stray_punctuation comment_tag (!comment_sentence_tag !N .)* comment_sentence_tag sentence <CommentSentenceLine>
+    rule disposition_content
+      disposition / ''
     end
-
-    rule comment_sentence_tag
-      ('SEN' w '-'? w 'X') / ('XSEN' w ':')
-    end
-
-    rule unknown_content_line
-      to_eol
-    end
-
-    rule disposition
-      w dispo_header disposition_type to_eol w disposition_info <Disposition> /
-      ''
-    end
-
-    rule disposition_type
-      convicted / dismissed / prosecutor_rejected / other_disposition_type
-    end
-
-    rule severity_line
-      stray_punctuation 'CONV STATUS' w ':' stray_punctuation severity N <SeverityLine>
-    end
-
-    rule severity
-      (!N .)*
-    end
-
-    rule sentence_line
-      stray_punctuation 'SEN:' stray_punctuation sentence N <SentenceLine>
-    end
-
-    rule sentence
-      (!next_dispo_info_item .)*
-    end
-
-    rule next_dispo_info_item
-      N stray_punctuation ('*'? [A-Z]+ w (':' / ';') / date / !.)
-    end
-
-    rule convicted
-      w 'C' w 'O' w 'N' w 'V' w 'I' w 'C' w 'T' w 'E' w 'D' w <Convicted>
-    end
-
-    rule prosecutor_rejected
-      'PROS REJ-' <ProsecutorRejected>
-    end
-
-    rule other_disposition_type
-      (!N .)* <OtherDispositionType>
-    end
-
-    rule dismissed
-      'DISMISSED' <Dismissed>
-    end
-
-    rule disposition_info
-      (comment_charge_line / severity_line / sentence_line / comment_sentence_line / unknown_content_line)*
-    end
-
   end
 end

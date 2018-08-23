@@ -1,6 +1,6 @@
 module RapSheetParser
   grammar UpdateGrammar
-    include CommonGrammar
+    include DispositionGrammar
 
     rule update
       stuff dispositions <Update>
@@ -12,40 +12,6 @@ module RapSheetParser
 
     rule stuff
       (!dispo_header .)*
-    end
-
-    rule disposition
-      w dispo_header disposition_type (!N .)* n update_lines <Disposition>
-    end
-
-    rule update_lines
-      update_line*
-    end
-
-    rule disposition_type
-      'SENTENCE MODIFIED' <SentenceModified>
-      / 'CONV' w 'SET' w 'ASIDE' w '&' w 'DISM' w 'PER' w '1203.4' w 'PC' <PC1203Dismissed>
-      / ''
-    end
-
-    rule update_line
-      (sentence_line / unknown_content_line)
-    end
-
-    rule unknown_content_line
-      to_eol
-    end
-
-    rule sentence_line
-      stray_punctuation 'SEN:' stray_punctuation sentence N <SentenceLine>
-    end
-
-    rule sentence
-      (!next_labeled_item_or_end .)*
-    end
-
-    rule next_labeled_item_or_end
-      N stray_punctuation ('*'? [A-Z]+ w ':' / !.)
     end
   end
 end

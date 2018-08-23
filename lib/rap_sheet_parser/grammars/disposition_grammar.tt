@@ -1,0 +1,77 @@
+module RapSheetParser
+  grammar DispositionGrammar
+    include CommonGrammar
+
+    rule disposition
+      w dispo_header disposition_type to_eol w disposition_info <Disposition>
+    end
+
+    rule disposition_type
+      convicted / dismissed / prosecutor_rejected / sentence_modified / pc1203_dismissed / other_disposition_type
+    end
+
+    rule sentence_modified
+      'SENTENCE MODIFIED' <SentenceModified>
+    end
+
+    rule pc1203_dismissed
+      'CONV' w 'SET' w 'ASIDE' w '&' w 'DISM' w 'PER' w '1203.4' w 'PC' <PC1203Dismissed>
+    end
+
+    rule severity_line
+      stray_punctuation 'CONV STATUS' w ':' stray_punctuation severity N <SeverityLine>
+    end
+
+    rule severity
+      (!N .)*
+    end
+
+    rule sentence_line
+      stray_punctuation 'SEN:' stray_punctuation sentence N <SentenceLine>
+    end
+
+    rule sentence
+      (!next_dispo_info_item .)*
+    end
+
+    rule next_dispo_info_item
+      N stray_punctuation ('*'? [A-Z]+ w (':' / ';') / date / !.)
+    end
+
+    rule convicted
+      w 'C' w 'O' w 'N' w 'V' w 'I' w 'C' w 'T' w 'E' w 'D' w <Convicted>
+    end
+
+    rule prosecutor_rejected
+      'PROS REJ-' <ProsecutorRejected>
+    end
+
+    rule other_disposition_type
+      (!N .)* <OtherDispositionType>
+    end
+
+    rule dismissed
+      'DISMISSED' <Dismissed>
+    end
+
+    rule disposition_info
+      (comment_charge_line / severity_line / sentence_line / comment_sentence_line / unknown_content_line)*
+    end
+
+    rule comment_charge_line
+      stray_punctuation comment_tag (!'CHRG' !N .)* 'CHRG' '-'? w code_section to_eol <CommentChargeLine>
+    end
+
+    rule comment_sentence_line
+      stray_punctuation comment_tag (!comment_sentence_tag !N .)* comment_sentence_tag sentence <CommentSentenceLine>
+    end
+
+    rule comment_sentence_tag
+      ('SEN' w '-'? w 'X') / ('XSEN' w ':')
+    end
+
+    rule unknown_content_line
+      to_eol
+    end
+  end
+end
