@@ -29,7 +29,7 @@ module RapSheetParser
 
           expect(tree.event_identifier).to be_a(EventGrammar::CourtEventIdentifier)
 
-          expect(tree.name.name_code.text_value).to eq ('02')
+          expect(tree.name.name_code.text_value).to eq '02'
 
           expect(tree.date.text_value).to eq('20040102')
 
@@ -416,4 +416,3 @@ module RapSheetParser
     end
   end
 end
-

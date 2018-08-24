@@ -25,32 +25,6 @@ Layout/MultilineMethodCallIndentation:
     - 'lib/rap_sheet_parser/text_cleaner.rb'
 
 # Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment.
-Layout/SpaceAroundOperators:
-  Exclude:
-    - 'rap_sheet_parser.gemspec'
-
-# Offense count: 6
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: final_newline, final_blank_line
-Layout/TrailingBlankLines:
-  Exclude:
-    - 'lib/rap_sheet_parser/builders/rap_sheet_builder.rb'
-    - 'lib/rap_sheet_parser/models/cycle.rb'
-    - 'spec/grammars/other_cycle_event_grammar_parser_spec.rb'
-    - 'spec/grammars/registration_cycle_event_grammar_parser_spec.rb'
-    - 'spec/grammars/sentence_grammar_parser_spec.rb'
-    - 'spec/models/court_event_spec.rb'
-
-# Offense count: 2
-Lint/ParenthesesAsGroupedExpression:
-  Exclude:
-    - 'spec/grammars/other_cycle_event_grammar_parser_spec.rb'
-    - 'spec/grammars/rap_sheet_grammar_parser_spec.rb'
-
-# Offense count: 1
 Lint/ShadowingOuterLocalVariable:
   Exclude:
     - 'lib/rap_sheet_parser/syntax_nodes/treetop_monkeypatches.rb'
@@ -200,13 +174,6 @@ Style/OptionalArguments:
 Style/PercentLiteralDelimiters:
   Exclude:
     - 'lib/rap_sheet_parser/models/rap_sheet.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/RedundantParentheses:
-  Exclude:
-    - 'spec/grammars/other_cycle_event_grammar_parser_spec.rb'
-    - 'spec/grammars/rap_sheet_grammar_parser_spec.rb'
 
 # Offense count: 4
 # Cop supports --auto-correct.

@@ -69,5 +69,3 @@ module RapSheetParser
     end
   end
 end
-
-

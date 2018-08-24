@@ -168,7 +168,7 @@ module RapSheetParser
         TEXT
 
         subject = described_class.new.parse(text)
-        expect(subject.personal_info.text_value).to eq ("blah blah\n*********************\nblah blah")
+        expect(subject.personal_info.text_value).to eq "blah blah\n*********************\nblah blah"
         expect(subject.cycles[0].cycle_content.text_value).to eq("cycle 1\n")
       end
 
