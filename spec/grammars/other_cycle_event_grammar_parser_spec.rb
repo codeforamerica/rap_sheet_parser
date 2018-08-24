@@ -409,6 +409,25 @@ module RapSheetParser
           expect(subject.courthouse.text_value).to eq 'CASO SAN FRANCISCO'
         end
       end
+
+      context 'parsing a deceased event' do
+        it 'parses' do
+          text = <<~TEXT
+            DECEASED:              NAM:01
+            20130817  CACO SAN FRANCISCO
+
+            CNT:01     #0064-64074-20790144
+              DECEASED
+
+               COM: SCN-L87G2300013
+          TEXT
+
+          subject = parse(text)
+          expect(subject.event_identifier).to be_a(EventGrammar::DeceasedEventIdentifier)
+          expect(subject.date.text_value).to eq '20130817'
+          expect(subject.courthouse.text_value).to eq 'CACO SAN FRANCISCO'
+        end
+      end
     end
 
     def parse(text)

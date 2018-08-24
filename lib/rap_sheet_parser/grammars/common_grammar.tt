@@ -42,11 +42,16 @@ module RapSheetParser
       supplemental_arrest_identifier /
       custody_identifier /
       applicant_identifier /
-      probation_identifier
+      probation_identifier /
+      deceased_identifier
     end
 
     rule court_identifier
       'COURT' w ':' <EventGrammar::CourtEventIdentifier>
+    end
+
+    rule deceased_identifier
+      'DECEASED' w ':' <EventGrammar::DeceasedEventIdentifier>
     end
 
     rule probation_identifier
