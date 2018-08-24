@@ -166,6 +166,28 @@ module RapSheetParser
         expect(disposition.sentence.details[0].text_value).to eq 'FINE FNSS RSTN'
       end
 
+      it 'parses code section in the comments' do
+        text = <<~TEXT
+          DISPO: CONVICTED
+          CONV STATUS :MISDEMEANOR
+          COM: XSEN:3 YR PROB,90 DS JL, FINE FNSS RSTN
+          COM: CNT 02 CHRG-666 PC
+          DCN:T6014082460234000096
+        TEXT
+
+        disposition = described_class.new.parse(text)
+        expect(disposition.code_section.text_value).to eq '666 PC'
+      end
+
+      it 'parses when code section missing' do
+        text = <<~TEXT
+          DISPO:CONVICTED
+        TEXT
+
+        disposition = described_class.new.parse(text)
+        expect(disposition.code_section).to be_nil
+      end
+
       it 'parses dismissals' do
         text = <<~TEXT
           DISPO:CONV SET ASIDE & DISM PER 1203.4 PC

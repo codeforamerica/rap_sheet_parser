@@ -14,13 +14,17 @@ module RapSheetParser
         end
       end
 
+      def code_section
+        comment_charge_line&.code_section
+      end
+
+      private
+
       def comment_charge_line
         disposition_info.find do |l|
           l.is_a? DispositionGrammar::CommentChargeLine
         end
       end
-
-      private
 
       def sentence_line
         disposition_info.find do |l|

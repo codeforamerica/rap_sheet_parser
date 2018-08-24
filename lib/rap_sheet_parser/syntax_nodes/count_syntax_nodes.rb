@@ -5,17 +5,12 @@ module RapSheetParser
         if charge_line.is_a? CodeSectionLine
           charge_line.code_section
         elsif charge_line.is_a? SeeCommentForCharge
-          if disposition.is_a? DispositionGrammar::Disposition
-            comment_charge_line = disposition.comment_charge_line
-            comment_charge_line.code_section unless comment_charge_line.empty?
-          end
+          disposition.code_section if disposition.is_a? DispositionGrammar::Disposition
         end
       end
 
       def code_section_description
-        if charge_line.is_a? CodeSectionLine
-          charge_line.code_section_description
-        end
+        charge_line.code_section_description if charge_line.is_a? CodeSectionLine
       end
 
       def disposition

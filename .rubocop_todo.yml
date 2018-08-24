@@ -79,7 +79,6 @@ Performance/RedundantBlockCall:
 Style/AndOr:
   Exclude:
     - 'lib/rap_sheet_parser/models/court_event.rb'
-    - 'lib/rap_sheet_parser/syntax_nodes/count_syntax_nodes.rb'
 
 # Offense count: 4
 # Cop supports --auto-correct.
@@ -122,7 +121,6 @@ Style/FrozenStringLiteralComment:
 Style/GuardClause:
   Exclude:
     - 'lib/rap_sheet_parser/builders/personal_info_builder.rb'
-    - 'lib/rap_sheet_parser/syntax_nodes/count_syntax_nodes.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
@@ -137,7 +135,6 @@ Style/HashSyntax:
 Style/IfUnlessModifier:
   Exclude:
     - 'lib/rap_sheet_parser/builders/personal_info_builder.rb'
-    - 'lib/rap_sheet_parser/syntax_nodes/count_syntax_nodes.rb'
 
 # Offense count: 2
 # Cop supports --auto-correct.

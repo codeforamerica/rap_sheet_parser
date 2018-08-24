@@ -3,3 +3,11 @@ inherit_from: .rubocop_todo.yml
 Metrics/AbcSize:
   Exclude:
     - 'spec/*'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+Metrics/ModuleLength:
+  Exclude:
+    - 'spec/**/*'
