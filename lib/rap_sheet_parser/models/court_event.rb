@@ -74,7 +74,13 @@ module RapSheetParser
     attr_reader :updates
 
     def events_with_dates(rap_sheet)
-      (rap_sheet.arrest_events + rap_sheet.custody_events + rap_sheet.probation_events + rap_sheet.supplemental_arrest_events + rap_sheet.mental_health_events).reject do |e|
+      rap_sheet_events = (rap_sheet.arrest_events +
+        rap_sheet.custody_events +
+        rap_sheet.probation_events +
+        rap_sheet.supplemental_arrest_events +
+        rap_sheet.mental_health_events)
+
+      rap_sheet_events.reject do |e|
         e.date.nil?
       end
     end
