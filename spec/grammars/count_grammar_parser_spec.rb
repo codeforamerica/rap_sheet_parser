@@ -37,6 +37,30 @@ module RapSheetParser
         expect(count.comments[0].text_value).to eq "COM: SCN-WHO KNOWS\n"
       end
 
+      it 'does not include the word warrant in code section' do
+        text = <<~TEXT
+          -WARRANT
+          11359 HS-POSSESS MARIJUANA FOR SALE
+        TEXT
+
+        count = described_class.new.parse(text)
+        expect(count.code_section.code.text_value).to eq 'HS'
+        expect(count.code_section.section.text_value).to eq '11359'
+        expect(count.code_section_description.text_value).to eq "POSSESS MARIJUANA FOR SALE\n"
+      end
+
+      it 'does not include the words bench warrant in code section' do
+        text = <<~TEXT
+          -BENCH WARRANT
+          11359 HS-POSSESS MARIJUANA FOR SALE
+        TEXT
+
+        count = described_class.new.parse(text)
+        expect(count.code_section.code.text_value).to eq 'HS'
+        expect(count.code_section.section.text_value).to eq '11359'
+        expect(count.code_section_description.text_value).to eq "POSSESS MARIJUANA FOR SALE\n"
+      end
+
       it 'does not include arrest by line in charge description' do
         text = <<~TEXT
           496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
