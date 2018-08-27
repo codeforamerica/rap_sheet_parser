@@ -46,6 +46,7 @@ module RapSheetParser
     class ProbationEventIdentifier < EventIdentifier; end
     class ArrestEventIdentifier < EventIdentifier; end
     class SupplementalArrestEventIdentifier < EventIdentifier; end
+    class MentalHealthEventIdentifier < EventIdentifier; end
     class CustodyEventIdentifier < EventIdentifier; end
     class ApplicantEventIdentifier < EventIdentifier; end
     class DeceasedEventIdentifier < EventIdentifier; end

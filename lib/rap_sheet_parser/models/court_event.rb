@@ -31,11 +31,7 @@ module RapSheetParser
     def successfully_completed_duration?(rap_sheet, duration)
       return nil if date.nil?
 
-      events_with_dates = (rap_sheet.arrest_events + rap_sheet.custody_events + rap_sheet.probation_events + rap_sheet.supplemental_arrest_events).reject do |e|
-        e.date.nil?
-      end
-
-      events_with_dates.all? { |e| event_outside_duration(e, duration) }
+      events_with_dates(rap_sheet).all? { |e| event_outside_duration(e, duration) }
     end
 
     def sentence
@@ -76,6 +72,12 @@ module RapSheetParser
     private
 
     attr_reader :updates
+
+    def events_with_dates(rap_sheet)
+      (rap_sheet.arrest_events + rap_sheet.custody_events + rap_sheet.probation_events + rap_sheet.supplemental_arrest_events + rap_sheet.mental_health_events).reject do |e|
+        e.date.nil?
+      end
+    end
 
     def event_outside_duration(event, duration)
       event.date < date or event.date > (date + duration)

@@ -410,6 +410,24 @@ module RapSheetParser
         end
       end
 
+      context 'parsing a mental health event' do
+        it 'parses' do
+          text = <<~TEXT
+            MENTAL HLTH CUS/SUPV   NAM:01
+
+            19910625  CAHO ATASCADERO STATE
+
+            CNT:01     #897804-2
+              1370 PC-MENTALLY INCOMPETENT
+          TEXT
+
+          subject = parse(text)
+          expect(subject.event_identifier).to be_a(EventGrammar::MentalHealthEventIdentifier)
+          expect(subject.date.text_value).to eq '19910625'
+          expect(subject.courthouse.text_value).to eq 'CAHO ATASCADERO STATE'
+        end
+      end
+
       context 'parsing a deceased event' do
         it 'parses' do
           text = <<~TEXT

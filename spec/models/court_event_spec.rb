@@ -51,6 +51,14 @@ module RapSheetParser
         expect(conviction_event.successfully_completed_duration?(rap_sheet, 1.year)).to eq false
       end
 
+      it 'returns false if any mental health events within probation period' do
+        conviction_event = build_court_event(date: Date.new(1994, 1, 2))
+        mental_health_event = build_other_event(date: Date.new(1994, 6, 2), counts: [], header: 'mental_health')
+        rap_sheet = build_rap_sheet(events: [conviction_event, mental_health_event])
+
+        expect(conviction_event.successfully_completed_duration?(rap_sheet, 1.year)).to eq false
+      end
+
       it 'skips events without dates' do
         conviction_event = build_court_event(date: Date.new(1994, 1, 2))
         arrest_no_date_event = build_arrest_event(date: nil)

@@ -2,7 +2,18 @@ module RapSheetParser
   class RapSheet
     attr_reader :cycles, :personal_info
 
-    %w(arrest custody applicant probation registration supplemental_arrest deceased).each do |type|
+    EVENT_TYPES = %w(
+      arrest
+      custody
+      applicant
+      probation
+      registration
+      supplemental_arrest
+      deceased
+      mental_health
+    ).freeze
+
+    EVENT_TYPES.each do |type|
       define_method("#{type}_events") do
         filtered_events(OtherEvent).select { |event| event.header == type }
       end
