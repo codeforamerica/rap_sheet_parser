@@ -1,13 +1,17 @@
 inherit_from: .rubocop_todo.yml
 
+AllCops:
+  Exclude:
+  - 'lib/rap_sheet_parser/syntax_nodes/treetop_monkeypatches.rb'
+
 Metrics/AbcSize:
   Exclude:
-    - 'spec/*'
+  - 'spec/**/*'
 
 Metrics/BlockLength:
   Exclude:
-    - 'spec/**/*'
+  - 'spec/**/*'
 
 Metrics/ModuleLength:
   Exclude:
-    - 'spec/**/*'
+  - 'spec/**/*'

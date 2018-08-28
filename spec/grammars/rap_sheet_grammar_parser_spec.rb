@@ -6,23 +6,21 @@ module RapSheetParser
       subject { described_class.new.parse(text) }
 
       context 'parsing personal info' do
-        let(:text) {
-          <<~TEXT
-            bla bla
-            CII/A01234557
-            DOB/19681122    SEX/M  RAC/WHITE
-            HGT/511  WGT/265  EYE/BLU  HAI/BRO  POB/CA
-            NAM/01 LAST, FIRST
-            02 NAME, BOB
-            FBI/7778889LA2
-            CDL/C45667234 C14546456
-            SOC/549377146
-            OCC/CONCRET
-            * * * *
-            cycle text
-            * * * END OF MESSAGE * * *
-          TEXT
-        }
+        let(:text) { <<~TEXT }
+          bla bla
+          CII/A01234557
+          DOB/19681122    SEX/M  RAC/WHITE
+          HGT/511  WGT/265  EYE/BLU  HAI/BRO  POB/CA
+          NAM/01 LAST, FIRST
+          02 NAME, BOB
+          FBI/7778889LA2
+          CDL/C45667234 C14546456
+          SOC/549377146
+          OCC/CONCRET
+          * * * *
+          cycle text
+          * * * END OF MESSAGE * * *
+        TEXT
 
         it 'parses values in personal info' do
           expect(subject.personal_info).to be_a(RapSheetGrammar::PersonalInfo)
@@ -36,14 +34,12 @@ module RapSheetParser
       end
 
       context 'when we are missing personal info' do
-        let(:text) {
-          <<~TEXT
-            la la la
-            * * * *
-            cycle text
-            * * * END OF MESSAGE * * *
-          TEXT
-        }
+        let(:text) { <<~TEXT }
+          la la la
+          * * * *
+          cycle text
+          * * * END OF MESSAGE * * *
+        TEXT
 
         it 'parses personal info' do
           expect(subject.personal_info).to be_a(Unknown)
@@ -51,21 +47,19 @@ module RapSheetParser
       end
 
       context 'parsing multiple cycles' do
-        let(:text) {
-          <<~TEXT
-            super
-            arbitrary
+        let(:text) { <<~TEXT }
+          super
+          arbitrary
 
-            * * * *
-            cycle text
-            * * * *
-            another cycle text
-            * * * *
-            REGISTRATION:
-            hi i am registered
-            * * * END OF MESSAGE * * *
-          TEXT
-        }
+          * * * *
+          cycle text
+          * * * *
+          another cycle text
+          * * * *
+          REGISTRATION:
+          hi i am registered
+          * * * END OF MESSAGE * * *
+        TEXT
 
         it 'parses cycles to their correct type' do
           expect(subject.cycles[0].cycle_content).to be_a RapSheetGrammar::CycleContent
@@ -78,24 +72,22 @@ module RapSheetParser
       end
 
       context 'registration cycle with multiple events' do
-        let(:text) do
-          <<~TEXT
-            super
-            arbitrary
-            * * * *
-            REGISTRATION:
+        let(:text) { <<~TEXT }
+          super
+          arbitrary
+          * * * *
+          REGISTRATION:
 
-            19960101
+          19960101
 
-            CNT:01 #ABCDE
-              11590 HS-REGISTRATION OF CNTL SUB OFFENDER
-            - - - -
-            20030101
+          CNT:01 #ABCDE
+            11590 HS-REGISTRATION OF CNTL SUB OFFENDER
+          - - - -
+          20030101
 
-            CNT:01 #EFHIHJ
-              290 PC-PREREGISTRATION OF SEX OFFENDER
-          TEXT
-        end
+          CNT:01 #EFHIHJ
+            290 PC-PREREGISTRATION OF SEX OFFENDER
+        TEXT
 
         it "can parse out many registration events even though they don't all have the word REGISTRATION in them" do
           events = subject.cycles[0].events
@@ -189,21 +181,19 @@ module RapSheetParser
       end
 
       describe 'parsing events from cycles' do
-        let(:text) {
-          <<~TEXT
-            hello
+        let(:text) { <<~TEXT }
+          hello
 
-            * * * *
-            event 1
-            - - - -
-            event 2
-            * * * *
-            event 3
-            - - - -
-            event 4
-            * * * END OF MESSAGE * * *
-          TEXT
-        }
+          * * * *
+          event 1
+          - - - -
+          event 2
+          * * * *
+          event 3
+          - - - -
+          event 4
+          * * * END OF MESSAGE * * *
+        TEXT
 
         it 'has an events method that calls the cycle parser' do
           result = subject.cycles

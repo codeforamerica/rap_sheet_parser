@@ -86,7 +86,7 @@ module RapSheetParser
     end
 
     def event_outside_duration(event, duration)
-      event.date < date or event.date > (date + duration)
+      event.date < date || event.date > (date + duration)
     end
   end
 end
