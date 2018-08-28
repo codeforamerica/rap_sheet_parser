@@ -36,9 +36,9 @@ jobs:
     - store_test_results:
         path: ~/rspec
 
-    - run:
-        name: Run integration
-        command: bundle exec rspec spec/integration_spec.rb --tag integration
+    # - run:
+    #     name: Run integration
+    #     command: bundle exec rspec spec/integration_spec.rb --tag integration
 
     # Save artifacts
     - store_test_results:
