@@ -29,10 +29,10 @@ module RapSheetParser
 
     def self.clean_sentence(text)
       text.split("\n")
-        .reject { |x| x.length <= 3 }
-        .join("\n")
-        .gsub(/[.']/, '')
-        .gsub(/\n\s*/, ' ')
+          .reject { |x| x.length <= 3 }
+          .join("\n")
+          .gsub(/[.']/, '')
+          .gsub(/\n\s*/, ' ')
     end
   end
 end

@@ -24,8 +24,8 @@ module RapSheetParser
     def details
       sentence_node.details.map do |s|
         detail = s.text_value
-          .downcase
-          .gsub(/(restn|rstn)/, 'restitution')
+                  .downcase
+                  .gsub(/(restn|rstn)/, 'restitution')
 
         common_phrases(detail)
       end

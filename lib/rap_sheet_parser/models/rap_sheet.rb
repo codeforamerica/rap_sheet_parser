@@ -33,9 +33,8 @@ module RapSheetParser
     end
 
     def superstrikes
-      @superstrikes ||= convictions
-        .flat_map(&:convicted_counts)
-        .select(&:superstrike?)
+      @superstrikes ||= convictions.flat_map(&:convicted_counts)
+                                   .select(&:superstrike?)
     end
 
     def sex_offender_registration?
