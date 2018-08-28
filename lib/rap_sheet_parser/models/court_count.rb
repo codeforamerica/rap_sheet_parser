@@ -40,14 +40,14 @@ module RapSheetParser
       'PC 11418(a)(1)'
     ].freeze
 
+    attr_reader :code_section_description, :code, :section, :disposition
+
     def initialize(code_section_description:, code:, section:, disposition:)
       @section = section
       @code = code
       @code_section_description = code_section_description
       @disposition = disposition
     end
-
-    attr_reader :code_section_description, :code, :section, :disposition
 
     def code_section
       return unless code && section

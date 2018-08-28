@@ -3,7 +3,15 @@ module RapSheetParser
     include DispositionGrammar
 
     rule count
-      wn warrant_header? wn sentencing_line? w charge_line wn toc? wn arrest_by wn warrant_number wn comments wn disposition_content extra_count_info <Count>
+      wn flags wn sentencing_line? w charge_line wn toc? wn arrest_by wn warrant_number wn comments wn disposition_content extra_count_info <Count>
+    end
+
+    rule flags
+      flag*
+    end
+
+    rule flag
+      '-' (!'-' !N .)+
     end
 
     rule sentencing_line
@@ -38,10 +46,6 @@ module RapSheetParser
 
     rule arr_by_tag
      'ARR BY' w (':' / ';')
-    end
-
-    rule warrant_header
-      '-BENCH WARRANT' / '-WARRANT'
     end
 
     rule warrant_number

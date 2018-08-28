@@ -1,5 +1,7 @@
 module RapSheetParser
   class CourtCountBuilder
+    attr_reader :count
+
     def initialize(count, logger:)
       @count = count
       @logger = logger
@@ -19,8 +21,6 @@ module RapSheetParser
     end
 
     private
-
-    attr_reader :count
 
     def code_section_description
       return unless count.code_section_description

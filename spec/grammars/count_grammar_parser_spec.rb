@@ -63,6 +63,20 @@ module RapSheetParser
         expect(count.code_section_description.text_value).to eq "POSSESS MARIJUANA FOR SALE\n"
       end
 
+      it 'parses multiple count flags' do
+        text = <<~TEXT
+
+          -BENCH WARRANT         -PROBATION REVO
+
+          11359 HS-POSSESS MARIJUANA FOR SALE
+        TEXT
+
+        count = described_class.new.parse(text)
+        expect(count.flags.length).to eq 2
+        expect(count.flags[0].text_value.strip).to eq '-BENCH WARRANT'
+        expect(count.flags[1].text_value.strip).to eq '-PROBATION REVO'
+      end
+
       it 'does not include arrest by line in charge description' do
         text = <<~TEXT
           496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
@@ -152,7 +166,7 @@ module RapSheetParser
 
       it 'parses out punctuation around code section' do
         text = <<~TEXT
-            -496. PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
+            .496. PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
           *DISPO:CONVICTED
           CONV STATUS:MISDEMEANOR
           SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
