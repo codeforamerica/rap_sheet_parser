@@ -3,7 +3,7 @@ module RapSheetParser
     include DispositionGrammar
 
     rule count
-      warrant_header? wn sentencing_line? w charge_line wn toc? wn arrest_by wn warrant_number wn comments wn disposition_content extra_count_info <Count>
+      wn warrant_header? wn sentencing_line? w charge_line wn toc? wn arrest_by wn warrant_number wn comments wn disposition_content extra_count_info <Count>
     end
 
     rule sentencing_line

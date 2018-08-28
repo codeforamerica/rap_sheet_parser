@@ -51,7 +51,9 @@ module RapSheetParser
 
       it 'does not include the words bench warrant in code section' do
         text = <<~TEXT
+
           -BENCH WARRANT
+
           11359 HS-POSSESS MARIJUANA FOR SALE
         TEXT
 
