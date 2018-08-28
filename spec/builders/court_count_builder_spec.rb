@@ -104,6 +104,29 @@ module RapSheetParser
       expect(subject.disposition.severity).to eq 'M'
     end
 
+    context 'when the charge contains a -664 (Attempted)' do
+      it 'parses that into the code section' do
+        text = <<~TEXT
+          info
+          * * * *
+          COURT: NAME7OZ
+          19820915 CASC SN JOSE
+
+          CNT: 001  #346477
+            SEE COMMENT FOR CHARGE
+          *DISPO:CONVICTED
+            COM: CHRG 487(A)-664 PC
+          * * * END OF MESSAGE * * *
+        TEXT
+
+        tree = RapSheetGrammarParser.new.parse(text)
+        count_node = tree.cycles[0].events[0].counts[0]
+
+        subject = described_class.new(count_node, logger: logger).build
+        expect(subject.code_section).to eq 'PC 487(a)-664'
+      end
+    end
+
     context 'when the charge description contains 28.5' do
       let(:text) do
         <<~TEXT
