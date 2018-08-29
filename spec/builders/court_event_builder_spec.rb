@@ -6,8 +6,6 @@ module RapSheetParser
     describe '.build' do
       it 'builds court event from treetop node' do
         text = <<~TEXT
-          info
-          * * * *
           COURT:
           NAM:002
           19820915 CAMC LOS ANGELES METRO
@@ -53,8 +51,6 @@ module RapSheetParser
 
       it 'populates updates' do
         text = <<~TEXT
-          info
-          * * * *
           COURT: NAME7OZ
           19820915 CAMC LOS ANGELES METRO
 
@@ -65,7 +61,6 @@ module RapSheetParser
 
            19990205
             DISPO:CONV SET ASIDE & DISM PER 1203.4 PC
-          * * * END OF MESSAGE * * *
         TEXT
 
         event = build(text)
@@ -75,8 +70,6 @@ module RapSheetParser
 
       it 'sets sentence correctly if sentence modified' do
         text = <<~TEXT
-          info
-          * * * *
           COURT:
           20040102  CASC SAN FRANCISCO CO
 
@@ -92,7 +85,6 @@ module RapSheetParser
           20040202
             DISPO:SENTENCE MODIFIED
             SEN: 001 MONTHS JAIL
-          * * * END OF MESSAGE * * *
         TEXT
 
         event = build(text)
@@ -102,8 +94,8 @@ module RapSheetParser
     end
 
     def build(text)
-      tree = RapSheetGrammarParser.new.parse(text)
-      described_class.new(tree.cycles[0].events[0], logger: nil).build
+      tree = OtherCycleEventGrammarParser.new.parse(text)
+      described_class.new(tree, logger: nil).build
     end
   end
 end
