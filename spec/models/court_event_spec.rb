@@ -75,5 +75,74 @@ module RapSheetParser
         expect(conviction_event.successfully_completed_duration?(events, 1.year)).to be_nil
       end
     end
+
+    describe '#sentence' do
+      it 'sets sentence correctly if sentence modified' do
+        event = build_court_event(
+          counts: [
+            build_court_count(
+              disposition: build_disposition(
+                sentence: ConvictionSentence.new(probation: 12.months)
+              )
+            )
+          ],
+          updates: [
+            Update.new(
+              dispositions: [
+                build_disposition(type: 'sentence_modified',
+                                  sentence: ConvictionSentence.new(jail: 5.years))
+              ]
+            )
+          ]
+        )
+
+        expect(event.sentence.jail).to eq 5.years
+      end
+
+      it 'sets sentence correctly if no sentence modification' do
+        event = build_court_event(
+          counts: [
+            build_court_count(
+              disposition: build_disposition(
+                sentence: ConvictionSentence.new(probation: 12.months)
+              )
+            )
+          ],
+          updates: []
+        )
+
+        expect(event.sentence.probation).to eq 12.months
+      end
+
+      it 'sets sentence correctly if no sentence' do
+        event = build_court_event(
+          counts: [
+            build_court_count(
+              disposition: build_disposition(sentence: nil)
+            )
+          ]
+        )
+
+        expect(event.sentence).to eq nil
+      end
+    end
+
+    describe '#dismissed_by_pc1203?' do
+      it 'returns true if pc1203 dismissed update present' do
+        event = build_court_event(
+          updates: [
+            Update.new(dispositions: [build_disposition(type: 'pc1203_dismissed')])
+          ]
+        )
+
+        expect(event.dismissed_by_pc1203?).to eq true
+      end
+
+      it 'returns false if pc1203 dismissed update missing' do
+        event = build_court_event
+
+        expect(event.dismissed_by_pc1203?).to eq false
+      end
+    end
   end
 end
