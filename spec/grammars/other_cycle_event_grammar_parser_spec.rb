@@ -46,7 +46,7 @@ module RapSheetParser
           count2 = tree.counts[1]
           expect(count2.disposition.disposition_type).to be_a CountGrammar::Dismissed
           count3 = tree.counts[2]
-          expect(count3.disposition.text_value).to eq("\n")
+          expect(count3.disposition.text_value).to be_empty
         end
 
         it 'parses other disposition types' do
@@ -81,16 +81,16 @@ module RapSheetParser
 
           tree = parse(text)
 
-          expect(tree.counts[0].count_identifier.start_number.text_value).to eq "001"
-          expect(tree.counts[0].count_identifier.end_number.text_value).to eq "002"
+          expect(tree.counts[0].count_identifier.start_number.text_value).to eq '001'
+          expect(tree.counts[0].count_identifier.end_number.text_value).to eq '002'
           expect(tree.counts[0].text_value).to eq "CNT: 001-002  #346477\nblah\n"
 
-          expect(tree.counts[1].count_identifier.start_number.text_value).to eq "003"
-          expect(tree.counts[1].count_identifier.end_number.text_value).to eq "011"
+          expect(tree.counts[1].count_identifier.start_number.text_value).to eq '003'
+          expect(tree.counts[1].count_identifier.end_number.text_value).to eq '011'
           expect(tree.counts[1].text_value).to eq "CNT: 003-011\ncount 3 text\n"
 
-          expect(tree.counts[2].count_identifier.start_number.text_value).to eq "012"
-          expect(tree.counts[2].count_identifier.end_number.text_value).to eq ""
+          expect(tree.counts[2].count_identifier.start_number.text_value).to eq '012'
+          expect(tree.counts[2].count_identifier.end_number.text_value).to eq ''
           expect(tree.counts[2].text_value).to eq "CNT: 012\ntwelve\n"
         end
 
@@ -302,6 +302,26 @@ module RapSheetParser
           subject = parse(text)
           expect(subject.event_identifier).to be_a(EventGrammar::ArrestEventIdentifier)
           expect(subject.date.text_value).to eq '19910105'
+        end
+
+        it 'parses all counts when there is an update on the first count' do
+          text = <<~TEXT
+            ARR/DET/CITE: NAM:001  DOB:19750405
+            19910105 CAPD CONCORD
+
+            CNT:01     # 2177286-253129
+            11359 HS-POSSESS MARIJUANA FOR SALE
+            20040813
+            DISPO:PROS DEFERRED FOR REVOCATION OF PAROLE
+
+            CNT:02
+            3056 PC-VIOLATION OF PAROLE:FELONY
+          TEXT
+
+          subject = parse(text)
+          expect(subject.counts.length).to eq 2
+          expect(subject.counts[0].updates[0].dispositions[0].text_value).to eq "DISPO:PROS DEFERRED FOR REVOCATION OF PAROLE\n\n\n"
+          expect(subject.counts[1].code_section.section.text_value).to eq '3056'
         end
       end
 

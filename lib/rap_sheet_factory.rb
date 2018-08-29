@@ -5,7 +5,6 @@ module RapSheetParser
       case_number: '12345',
       courthouse: 'CASC SAN FRANCISCO',
       counts: [build_court_count],
-      updates: [],
       name_code: nil
     )
 
@@ -13,7 +12,6 @@ module RapSheetParser
         date: date,
         courthouse: courthouse,
         case_number: case_number,
-        updates: updates,
         counts: counts,
         name_code: name_code
       )
@@ -42,13 +40,15 @@ module RapSheetParser
       code: 'PC',
       section: '123',
       code_section_description: 'foo',
-      disposition: build_disposition
+      disposition: build_disposition,
+      updates: []
     )
       CourtCount.new(
         code_section_description: code_section_description,
         code: code,
         section: section,
-        disposition: disposition
+        disposition: disposition,
+        updates: updates
       )
     end
 

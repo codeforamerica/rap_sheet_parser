@@ -52,7 +52,7 @@ module RapSheetParser
           expect(subject.courthouse.text_value).to eq 'CASO SAN DIEGO'
           expect(subject.counts.length).to eq 1
           expect(subject.counts[0].code_section.text_value).to eq '290 PC'
-          expect(subject.updates[0].dispositions[0].text_value).to eq "DISPO:NO LONGER REQUIRED TO REGISTER/DRUG REG\n\n"
+          expect(subject.counts[0].updates[0].dispositions[0].text_value).to eq "DISPO:NO LONGER REQUIRED TO REGISTER/DRUG REG\n\n"
         end
       end
     end

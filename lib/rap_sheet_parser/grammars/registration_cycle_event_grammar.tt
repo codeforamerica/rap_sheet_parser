@@ -3,7 +3,7 @@ module RapSheetParser
     include EventGrammar
 
     rule event
-      w event_identifier name (!date .)* date wn [.']* wn courthouse wn toc? (!count_identifier .)* counts updates <EventGrammar::Event>
+      w event_identifier name (!date .)* date wn [.']* wn courthouse wn toc? (!count_identifier .)* counts <EventGrammar::Event>
     end
 
     rule event_identifier

@@ -1,12 +1,11 @@
 module RapSheetParser
   class CourtEvent
-    def initialize(cycle_events: [], date:, name_code:, case_number:, courthouse:, counts:, updates:)
+    def initialize(cycle_events: [], date:, name_code:, case_number:, courthouse:, counts:)
       @cycle_events = cycle_events
       @courthouse = courthouse
       @case_number = case_number
       @date = date
       @counts = counts
-      @updates = updates
       @name_code = name_code
     end
 
@@ -41,7 +40,7 @@ module RapSheetParser
 
       original_sentence = count_with_sentence.disposition.sentence
 
-      sentence_modified_disposition = updates.flat_map(&:dispositions).find do |d|
+      sentence_modified_disposition = counts.flat_map(&:updates).flat_map(&:dispositions).find do |d|
         d.type == 'sentence_modified'
       end
 
@@ -64,7 +63,7 @@ module RapSheetParser
     end
 
     def dismissed_by_pc1203?
-      updates.flat_map(&:dispositions).any? do |d|
+      counts.flat_map(&:updates).flat_map(&:dispositions).any? do |d|
         d.type == 'pc1203_dismissed'
       end
     end

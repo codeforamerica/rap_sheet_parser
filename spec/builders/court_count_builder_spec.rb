@@ -19,6 +19,8 @@ module RapSheetParser
           CONV STATUS:MISDEMEANOR
           SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
           COM: SENTENCE CONCURRENT WITH FILE #743-2:
+        20000101
+          DISPO:SENTENCE MODIFIED
         * * * END OF MESSAGE * * *
       TEXT
 
@@ -31,7 +33,10 @@ module RapSheetParser
       expect(subject.disposition.severity).to eq 'M'
       expect(subject.disposition.type).to eq 'convicted'
       expect(subject.disposition.sentence.to_s).to eq '12m probation, 45d jail'
-      expect(log.string).to eq('')
+      expect(subject.updates.length).to eq 1
+      expect(subject.updates[0].dispositions[0].type).to eq 'sentence_modified'
+
+      expect(log.string).to be_empty
     end
 
     it 'returns nil fields when information not present' do

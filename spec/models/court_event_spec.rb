@@ -83,14 +83,14 @@ module RapSheetParser
             build_court_count(
               disposition: build_disposition(
                 sentence: ConvictionSentence.new(probation: 12.months)
-              )
-            )
-          ],
-          updates: [
-            Update.new(
-              dispositions: [
-                build_disposition(type: 'sentence_modified',
-                                  sentence: ConvictionSentence.new(jail: 5.years))
+              ),
+              updates: [
+                Update.new(
+                  dispositions: [
+                    build_disposition(type: 'sentence_modified',
+                                      sentence: ConvictionSentence.new(jail: 5.years))
+                  ]
+                )
               ]
             )
           ]
@@ -105,10 +105,10 @@ module RapSheetParser
             build_court_count(
               disposition: build_disposition(
                 sentence: ConvictionSentence.new(probation: 12.months)
-              )
+              ),
+              updates: []
             )
-          ],
-          updates: []
+          ]
         )
 
         expect(event.sentence.probation).to eq 12.months
@@ -130,8 +130,12 @@ module RapSheetParser
     describe '#dismissed_by_pc1203?' do
       it 'returns true if pc1203 dismissed update present' do
         event = build_court_event(
-          updates: [
-            Update.new(dispositions: [build_disposition(type: 'pc1203_dismissed')])
+          counts: [
+            build_court_count(
+              updates: [
+                Update.new(dispositions: [build_disposition(type: 'pc1203_dismissed')])
+              ]
+            )
           ]
         )
 

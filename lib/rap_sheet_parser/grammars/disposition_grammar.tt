@@ -71,7 +71,7 @@ module RapSheetParser
     end
 
     rule unknown_content_line
-      to_eol
+      !(w date) to_eol
     end
   end
 end

@@ -110,19 +110,6 @@ module RapSheetParser
         expect(disposition.sentence.text_value).to eq '012 MONTHS PROBATION, 045 DAYS JAIL, FINE, FINE SS, CONCURRENT'
       end
 
-      it 'parses multiple line sentences where a date marker comes after the sentence' do
-        text = <<~TEXT
-          *DISPO:CONVICTED
-          CONV STATUS:MISDEMEANOR
-          SEN: 012 MONTHS PROBATION, 045 DAYS JAIL, FINE, FINE SS,
-               CONCURRENT
-          20130116
-        TEXT
-
-        disposition = described_class.new.parse(text)
-        expect(disposition.sentence.text_value).to eq '012 MONTHS PROBATION, 045 DAYS JAIL, FINE, FINE SS, CONCURRENT'
-      end
-
       it 'parses sentences found in comments with a SEN-X header' do
         text = <<~TEXT
           DISPO:CONVICTED
@@ -177,6 +164,20 @@ module RapSheetParser
 
         disposition = described_class.new.parse(text)
         expect(disposition.code_section.text_value).to eq '666 PC'
+      end
+
+      it 'does not consume updates following the disposition' do
+        text = <<~TEXT
+          DISPO: CONVICTED
+          CONV STATUS :MISDEMEANOR
+          COM: CNT 02 CHRG-666 PC
+          DCN:T6014082460234000096
+          20011030
+            DISPO:BLAH
+        TEXT
+
+        disposition = described_class.new.parse(text)
+        expect(disposition).to be_nil
       end
 
       it 'parses when code section missing' do

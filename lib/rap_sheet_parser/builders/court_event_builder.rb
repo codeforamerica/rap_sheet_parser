@@ -9,7 +9,6 @@ module RapSheetParser
         date: date,
         case_number: case_number,
         courthouse: courthouse,
-        updates: updates,
         counts: counts
       )
     end
@@ -28,10 +27,6 @@ module RapSheetParser
 
     def courthouse
       CourthouseBuilder.new(event_syntax_node.courthouse, logger: logger).build
-    end
-
-    def updates
-      event_syntax_node.updates.map { |u| UpdateBuilder.new(u, logger: logger).build }
     end
   end
 end

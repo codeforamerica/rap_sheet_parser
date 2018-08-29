@@ -7,7 +7,7 @@ module RapSheetParser
     end
     
     rule detected_event
-      (!event_identifier .)* event_identifier wn name w dob (!date .)* date wn [.']* wn name? wn courthouse wn toc? (!count_identifier .)* counts updates <EventGrammar::Event>
+      (!event_identifier .)* event_identifier wn name w dob (!date .)* date wn [.']* wn name? wn courthouse wn toc? (!count_identifier .)* counts <EventGrammar::Event>
     end
 
     rule dob

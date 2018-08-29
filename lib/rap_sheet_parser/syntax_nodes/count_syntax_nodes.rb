@@ -18,6 +18,18 @@ module RapSheetParser
       end
     end
 
+    class Update < Treetop::Runtime::SyntaxNode
+      def dispositions
+        update_content.dispositions
+      end
+
+      def update_content
+        return @update_content if @update_content
+
+        @update_content = do_parsing(UpdateGrammarParser.new, update_info.text_value)
+      end
+    end
+
     class SeeCommentForCharge < Treetop::Runtime::SyntaxNode; end
     class CodeSectionLine < Treetop::Runtime::SyntaxNode; end
   end

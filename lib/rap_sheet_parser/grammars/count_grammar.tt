@@ -3,7 +3,7 @@ module RapSheetParser
     include DispositionGrammar
 
     rule count
-      wn flags wn sentencing_line? w charge_line wn toc? wn arrest_by wn warrant_number wn comments wn disposition_content extra_count_info <Count>
+      wn flags wn sentencing_line? w charge_line wn toc? w arrest_by w warrant_number w comments disposition_content updates extra_count_info <Count>
     end
 
     rule flags
@@ -29,11 +29,23 @@ module RapSheetParser
     end
 
     rule code_section_line
-      stray_punctuation code_section '-'+ code_section_description <CodeSectionLine>
+      stray_punctuation code_section '-'+ code_section_description w N <CodeSectionLine>
     end
 
     rule code_section_description
-      (!(wn (dispo_header / comment_tag / arr_by_tag / warrant_tag)) .)*
+      (!(wn (dispo_header / comment_tag / arr_by_tag / warrant_tag / date / !.)) .)*
+    end
+
+    rule updates
+      update*
+    end
+
+    rule update
+      w date w N update_info <Update>
+    end
+
+    rule update_info
+      (!(N w (date / !.)) .)* w N
     end
 
     rule extra_count_info
@@ -61,7 +73,7 @@ module RapSheetParser
     end
 
     rule disposition_content
-      disposition / ''
+      disposition?
     end
   end
 end

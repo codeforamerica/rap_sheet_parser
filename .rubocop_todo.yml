@@ -117,7 +117,6 @@ Style/StringLiterals:
     - 'lib/rap_sheet_parser/parser.rb'
     - 'lib/rap_sheet_parser/version.rb'
     - 'rap_sheet_parser.gemspec'
-    - 'spec/grammars/other_cycle_event_grammar_parser_spec.rb'
     - 'spec/rap_sheet_parser_spec.rb'
 
 # Offense count: 10

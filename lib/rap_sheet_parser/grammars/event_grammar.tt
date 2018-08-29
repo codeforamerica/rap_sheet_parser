@@ -47,23 +47,11 @@ module RapSheetParser
     end
 
     rule count_info
-      (!count_identifier !(N w date w N) .)*
+      (!count_identifier .)*
     end
 
     rule case_number
       '#' w (!N .)+
-    end
-
-    rule updates
-      update*
-    end
-
-    rule update
-      N w date w N update_info <Update>
-    end
-
-    rule update_info
-      (!(N w date) .)*
     end
   end
 end

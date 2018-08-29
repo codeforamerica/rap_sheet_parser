@@ -46,7 +46,7 @@ module RapSheetParser
         count = described_class.new.parse(text)
         expect(count.code_section.code.text_value).to eq 'HS'
         expect(count.code_section.section.text_value).to eq '11359'
-        expect(count.code_section_description.text_value).to eq "POSSESS MARIJUANA FOR SALE\n"
+        expect(count.code_section_description.text_value).to eq 'POSSESS MARIJUANA FOR SALE'
       end
 
       it 'does not include the words bench warrant in code section' do
@@ -60,7 +60,7 @@ module RapSheetParser
         count = described_class.new.parse(text)
         expect(count.code_section.code.text_value).to eq 'HS'
         expect(count.code_section.section.text_value).to eq '11359'
-        expect(count.code_section_description.text_value).to eq "POSSESS MARIJUANA FOR SALE\n"
+        expect(count.code_section_description.text_value).to eq 'POSSESS MARIJUANA FOR SALE'
       end
 
       it 'parses multiple count flags' do
@@ -162,6 +162,46 @@ module RapSheetParser
         expect(count.code_section.code.text_value).to eq 'PC'
         expect(count.code_section.section.text_value).to eq '496'
         expect(count.code_section_description.text_value).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
+      end
+
+      it 'parses count updates' do
+        text = <<~TEXT
+          11359 HS-POSSESS MARIJUANA FOR SALE
+          20040813
+          DISPO:PROS DEFERRED FOR REVOCATION OF PAROLE
+
+          20060101
+          DISPO:SENTENCE MODIFIED
+        TEXT
+
+        count = described_class.new.parse(text)
+        expect(count.code_section.code.text_value).to eq 'HS'
+        expect(count.code_section.section.text_value).to eq '11359'
+        expect(count.code_section_description.text_value).to eq 'POSSESS MARIJUANA FOR SALE'
+
+        expect(count.updates.length).to eq 2
+
+        expect(count.updates[0].date.text_value).to eq '20040813'
+        expect(count.updates[0].dispositions[0].text_value).to eq "DISPO:PROS DEFERRED FOR REVOCATION OF PAROLE\n\n"
+
+        expect(count.updates[1].date.text_value).to eq '20060101'
+      end
+
+      it 'parses count updates when disposition present' do
+        text = <<~TEXT
+          11359 HS-POSSESS MARIJUANA FOR SALE
+          DISPO:CONVICTED
+          20040813
+          DISPO:PROS DEFERRED FOR REVOCATION OF PAROLE
+        TEXT
+
+        count = described_class.new.parse(text)
+        expect(count.code_section.code.text_value).to eq 'HS'
+        expect(count.code_section.section.text_value).to eq '11359'
+        expect(count.code_section_description.text_value).to eq 'POSSESS MARIJUANA FOR SALE'
+
+        expect(count.updates[0].date.text_value).to eq '20040813'
+        expect(count.updates[0].dispositions[0].text_value).to eq "DISPO:PROS DEFERRED FOR REVOCATION OF PAROLE\n"
       end
 
       it 'parses out punctuation around code section' do

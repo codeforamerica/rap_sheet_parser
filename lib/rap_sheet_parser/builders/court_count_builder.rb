@@ -16,7 +16,8 @@ module RapSheetParser
         code_section_description: code_section_description,
         code: code,
         section: section,
-        disposition: disposition
+        disposition: disposition,
+        updates: updates
       )
     end
 
@@ -44,6 +45,10 @@ module RapSheetParser
       return unless count.code_section
 
       count.code_section.section.text_value.delete(' ').downcase.tr(',', '.')
+    end
+
+    def updates
+      count.updates.map { |u| UpdateBuilder.new(u, logger: logger).build }
     end
   end
 end
