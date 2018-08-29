@@ -21,7 +21,7 @@ module RapSheetParser
     rule charge_line
       see_comment_for_charge /
       code_section_line /
-      (!dispo_header .)*
+      (!count_content_line .)*
     end
 
     rule see_comment_for_charge
@@ -33,7 +33,11 @@ module RapSheetParser
     end
 
     rule code_section_description
-      (!(wn (dispo_header / comment_tag / arr_by_tag / warrant_tag / date / !.)) .)*
+      (!(wn count_content_line) .)*
+    end
+
+    rule count_content_line
+      dispo_header / comment_tag / arr_by_tag / warrant_tag / date / !.
     end
 
     rule updates

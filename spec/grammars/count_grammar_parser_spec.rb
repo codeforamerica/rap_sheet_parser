@@ -231,6 +231,25 @@ module RapSheetParser
         count = described_class.new.parse(text)
         expect(count.code_section).to be_nil
       end
+
+      it 'parses applicant counts' do
+        text = <<~TEXT
+            APPLICANT ADULT DAY/RESIDENT REHAB
+
+             COM: JKFHKJFKJHS
+
+          20140321
+           DISPO:NO LONGER INTERESTED
+             COM: AJFH-BJBDHJ
+        TEXT
+
+        count = described_class.new.parse(text)
+        expect(count.code_section).to be_nil
+
+        expect(count.disposition.text_value).to be_empty
+        expect(count.comments[0].text_value).to eq "COM: JKFHKJFKJHS\n\n"
+        expect(count.updates[0].dispositions[0].text_value).to eq " DISPO:NO LONGER INTERESTED\n   COM: AJFH-BJBDHJ\n"
+      end
     end
   end
 end
