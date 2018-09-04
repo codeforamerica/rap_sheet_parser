@@ -12,7 +12,8 @@ module RapSheetParser
       'FINE SS' => ['FINESS'],
       'ARR/DET/CITE' => ['ARR/PET/CITE'],
       'COURT' => ['COURI'],
-      '' => ["\f"]
+      '' => ["\f"],
+      ' ' => [' '] # Non breaking space character
     }.freeze
 
     def self.clean(text)

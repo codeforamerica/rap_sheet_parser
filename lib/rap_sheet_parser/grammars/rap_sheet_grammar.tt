@@ -63,7 +63,7 @@ module RapSheetParser
     end
 
     rule cycles
-      cycle*
+      cycle+
     end
 
     rule cycle_delimiter

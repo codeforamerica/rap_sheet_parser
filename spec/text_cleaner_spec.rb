@@ -8,6 +8,9 @@ module RapSheetParser
         expect(clean('WRONG–DASH')).to eq('WRONG-DASH')
         expect(clean('CNI: HI')).to eq('CNT: HI')
         expect(clean("\f")).to eq('')
+
+        # Replacing nbsp with normal space character
+        expect(clean(' ')).to eq(' ')
       end
 
       it 'upcases all text' do

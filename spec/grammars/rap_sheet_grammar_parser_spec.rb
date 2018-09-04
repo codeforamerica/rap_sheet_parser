@@ -43,6 +43,18 @@ module RapSheetParser
 
         it 'parses personal info' do
           expect(subject.personal_info).to be_a(Unknown)
+          expect(subject.cycles.length).to eq 1
+        end
+      end
+
+      context 'fails to parse if zero cycles' do
+        let(:text) { <<~TEXT }
+          la la la
+          * * * END OF MESSAGE * * *
+        TEXT
+
+        it 'does not parse' do
+          expect(subject).to be_nil
         end
       end
 
