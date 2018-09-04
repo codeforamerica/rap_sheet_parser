@@ -58,6 +58,19 @@ module RapSheetParser
         end
       end
 
+      context 'record error' do
+        let(:text) { <<~TEXT }
+          some personal info
+          * * *   * * *
+          RECORD ERROR - REFER TO CRIMINAL HISTORY INQUIRY MANUAL
+          * * * END OF MESSAGE * * *
+        TEXT
+
+        it 'does not parse' do
+          expect(subject).to be_nil
+        end
+      end
+
       context 'parsing multiple cycles' do
         let(:text) { <<~TEXT }
           super
