@@ -9,7 +9,7 @@ module RapSheetParser
     class Count < Treetop::Runtime::SyntaxNode
       extend Forwardable
 
-      def_delegators :count_content, :disposition, :code_section, :code_section_description, :updates
+      def_delegators :count_content, :disposition, :code_section, :code_section_description, :updates, :flags
 
       def count_content
         return @count_content if @count_content

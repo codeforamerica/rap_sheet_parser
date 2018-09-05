@@ -25,6 +25,20 @@ RSpec.describe RapSheetParser::CourtCount do
 
       expect(count).not_to be_superstrike
     end
+
+    it 'returns false if the count has an attempted flag' do
+      count = build_court_count(code: 'PC', section: '269', flags: ['-ATTEMPTED'])
+
+      expect(count).not_to be_superstrike
+    end
+
+    context 'the code is still a superstrike when it is attempted' do
+      it 'returns true if code section is associated with superstrikes' do
+        count = build_court_count(code: 'PC', section: '187', flags: ['-ATTEMPTED'])
+
+        expect(count).to be_superstrike
+      end
+    end
   end
 
   describe '#subsection_of?' do

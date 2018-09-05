@@ -41,14 +41,16 @@ module RapSheetParser
       section: '123',
       code_section_description: 'foo',
       disposition: build_disposition,
-      updates: []
+      updates: [],
+      flags: []
     )
       CourtCount.new(
         code_section_description: code_section_description,
         code: code,
         section: section,
         disposition: disposition,
-        updates: updates
+        updates: updates,
+        flags: flags
       )
     end
 

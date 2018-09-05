@@ -132,6 +132,30 @@ module RapSheetParser
       end
     end
 
+    context 'when the charge contains flags' do
+      it 'parses flags into the count' do
+        text = <<~TEXT
+          info
+          * * * *
+          COURT: NAME7OZ
+          19820915 CASC SN JOSE
+
+          CNT: 001  #346477
+            -ATTEMPTED           -BENCH WARRANT
+            SEE COMMENT FOR CHARGE
+          *DISPO:CONVICTED
+            COM: CHRG 487(A)-664 PC
+          * * * END OF MESSAGE * * *
+        TEXT
+
+        tree = RapSheetGrammarParser.new.parse(text)
+        count_node = tree.cycles[0].events[0].counts[0]
+
+        subject = described_class.new(count_node, logger: logger).build
+        expect(subject.flags).to contain_exactly('-ATTEMPTED', '-BENCH WARRANT')
+      end
+    end
+
     context 'when the charge description contains 28.5' do
       let(:text) do
         <<~TEXT

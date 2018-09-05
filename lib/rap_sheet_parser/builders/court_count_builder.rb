@@ -17,7 +17,8 @@ module RapSheetParser
         code: code,
         section: section,
         disposition: disposition,
-        updates: updates
+        updates: updates,
+        flags: flags
       )
     end
 
@@ -39,6 +40,10 @@ module RapSheetParser
       return unless count.code_section
 
       count.code_section.code.text_value
+    end
+
+    def flags
+      count.flags.map(&:text_value).map(&:strip)
     end
 
     def section

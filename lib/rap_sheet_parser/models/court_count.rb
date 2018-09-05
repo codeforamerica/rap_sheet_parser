@@ -40,14 +40,15 @@ module RapSheetParser
       'PC 11418(a)(1)'
     ].freeze
 
-    attr_reader :code_section_description, :code, :section, :disposition, :updates
+    attr_reader :code_section_description, :code, :section, :disposition, :updates, :flags
 
-    def initialize(code_section_description:, code:, section:, disposition:, updates:)
+    def initialize(code_section_description:, code:, section:, disposition:, updates:, flags:)
       @section = section
       @code = code
       @code_section_description = code_section_description
       @disposition = disposition
       @updates = updates
+      @flags = flags
     end
 
     def code_section
@@ -58,7 +59,7 @@ module RapSheetParser
     def superstrike?
       return false unless code_section
 
-      SUPERSTRIKES.include? code_section
+      SUPERSTRIKES.include?(code_section) && (!attempeted_flag? || attempted_superstrike?)
     end
 
     def subsection_of?(codes)
@@ -70,6 +71,21 @@ module RapSheetParser
     end
 
     private
+
+    def attempeted_flag?
+      flags.include?('-ATTEMPTED')
+    end
+
+    def attempted_superstrike?
+      attempted_codes = [
+        'PC 187',
+        'PC 191.5',
+        'PC 187-664',
+        'PC 191.5-664'
+      ]
+
+      attempted_codes.include?(code_section)
+    end
 
     def strip_subsection(code_section)
       code_section.split('(')[0]
