@@ -16,5 +16,13 @@ Metrics/ModuleLength:
   Exclude:
   - 'spec/**/*'
 
+Metrics/MethodLength:
+  Exclude:
+  - 'lib/rap_sheet_parser/builders/courthouse_builder.rb'
+
+Metrics/ClassLength:
+  Exclude:
+  - 'lib/rap_sheet_parser/builders/courthouse_builder.rb'
+
 Style/Documentation:
   Enabled: false
