@@ -2,7 +2,7 @@ require 'active_support/core_ext/integer/time'
 
 module RapSheetParser
   class ConvictionSentenceBuilder
-    COMMON_PHRASES = ['fine ss', 'concurrent']
+    COMMON_PHRASES = ['fine ss', 'concurrent'].freeze
 
     def initialize(sentence_node)
       @sentence_node = sentence_node

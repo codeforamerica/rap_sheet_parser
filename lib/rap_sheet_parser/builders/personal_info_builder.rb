@@ -21,21 +21,15 @@ module RapSheetParser
     attr_reader :personal_info_node
 
     def sex
-      if personal_info_node.sex.respond_to? :sex_value
-        personal_info_node.sex.sex_value.text_value
-      end
+      personal_info_node.sex.sex_value.text_value if personal_info_node.sex.respond_to? :sex_value
     end
 
     def cii
-      if personal_info_node.cii.respond_to? :cii_value
-        personal_info_node.cii.cii_value.text_value
-      end
+      personal_info_node.cii.cii_value.text_value if personal_info_node.cii.respond_to? :cii_value
     end
 
     def race
-      if personal_info_node.race.respond_to? :race_value
-        personal_info_node.race.race_value.text_value.chomp('')
-      end
+      personal_info_node.race.race_value.text_value.chomp('') if personal_info_node.race.respond_to? :race_value
     end
 
     def names
@@ -47,9 +41,7 @@ module RapSheetParser
     end
 
     def date_of_birth
-      if personal_info_node.date_of_birth.respond_to? :date
-        DateBuilder.new(personal_info_node.date_of_birth.date).build
-      end
+      DateBuilder.new(personal_info_node.date_of_birth.date).build if personal_info_node.date_of_birth.respond_to? :date
     end
   end
 end

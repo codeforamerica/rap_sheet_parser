@@ -89,7 +89,7 @@ RSpec.describe 'integration', integration: true do
     if ENV['LOCAL_ROOT']
       {
         provider: 'Local',
-        local_root: ENV['LOCAL_ROOT'],
+        local_root: ENV['LOCAL_ROOT']
       }
     else
       {

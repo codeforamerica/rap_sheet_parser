@@ -57,7 +57,7 @@ module RapSheetParser
 
     def severity
       severities = counts.map(&:severity)
-      ['F', 'M', 'I'].each do |s|
+      %w[F M I].each do |s|
         return s if severities.include?(s)
       end
     end

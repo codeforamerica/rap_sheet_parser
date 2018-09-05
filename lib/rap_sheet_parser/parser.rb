@@ -53,7 +53,7 @@ require 'rap_sheet_parser/rap_sheet_parser_exception'
 
 module RapSheetParser
   class Parser
-    def parse(text, logger: Logger.new("/dev/null"))
+    def parse(text, logger: Logger.new('/dev/null'))
       cleaned_text = TextCleaner.clean(text)
       parser = RapSheetGrammarParser.new
 

@@ -2,7 +2,7 @@ module RapSheetParser
   class RapSheet
     attr_reader :cycles, :personal_info
 
-    EVENT_TYPES = %w(
+    EVENT_TYPES = %w[
       arrest
       custody
       applicant
@@ -11,7 +11,7 @@ module RapSheetParser
       supplemental_arrest
       deceased
       mental_health
-    ).freeze
+    ].freeze
 
     EVENT_TYPES.each do |type|
       define_method("#{type}_events") do

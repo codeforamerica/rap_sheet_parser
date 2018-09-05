@@ -36,65 +36,12 @@ Metrics/ModuleLength:
 Metrics/ParameterLists:
   Max: 7
 
-# Offense count: 41
-Style/Documentation:
-  Enabled: false
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/ExpandPathArguments:
-  Exclude:
-    - 'rap_sheet_parser.gemspec'
-
 # Offense count: 68
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: when_needed, always, never
 Style/FrozenStringLiteralComment:
   Enabled: false
-
-# Offense count: 6
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
-  Exclude:
-    - 'lib/rap_sheet_parser/builders/personal_info_builder.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, UseHashRocketsWithSymbolValues, PreferHashRocketsForNonAlnumEndingSymbols.
-# SupportedStyles: ruby19, hash_rockets, no_mixed_keys, ruby19_no_mixed_keys
-Style/HashSyntax:
-  Exclude:
-    - 'Rakefile'
-
-# Offense count: 8
-# Cop supports --auto-correct.
-Style/IfUnlessModifier:
-  Exclude:
-    - 'lib/rap_sheet_parser/builders/personal_info_builder.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/MutableConstant:
-  Exclude:
-    - 'lib/rap_sheet_parser/builders/conviction_sentence_builder.rb'
-    - 'lib/rap_sheet_parser/version.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect, EnforcedStyle.
-# SupportedStyles: predicate, comparison
-Style/NumericPredicate:
-  Exclude:
-    - 'spec/**/*'
-    - 'lib/rap_sheet_parser/models/conviction_sentence.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: PreferredDelimiters.
-Style/PercentLiteralDelimiters:
-  Exclude:
-    - 'lib/rap_sheet_parser/models/rap_sheet.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
@@ -103,37 +50,6 @@ Style/PercentLiteralDelimiters:
 Style/RescueStandardError:
   Exclude:
     - 'spec/integration_spec.rb'
-
-# Offense count: 49
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, ConsistentQuotesInMultiline.
-# SupportedStyles: single_quotes, double_quotes
-Style/StringLiterals:
-  Exclude:
-    - 'Gemfile'
-    - 'Rakefile'
-    - 'bin/console'
-    - 'lib/rap_sheet_parser/models/conviction_sentence.rb'
-    - 'lib/rap_sheet_parser/parser.rb'
-    - 'lib/rap_sheet_parser/version.rb'
-    - 'rap_sheet_parser.gemspec'
-    - 'spec/rap_sheet_parser_spec.rb'
-
-# Offense count: 10
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInHashLiteral:
-  Exclude:
-    - 'spec/integration_spec.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: WordRegex.
-# SupportedStyles: percent, brackets
-Style/WordArray:
-  EnforcedStyle: percent
-  MinSize: 4
 
 # Offense count: 164
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
