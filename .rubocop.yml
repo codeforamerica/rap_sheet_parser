@@ -11,6 +11,7 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Exclude:
   - 'spec/**/*'
+  - 'rap_sheet_parser.gemspec'
 
 Metrics/ModuleLength:
   Exclude:
