@@ -26,11 +26,6 @@ Metrics/ClassLength:
 Metrics/MethodLength:
   Max: 148
 
-# Offense count: 7
-# Configuration parameters: CountComments.
-Metrics/ModuleLength:
-  Max: 330
-
 # Offense count: 5
 # Configuration parameters: CountKeywordArgs.
 Metrics/ParameterLists:
@@ -42,14 +37,6 @@ Metrics/ParameterLists:
 # SupportedStyles: when_needed, always, never
 Style/FrozenStringLiteralComment:
   Enabled: false
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: implicit, explicit
-Style/RescueStandardError:
-  Exclude:
-    - 'spec/integration_spec.rb'
 
 # Offense count: 164
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.

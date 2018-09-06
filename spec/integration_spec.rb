@@ -80,7 +80,7 @@ RSpec.describe 'integration', integration: true do
   def parse_rap_sheet(filename)
     text = directory.files.get(filename).body.force_encoding('utf-8')
     RapSheetParser::Parser.new.parse(text)
-  rescue
+  rescue StandardError
     puts "error in file #{filename}"
     raise
   end
