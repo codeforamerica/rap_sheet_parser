@@ -10,20 +10,21 @@ module RapSheetParser
       'C' => 'Ç',
       'O' => /[ỌÓ]/,
       'FINE SS' => 'FINESS',
-      'ARR/DET/CITE' => 'ARR/PET/CITE',
-      'COURT' => 'COURI',
+      'ARR/DET/CITE' => %r{[▯A]RR/[PD]ET/CITE},
+      'COURT' => /[C▯]OUR[IT]/,
       '' => "\f",
       ' ' => ' ' # Non breaking space character
     }.freeze
 
     def self.clean(text)
-      text = text.upcase
+      text_to_clean = text.upcase.freeze
 
-      SUBSTITUTION_PATTERNS.each do |correct_value, pattern|
-        text.gsub!(pattern, correct_value)
+      SUBSTITUTION_PATTERNS.inject(text_to_clean) do |clean_text, substitution|
+        pattern = substitution[1]
+        correct_value = substitution[0]
+
+        clean_text.gsub(pattern, correct_value)
       end
-
-      text
     end
 
     def self.clean_sentence(text)

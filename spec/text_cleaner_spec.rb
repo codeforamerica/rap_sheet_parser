@@ -6,7 +6,9 @@ module RapSheetParser
       it 'replaces commonly mis-scanned text' do
         expect(clean('FOO ÇNT: FOO')).to eq('FOO CNT: FOO')
         expect(clean('WRONG–DASH')).to eq('WRONG-DASH')
-        expect(clean('CNI: HI')).to eq('CNT: HI')
+        expect(clean('CNI: HI RESIN')).to eq('CNT: HI RESTN')
+        expect(clean('▯RR/DET/CITE: ▯OURT')).to eq('ARR/DET/CITE: COURT')
+        expect(clean('COURI ▯OURT')).to eq('COURT COURT')
         expect(clean("\f")).to eq('')
 
         # Replacing nbsp with normal space character
