@@ -1,28 +1,26 @@
 module RapSheetParser
   class TextCleaner
     SUBSTITUTION_PATTERNS = {
-      'CNT:' => [/CN[ÍI]:/],
-      'INFRACTION' => ['TNFRACTION'],
-      'CONV STATUS:' => [/CONV STATIS./],
-      '-' => ['–'],
-      'RESTN' => ['RESIN'],
-      'E' => ['É'],
-      'C' => ['Ç'],
-      'O' => %w[Ọ Ó],
-      'FINE SS' => ['FINESS'],
-      'ARR/DET/CITE' => ['ARR/PET/CITE'],
-      'COURT' => ['COURI'],
-      '' => ["\f"],
-      ' ' => [' '] # Non breaking space character
+      'CNT:' => /CN[ÍI]:/,
+      'INFRACTION' => 'TNFRACTION',
+      'CONV STATUS:' => /CONV STATIS./,
+      '-' => '–',
+      'RESTN' => 'RESIN',
+      'E' => 'É',
+      'C' => 'Ç',
+      'O' => /[ỌÓ]/,
+      'FINE SS' => 'FINESS',
+      'ARR/DET/CITE' => 'ARR/PET/CITE',
+      'COURT' => 'COURI',
+      '' => "\f",
+      ' ' => ' ' # Non breaking space character
     }.freeze
 
     def self.clean(text)
       text = text.upcase
 
-      SUBSTITUTION_PATTERNS.each do |correct_value, patterns|
-        patterns.each do |pattern|
-          text.gsub!(pattern, correct_value)
-        end
+      SUBSTITUTION_PATTERNS.each do |correct_value, pattern|
+        text.gsub!(pattern, correct_value)
       end
 
       text
