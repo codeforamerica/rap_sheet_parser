@@ -66,7 +66,7 @@ module RapSheetParser
     def superstrike?
       return false unless code_section
 
-      SUPERSTRIKES.include?(code_section) && (!attempeted_flag? || attempted_superstrike?)
+      SUPERSTRIKES.include?(code_section) && (!attempted_flag? || attempted_superstrike?)
     end
 
     def subsection_of?(codes)
@@ -79,7 +79,7 @@ module RapSheetParser
 
     private
 
-    def attempeted_flag?
+    def attempted_flag?
       flags.include?('-ATTEMPTED')
     end
 
