@@ -23,15 +23,11 @@ module RapSheetParser
     end
 
     rule counts
-      (count_with_case_number / count)*
-    end
-
-    rule count_with_case_number
-      count_identifier stray_punctuation case_number wn count_info <CountWithCaseNumber>
+      count*
     end
 
     rule count
-      count_identifier wn count_info <Count>
+      count_identifier stray_punctuation case_number wn count_info <Count>
     end
 
     rule count_identifier
@@ -51,7 +47,7 @@ module RapSheetParser
     end
 
     rule case_number
-      '#' w (!N .)+
+      ('#' w (!N .)+)?
     end
   end
 end

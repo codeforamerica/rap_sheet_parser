@@ -2,7 +2,7 @@ module RapSheetParser
   module EventGrammar
     class Event < Treetop::Runtime::SyntaxNode
       def case_number
-        counts[0].case_number if counts[0].is_a? CountWithCaseNumber
+        counts[0].case_number
       end
     end
 
@@ -17,8 +17,6 @@ module RapSheetParser
         @count_content = do_parsing(CountGrammarParser.new, count_info.text_value + "\n")
       end
     end
-
-    class CountWithCaseNumber < Count; end
 
     class EventIdentifier < Treetop::Runtime::SyntaxNode; end
     class RegistrationEventIdentifier < EventIdentifier; end

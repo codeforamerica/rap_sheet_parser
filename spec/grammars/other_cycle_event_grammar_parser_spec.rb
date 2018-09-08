@@ -194,7 +194,7 @@ module RapSheetParser
           expect(tree.case_number.text_value).to eq('#312145')
         end
 
-        it 'returns nil case number for an unknown case number' do
+        it 'returns empty case number for an unknown case number' do
           text = <<~TEXT
             COURT: NAME7OZ
             19820915 CAMC L05 ANGELES METRO
@@ -206,7 +206,7 @@ module RapSheetParser
 
           tree = parse(text)
 
-          expect(tree.case_number).to eq nil
+          expect(tree.case_number.text_value).to be_empty
         end
 
         it 'parses unknown courthouse with TOC on the same line' do
