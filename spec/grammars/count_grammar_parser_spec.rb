@@ -150,7 +150,7 @@ module RapSheetParser
 
       it 'parses code section when sentencing line exists' do
         text = <<~TEXT
-           .-1170 (H) PC-SENTENCING
+           .1170 (H) PC-SENTENCING
             496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
           *DISPO:CONVICTED
           CONV STATUS:MISDEMEANOR
