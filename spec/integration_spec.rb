@@ -25,11 +25,24 @@ RSpec.describe 'integration', integration: true do
       expected_values = JSON.parse(directory.files.get(expectations_filename).body, symbolize_names: true)
       actual_values = to_hash(rap_sheet)
 
-      expect(expected_values).to eq actual_values
+      actual_cycles = actual_values[:cycles]
+      expected_cycles = expected_values[:cycles]
+      expect(actual_cycles.length).to eq(expected_cycles.length), "#{rap_sheet_textfile}: Expected #{expected_cycles.length}, got #{actual_cycles.length}"
+      actual_cycles.each.with_index do |cycle, cycle_index|
+        actual_events = cycle[:events]
+        expected_events = expected_cycles[cycle_index][:events]
+        message = "#{rap_sheet_textfile}, Cycle #{cycle_index + 1}: Expected #{expected_events.length}, got #{actual_events.length}"
+        expect(actual_events.length).to eq(expected_events.length), message
+
+        actual_events.each.with_index do |event, event_index|
+          message = "Mismatch in #{rap_sheet_textfile}: Cycle #{cycle_index + 1}, Event #{event_index + 1}"
+          expect(event).to eq(expected_events[event_index]), message
+        end
+      end
     end
 
     all_files_without_expectations = all_text_files.reject do |f|
-      expectations_filename = f.gsub('.txt', '.jsonq')
+      expectations_filename = f.gsub('.txt', '.json')
       all_files.include?(expectations_filename)
     end
 
@@ -48,15 +61,15 @@ RSpec.describe 'integration', integration: true do
                 type: count.disposition.type,
                 text: count.disposition.text,
                 severity: count.disposition.severity,
-                sentence: count.disposition.sentence.to_s
-              }
+                sentence: count.disposition.sentence&.to_s
+              }.compact
             end
 
           {
             code_section: count.code_section,
             code_section_description: count.code_section_description,
             disposition: disposition
-          }
+          }.compact
         end
 
         {
@@ -64,17 +77,15 @@ RSpec.describe 'integration', integration: true do
           date: event.date.strftime('%m/%d/%Y'),
           agency: event.agency,
           counts: counts
-        }
+        }.compact
       end
 
       {
         events: events
-      }
+      }.compact
     end
 
-    {
-      cycles: cycles
-    }
+    { cycles: cycles }.compact
   end
 
   def parse_rap_sheet(filename)
