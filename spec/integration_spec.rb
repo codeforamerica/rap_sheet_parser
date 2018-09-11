@@ -46,8 +46,13 @@ RSpec.describe 'integration', integration: true do
       all_files.include?(expectations_filename)
     end
 
-    all_files_without_expectations.each do |rap_sheet_textfile|
+    all_files_without_expectations.each.with_index do |rap_sheet_textfile, index|
+      puts "Processed #{index} RAP sheets" if index % 50 == 0
+
       parse_rap_sheet(rap_sheet_textfile)
+    rescue StandardError
+      puts "Error in #{rap_sheet_textfile}"
+      raise
     end
   end
 
