@@ -14,8 +14,9 @@ RSpec.describe 'integration', integration: true do
     all_text_files = all_files.select { |f| f.end_with? '.txt' }
 
     all_files_with_expectations = all_text_files.select do |f|
-      expectations_filename = f.gsub('.txt', '.json')
-      all_files.include?(expectations_filename)
+      f == "redacted_rap_sheet_a92b70c57f5c6d5edbf5b760865c8705.txt"
+      # expectations_filename = f.gsub('.txt', '.json')
+      # all_files.include?(expectations_filename)
     end
 
     all_files_with_expectations.each do |rap_sheet_textfile|
@@ -24,6 +25,10 @@ RSpec.describe 'integration', integration: true do
       expectations_filename = rap_sheet_textfile.gsub('.txt', '.json')
       expected_values = JSON.parse(directory.files.get(expectations_filename).body, symbolize_names: true)
       actual_values = to_hash(rap_sheet)
+
+      actual_personal_info = actual_values[:personal_info]
+      expected_personal_info = expected_values[:personal_info]
+      expect(actual_personal_info).to eq(expected_personal_info)
 
       actual_cycles = actual_values[:cycles]
       expected_cycles = expected_values[:cycles]
@@ -41,22 +46,30 @@ RSpec.describe 'integration', integration: true do
       end
     end
 
-    all_files_without_expectations = all_text_files.reject do |f|
-      expectations_filename = f.gsub('.txt', '.json')
-      all_files.include?(expectations_filename)
-    end
-
-    all_files_without_expectations.each.with_index do |rap_sheet_textfile, index|
-      puts "Processed #{index} RAP sheets" if index % 50 == 0
-
-      parse_rap_sheet(rap_sheet_textfile)
-    rescue StandardError
-      puts "Error in #{rap_sheet_textfile}"
-      raise
-    end
+    # all_files_without_expectations = all_text_files.reject do |f|
+    #   expectations_filename = f.gsub('.txt', '.json')
+    #   all_files.include?(expectations_filename)
+    # end
+    #
+    # all_files_without_expectations.each.with_index do |rap_sheet_textfile, index|
+    #   puts "Processed #{index} RAP sheets" if index % 50 == 0
+    #
+    #   parse_rap_sheet(rap_sheet_textfile)
+    # rescue StandardError
+    #   puts "Error in #{rap_sheet_textfile}"
+    #   raise
+    # end
   end
 
   def to_hash(rap_sheet)
+    personal_info = {
+      cii: rap_sheet.personal_info.cii,
+      sex: rap_sheet.personal_info.sex,
+      names: rap_sheet.personal_info.names,
+      date_of_birth: rap_sheet.personal_info.date_of_birth.strftime('%m/%d/%Y'),
+      race: rap_sheet.personal_info.race
+    }
+
     cycles = rap_sheet.cycles.map do |cycle|
       events = cycle.events.map do |event|
         counts = event.counts.map do |count|
@@ -90,7 +103,7 @@ RSpec.describe 'integration', integration: true do
       }.compact
     end
 
-    { cycles: cycles }.compact
+    { personal_info: personal_info, cycles: cycles }.compact
   end
 
   def parse_rap_sheet(filename)
