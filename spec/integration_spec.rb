@@ -63,7 +63,7 @@ RSpec.describe 'integration', integration: true do
     personal_info = {
       cii: rap_sheet.personal_info.cii,
       sex: rap_sheet.personal_info.sex,
-      names: Hash[rap_sheet.personal_info.names.map{|k,v| [k.to_sym, v] } ],
+      names: Hash[rap_sheet.personal_info.names.map { |k, v| [k.to_sym, v] }],
       date_of_birth: rap_sheet.personal_info.date_of_birth.strftime('%m/%d/%Y'),
       race: rap_sheet.personal_info.race
     }
