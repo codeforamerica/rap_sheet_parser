@@ -33,6 +33,10 @@ module RapSheetParser
       events_with_dates(rap_sheet).all? { |e| event_outside_duration(e, duration) }
     end
 
+    def probation_violated?(rap_sheet)
+      has_sentence_with?(:probation) && !successfully_completed_duration?(rap_sheet, sentence.total_duration)
+    end
+
     def sentence
       count_with_sentence = counts.find { |c| c.disposition.sentence }
 
