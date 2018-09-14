@@ -169,8 +169,8 @@ module RapSheetParser
       end
     end
 
-    describe '#has_probation?' do
-      it 'returns true if any counts have a disposition with a sentence including probation' do
+    describe '#has_sentence_with?' do
+      it 'returns true if any counts have a disposition with a sentence including specified type' do
         event = build_court_event(
           counts: [
             build_court_count(
@@ -182,27 +182,17 @@ module RapSheetParser
               disposition: build_disposition(
                 sentence: ConvictionSentence.new(jail: 1.month)
               )
-            )
-          ]
-        )
-
-        expect(event).to have_probation
-      end
-
-      it 'returns false if no counts have a disposition with a sentence including probation' do
-        event = build_court_event(
-          counts: [
-            build_court_count(
-              disposition: build_disposition(
-                sentence: ConvictionSentence.new(prison: 12.months)
-              )
             ),
             build_court_count(disposition: build_disposition(sentence: nil)),
             build_court_count(disposition: nil)
           ]
         )
 
-        expect(event).not_to have_probation
+        expect(event.has_sentence_with?(:probation)).to eq true
+        expect(event.has_sentence_with?(:prison)).to eq false
+        expect(event.has_sentence_with?(:jail)).to eq true
+
+        expect { event.has_sentence_with? :foo }.to raise_error NoMethodError
       end
     end
   end

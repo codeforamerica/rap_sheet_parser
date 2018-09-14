@@ -68,9 +68,9 @@ module RapSheetParser
       end
     end
 
-    def has_probation?
+    def has_sentence_with?(type)
       counts.map(&:disposition).any? do |disposition|
-        disposition&.sentence&.probation.present?
+        disposition&.sentence&.public_send(type).present?
       end
     end
 
