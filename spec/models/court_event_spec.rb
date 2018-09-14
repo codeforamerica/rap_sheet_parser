@@ -4,16 +4,36 @@ module RapSheetParser
   RSpec.describe CourtEvent do
     describe '#severity' do
       it 'returns the highest severity found within the counts' do
-        event = build_court_event(counts: [double(severity: 'F')])
+        event = build_court_event(
+          counts: [
+            build_court_count(disposition: build_disposition(severity: 'F')),
+            build_court_count(disposition: nil)
+          ]
+        )
         expect(event.severity).to eq 'F'
 
-        event = build_court_event(counts: [double(severity: 'I'), double(severity: 'F')])
+        event = build_court_event(
+          counts: [
+            build_court_count(disposition: build_disposition(severity: 'I')),
+            build_court_count(disposition: build_disposition(severity: 'F'))
+          ]
+        )
         expect(event.severity).to eq 'F'
 
-        event = build_court_event(counts: [double(severity: 'I'), double(severity: 'M')])
+        event = build_court_event(
+          counts: [
+            build_court_count(disposition: build_disposition(severity: 'I')),
+            build_court_count(disposition: build_disposition(severity: 'M'))
+          ]
+        )
         expect(event.severity).to eq 'M'
 
-        event = build_court_event(counts: [double(severity: 'I'), double(severity: 'I')])
+        event = build_court_event(
+          counts: [
+            build_court_count(disposition: build_disposition(severity: 'I')),
+            build_court_count(disposition: build_disposition(severity: 'I'))
+          ]
+        )
         expect(event.severity).to eq 'I'
       end
     end
