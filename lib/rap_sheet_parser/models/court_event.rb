@@ -68,6 +68,12 @@ module RapSheetParser
       end
     end
 
+    def has_probation?
+      counts.map(&:disposition).any? do |disposition|
+        disposition&.sentence&.probation.present?
+      end
+    end
+
     private
 
     attr_reader :updates

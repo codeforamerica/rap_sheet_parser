@@ -27,3 +27,6 @@ Metrics/ClassLength:
 
 Style/Documentation:
   Enabled: false
+
+Naming/PredicateName:
+  NamePrefix: ['is_']

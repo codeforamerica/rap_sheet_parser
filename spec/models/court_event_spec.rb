@@ -168,5 +168,42 @@ module RapSheetParser
         expect(event.dismissed_by_pc1203?).to eq false
       end
     end
+
+    describe '#has_probation?' do
+      it 'returns true if any counts have a disposition with a sentence including probation' do
+        event = build_court_event(
+          counts: [
+            build_court_count(
+              disposition: build_disposition(
+                sentence: ConvictionSentence.new(probation: 12.months, jail: 2.years)
+              )
+            ),
+            build_court_count(
+              disposition: build_disposition(
+                sentence: ConvictionSentence.new(jail: 1.month)
+              )
+            )
+          ]
+        )
+
+        expect(event).to have_probation
+      end
+
+      it 'returns false if no counts have a disposition with a sentence including probation' do
+        event = build_court_event(
+          counts: [
+            build_court_count(
+              disposition: build_disposition(
+                sentence: ConvictionSentence.new(prison: 12.months)
+              )
+            ),
+            build_court_count(disposition: build_disposition(sentence: nil)),
+            build_court_count(disposition: nil)
+          ]
+        )
+
+        expect(event).not_to have_probation
+      end
+    end
   end
 end
