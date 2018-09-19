@@ -5,7 +5,7 @@ module RapSheetParser
     describe '#sex_offender_registration?' do
       it 'returns true if registration event containing PC 290' do
         event = build_other_event(
-          header: 'registration',
+          event_type: 'registration',
           counts: [build_count(code: 'PC', section: '290')]
         )
 
@@ -15,7 +15,7 @@ module RapSheetParser
 
       it 'returns true if registration event starting with PC 290' do
         event = build_other_event(
-          header: 'registration',
+          event_type: 'registration',
           counts: [build_count(code: 'PC', section: '290(a)')]
         )
 
@@ -25,7 +25,7 @@ module RapSheetParser
 
       it 'returns false if no registration event containing PC 290' do
         event = build_other_event(
-          header: 'registration',
+          event_type: 'registration',
           counts: [build_count(code: 'HS', section: '11590')]
         )
 
@@ -38,7 +38,7 @@ module RapSheetParser
     describe '#arrest_events' do
       it 'returns arrests' do
         arrest = build_arrest_event
-        custody = build_other_event(header: 'custody')
+        custody = build_other_event(event_type: 'custody')
 
         rap_sheet = build_rap_sheet(events: [arrest, custody])
         expect(rap_sheet.arrest_events[0]).to eq arrest

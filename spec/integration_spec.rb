@@ -89,7 +89,7 @@ RSpec.describe 'integration', integration: true do
         end
 
         {
-          header: event.header,
+          header: event.event_type,
           date: event.date.strftime('%m/%d/%Y'),
           agency: event.agency,
           counts: counts

@@ -17,7 +17,7 @@ module RapSheetParser
       subject = described_class.new(event_node, logger: nil).build
 
       expect(subject).to be_a OtherEvent
-      expect(subject.header).to eq 'arrest'
+      expect(subject.event_type).to eq 'arrest'
       expect(subject.date).to eq Date.new(1991, 1, 5)
       expect(subject.agency).to eq 'CAPD CONCORD'
     end

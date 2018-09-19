@@ -19,7 +19,7 @@ module RapSheetParser
       courthouse
     end
 
-    def header
+    def event_type
       'court'
     end
 

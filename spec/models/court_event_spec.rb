@@ -50,28 +50,28 @@ module RapSheetParser
       end
 
       it 'returns false if any custody events within probation period' do
-        custody_event = build_other_event(date: Date.new(1994, 6, 2), counts: [], header: 'custody')
+        custody_event = build_other_event(date: Date.new(1994, 6, 2), counts: [], event_type: 'custody')
         rap_sheet = build_rap_sheet(events: [conviction_event, custody_event])
 
         expect(conviction_event.successfully_completed_duration?(rap_sheet, 1.year)).to eq false
       end
 
       it 'returns false if any probation events within probation period' do
-        probation_event = build_other_event(date: Date.new(1994, 6, 2), counts: [], header: 'probation')
+        probation_event = build_other_event(date: Date.new(1994, 6, 2), counts: [], event_type: 'probation')
         rap_sheet = build_rap_sheet(events: [conviction_event, probation_event])
 
         expect(conviction_event.successfully_completed_duration?(rap_sheet, 1.year)).to eq false
       end
 
       it 'returns false if any supplemental arrest events within probation period' do
-        supplemental_arrest_event = build_other_event(date: Date.new(1994, 6, 2), counts: [], header: 'supplemental_arrest')
+        supplemental_arrest_event = build_other_event(date: Date.new(1994, 6, 2), counts: [], event_type: 'supplemental_arrest')
         rap_sheet = build_rap_sheet(events: [conviction_event, supplemental_arrest_event])
 
         expect(conviction_event.successfully_completed_duration?(rap_sheet, 1.year)).to eq false
       end
 
       it 'returns false if any mental health events within probation period' do
-        mental_health_event = build_other_event(date: Date.new(1994, 6, 2), counts: [], header: 'mental_health')
+        mental_health_event = build_other_event(date: Date.new(1994, 6, 2), counts: [], event_type: 'mental_health')
         rap_sheet = build_rap_sheet(events: [conviction_event, mental_health_event])
 
         expect(conviction_event.successfully_completed_duration?(rap_sheet, 1.year)).to eq false

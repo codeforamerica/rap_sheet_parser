@@ -15,7 +15,7 @@ module RapSheetParser
 
     EVENT_TYPES.each do |type|
       define_method("#{type}_events") do
-        filtered_events(OtherEvent).select { |event| event.header == type }
+        filtered_events(OtherEvent).select { |event| event.event_type == type }
       end
     end
 
