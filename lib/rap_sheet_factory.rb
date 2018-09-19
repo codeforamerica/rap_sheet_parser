@@ -4,7 +4,7 @@ module RapSheetParser
       date: Date.new(1994, 1, 2),
       case_number: '12345',
       courthouse: 'CASC SAN FRANCISCO',
-      counts: [build_court_count],
+      counts: [build_count],
       name_code: nil
     )
 
@@ -36,7 +36,7 @@ module RapSheetParser
       RapSheet.new(cycles: cycles, personal_info: personal_info)
     end
 
-    def build_court_count(
+    def build_count(
       code: 'PC',
       section: '123',
       code_section_description: 'foo',
@@ -44,7 +44,7 @@ module RapSheetParser
       updates: [],
       flags: []
     )
-      CourtCount.new(
+      Count.new(
         code_section_description: code_section_description,
         code: code,
         section: section,

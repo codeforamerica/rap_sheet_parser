@@ -1,5 +1,5 @@
 module RapSheetParser
-  class CourtCount
+  class Count
     SUPERSTRIKES = [
       'PC 187',
       'PC 191.5',

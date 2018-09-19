@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module RapSheetParser
-  RSpec.describe CourtCountBuilder do
+  RSpec.describe CountBuilder do
     let(:event) { { some: 'event' } }
     let(:log) { StringIO.new }
     let(:logger) { Logger.new(log) }

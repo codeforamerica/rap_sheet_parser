@@ -17,7 +17,7 @@ module RapSheetParser
     def counts
       event_syntax_node.counts.map do |count|
         Array.new(num_counts(count)) do |_|
-          CourtCountBuilder.new(count, logger: logger).build
+          CountBuilder.new(count, logger: logger).build
         end
       end.flatten
     end

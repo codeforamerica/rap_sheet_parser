@@ -1,5 +1,5 @@
 module RapSheetParser
-  class CourtCountBuilder
+  class CountBuilder
     attr_reader :count
 
     def initialize(count, logger:)
@@ -12,7 +12,7 @@ module RapSheetParser
     def build
       logger.warn('Charge description includes "28.5"') if code_section_description.try(:match, /28[.,]5/)
 
-      CourtCount.new(
+      Count.new(
         code_section_description: code_section_description,
         code: code,
         section: section,
