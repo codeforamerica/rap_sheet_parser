@@ -3,10 +3,13 @@ module RapSheetParser
     include EventBuilder
 
     def build
+      built_counts = counts
+      logger.warn("Detected #{header} event with dispo convicted") if built_counts.any? { |count| count.disposition&.type == 'convicted' }
+
       OtherEvent.new(
         cycle_events: cycle_events,
         date: date,
-        counts: counts,
+        counts: built_counts,
         header: header,
         agency: agency
       )
