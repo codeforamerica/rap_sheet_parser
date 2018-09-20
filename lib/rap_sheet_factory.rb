@@ -3,7 +3,7 @@ module RapSheetParser
     def build_court_event(
       date: Date.new(1994, 1, 2),
       case_number: '12345',
-      courthouse: 'CASC SAN FRANCISCO',
+      courthouse: 'Some courthouse',
       counts: [build_count],
       name_code: nil
     )
@@ -17,7 +17,7 @@ module RapSheetParser
       )
     end
 
-    def build_other_event(cycle_events: [], date: Date.today, counts: [], event_type:, agency: 'CAPD SAN FRANCISCO')
+    def build_other_event(cycle_events: [], date: Date.today, counts: [], event_type:, agency: 'Some agency')
       OtherEvent.new(
         cycle_events: cycle_events,
         date: date,
