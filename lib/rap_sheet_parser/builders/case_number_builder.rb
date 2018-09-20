@@ -7,7 +7,7 @@ module RapSheetParser
     def build
       return if case_number_node.text_value.empty?
 
-      stripped_case_number = case_number_node.text_value.delete(' ').delete('.')[1..-1]
+      stripped_case_number = case_number_node.text_value.delete('.')[1..-1]
       strip_trailing_punctuation(stripped_case_number)
     end
 
