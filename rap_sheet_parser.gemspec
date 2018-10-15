@@ -37,6 +37,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'fog-local'
   spec.add_development_dependency 'mime-types'
   spec.add_development_dependency 'pry-byebug'
+  spec.add_development_dependency 'awesome_print'
   spec.add_development_dependency 'rake', '~> 12.3'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'rspec_junit_formatter'
