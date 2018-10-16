@@ -1,7 +1,9 @@
 require 'treetop'
 require 'logger'
+require 'csv'
 require 'active_support/core_ext/module/delegation'
 
+require 'rap_sheet_parser/criminal_history_csv_parser'
 require 'rap_sheet_parser/models/count'
 require 'rap_sheet_parser/models/other_event'
 require 'rap_sheet_parser/models/court_event'
@@ -61,6 +63,12 @@ module RapSheetParser
       raise RapSheetParserException.new(parser, cleaned_text) unless result
 
       RapSheetBuilder.new(result, logger: logger).build
+    end
+
+    def parse_from_csv(doj_csv)
+      csv = CSV.read(doj_csv, headers: true)
+      parser = CriminalHistoryCSVParser.new
+      parser.parse(csv)
     end
   end
 end
