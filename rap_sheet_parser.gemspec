@@ -32,6 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'activesupport'
   spec.add_runtime_dependency 'treetop'
 
+  spec.add_development_dependency 'bundle-audit'
   spec.add_development_dependency 'bundler', '~> 1.16'
   spec.add_development_dependency 'fog-aws'
   spec.add_development_dependency 'fog-local'

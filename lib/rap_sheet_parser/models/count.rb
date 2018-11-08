@@ -60,6 +60,7 @@ module RapSheetParser
 
     def code_section
       return unless code && section
+
       "#{code} #{section}"
     end
 
