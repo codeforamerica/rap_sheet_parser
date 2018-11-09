@@ -7,4 +7,8 @@ Bundler::Audit::Task.new
 RSpec::Core::RakeTask.new(:spec)
 RuboCop::RakeTask.new(:rubocop)
 
+RSpec::Core::RakeTask.new(:integration) do |t|
+  t.rspec_opts = '--tag integration'
+end
+
 task default: %i[spec rubocop bundle:audit]

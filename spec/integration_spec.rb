@@ -4,15 +4,28 @@ require 'json'
 
 RSpec.describe 'integration', integration: true do
   let(:directory) do
-    connection = Fog::Storage.new(fog_params)
-    connection.directories.new(key: 'redacted-rap-sheets')
+    if ENV['LOCAL_RAP_SHEETS_DIR']
+      Fog::Storage.new(
+        provider: 'Local',
+        local_root: "#{ENV['LOCAL_RAP_SHEETS_DIR']}"
+      ).directories.new(key: '.')
+
+    else
+      Fog::Storage.new(
+        provider: 'aws',
+        aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+        aws_secret_access_key: ENV['AWS_SECRET_KEY']
+      ).directories.new(key: ENV['RAP_SHEETS_BUCKET'])
+    end
   end
 
   it 'parses files correctly' do
     all_files = directory.files.map(&:key)
+    puts "Found #{all_files.length} files"
     all_files_with_expectations = all_files.select do |f|
       f.start_with?('with_assertions') && f.end_with?('.txt')
     end
+    puts "Found #{all_files_with_expectations.length} files with expectations"
 
     all_files_with_expectations.each do |rap_sheet_textfile|
       rap_sheet = parse_rap_sheet(rap_sheet_textfile)
@@ -110,20 +123,5 @@ RSpec.describe 'integration', integration: true do
   rescue StandardError
     puts "error in file #{filename}"
     raise
-  end
-
-  def fog_params
-    if ENV['LOCAL_ROOT']
-      {
-        provider: 'Local',
-        local_root: ENV['LOCAL_ROOT']
-      }
-    else
-      {
-        provider: 'aws',
-        aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-        aws_secret_access_key: ENV['AWS_SECRET_KEY']
-      }
-    end
   end
 end

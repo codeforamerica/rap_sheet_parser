@@ -38,7 +38,7 @@ jobs:
 
     - run:
         name: Run integration
-        command: bundle exec rspec --tag integration
+        command: bundle exec rake integration
 
     # Save artifacts
     - store_test_results:
