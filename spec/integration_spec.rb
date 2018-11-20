@@ -7,7 +7,7 @@ RSpec.describe 'integration', integration: true do
     if ENV['LOCAL_RAP_SHEETS_DIR']
       Fog::Storage.new(
         provider: 'Local',
-        local_root: "#{ENV['LOCAL_RAP_SHEETS_DIR']}"
+        local_root: ENV['LOCAL_RAP_SHEETS_DIR']
       ).directories.new(key: '.')
 
     else

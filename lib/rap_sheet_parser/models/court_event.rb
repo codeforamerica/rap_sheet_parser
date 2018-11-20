@@ -12,7 +12,7 @@ module RapSheetParser
     attr_reader :cycle_events, :date, :courthouse, :counts, :name_code, :case_number
 
     def convicted_counts
-      counts.select { |count| count.disposition.type == 'convicted' }
+      counts.select { |count| count.disposition&.type == 'convicted' }
     end
 
     def agency
@@ -24,7 +24,7 @@ module RapSheetParser
     end
 
     def conviction?
-      counts.any? { |count| count.disposition.type == 'convicted' }
+      counts.any? { |count| count.disposition&.type == 'convicted' }
     end
 
     def successfully_completed_duration?(rap_sheet, duration)
@@ -38,7 +38,7 @@ module RapSheetParser
     end
 
     def sentence
-      count_with_sentence = counts.find { |c| c.disposition.sentence }
+      count_with_sentence = counts.find { |c| c.disposition&.sentence }
 
       return unless count_with_sentence
 

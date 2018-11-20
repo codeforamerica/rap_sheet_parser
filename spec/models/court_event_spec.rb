@@ -173,6 +173,18 @@ module RapSheetParser
 
         expect(event.sentence).to eq nil
       end
+
+      it 'sets sentence correctly if no disposition' do
+        event = build_court_event(
+          counts: [
+            build_count(
+              disposition: nil
+            )
+          ]
+        )
+
+        expect(event.sentence).to eq nil
+      end
     end
 
     describe '#dismissed_by_pc1203?' do
@@ -221,6 +233,64 @@ module RapSheetParser
         expect(event.has_sentence_with?(:jail)).to eq true
 
         expect { event.has_sentence_with? :foo }.to raise_error NoMethodError
+      end
+    end
+
+    describe '#convicted? and #conviction_counts' do
+      let(:convicted_count_1) do
+        build_count(
+          disposition: build_disposition(
+            type: 'convicted',
+            sentence: ConvictionSentence.new(probation: 12.months, jail: 2.years)
+          )
+        )
+      end
+
+      let(:convicted_count_2) do
+        build_count(
+          disposition: build_disposition(
+            type: 'convicted',
+            sentence: ConvictionSentence.new(jail: 1.month)
+          )
+        )
+      end
+
+      let(:dismissed_count) do
+        build_count(
+          disposition: build_disposition(
+            type: 'dismissed'
+          )
+        )
+      end
+
+      let(:nil_sentence_count) { build_count(disposition: build_disposition(type: 'other_disposition_type', sentence: nil)) }
+      let(:nil_dispo_count) { build_count(disposition: nil) }
+      it 'identifies a conviction if any of the counts are convicted' do
+        event = build_court_event(
+          counts: [
+            convicted_count_1,
+            dismissed_count,
+            convicted_count_2,
+            nil_sentence_count,
+            nil_dispo_count
+          ]
+        )
+
+        expect(event.conviction?).to eq true
+        expect(event.convicted_counts).to eq [convicted_count_1, convicted_count_2]
+      end
+
+      it 'is not a conviction if none of the counts are convicted' do
+        event = build_court_event(
+          counts: [
+            dismissed_count,
+            nil_sentence_count,
+            nil_dispo_count
+          ]
+        )
+
+        expect(event.conviction?).to eq false
+        expect(event.convicted_counts).to eq []
       end
     end
   end
