@@ -66,6 +66,19 @@ module RapSheetParser
           expect(count1.disposition.disposition_type).to be_a CountGrammar::OtherDispositionType
         end
 
+        it 'parses event with no counts' do
+          text = <<~TEXT
+            COURT: NAM:01 19960718 CASC SAN FRANCISCO CO
+          TEXT
+
+          tree = parse(text)
+
+          expect(tree.event_identifier).to be_a(EventGrammar::CourtEventIdentifier)
+
+          expect(tree.counts.length).to eq 0
+          expect(tree.case_number).to be_nil
+        end
+
         it 'can parse count ranges' do
           text = <<~TEXT
             COURT:

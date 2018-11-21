@@ -91,6 +91,17 @@ module RapSheetParser
 
         expect(event.sentence.jail).to eq 1.month
       end
+
+      it 'handles a court event with no counts' do
+        text = <<~TEXT
+          COURT:
+          20040102  CASC SAN FRANCISCO CO
+        TEXT
+
+        event = build(text)
+
+        expect(event.case_number).to be_nil
+      end
     end
 
     def build(text)

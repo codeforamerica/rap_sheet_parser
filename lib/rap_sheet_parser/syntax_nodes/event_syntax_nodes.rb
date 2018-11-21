@@ -2,7 +2,7 @@ module RapSheetParser
   module EventGrammar
     class Event < Treetop::Runtime::SyntaxNode
       def case_number
-        counts[0].case_number
+        counts[0]&.case_number
       end
     end
 
