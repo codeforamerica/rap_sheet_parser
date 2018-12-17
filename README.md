@@ -44,6 +44,8 @@ TEXT
 rap_sheet = RapSheetParser::Parser.new.parse(rap_sheet_text)
 ```
 
+In order to protect CJI/PII the rap sheet parser will suppress exceptions. To see full error output set the `VERBOSE_PARSER_EXCEPTIONS` env variable.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake` to run the unit tests and linter. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

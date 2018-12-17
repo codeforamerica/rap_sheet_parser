@@ -6,7 +6,11 @@ module RapSheetParser
     end
 
     def message
-      "#{@parser.class} #{@parser.failure_reason}\n#{@text}"
+      if ENV['VERBOSE_PARSER_EXCEPTIONS']
+        "#{@parser.class} #{@parser.failure_reason}\n#{@text}"
+      else
+        'Parsing threw unexpected error'
+      end
     end
   end
 end
