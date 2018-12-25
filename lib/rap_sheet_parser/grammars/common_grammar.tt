@@ -72,7 +72,7 @@ module RapSheetParser
     end
 
     rule arrest_identifier
-      'ARR' stray_punctuation '/' stray_punctuation 'DET' stray_punctuation '/' stray_punctuation 'CITE' w ':' <EventGrammar::ArrestEventIdentifier>
+      'ARR' stray_punctuation '/' stray_punctuation 'DET' stray_punctuation '/' stray_punctuation 'CITE' w (':' / ';') <EventGrammar::ArrestEventIdentifier>
     end
 
     rule custody_identifier

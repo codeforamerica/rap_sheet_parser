@@ -1,8 +1,9 @@
 module RapSheetParser
   class TextCleaner
     SUBSTITUTION_PATTERNS = {
-      'CNT:' => /CN[ÍI]:/,
+      'CNT:' => /C(HT|N[ÍI]):/,
       'INFRACTION' => 'TNFRACTION',
+      'CONVICT' => 'COMVICT', # 'convicted', 'conviction' etc.
       'CONV STATUS:' => /CONV STATIS./,
       '-' => '–',
       'RESTN' => 'RESIN',
