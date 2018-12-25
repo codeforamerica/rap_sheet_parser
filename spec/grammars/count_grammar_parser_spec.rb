@@ -121,6 +121,25 @@ module RapSheetParser
         expect(count.code_section.section.text_value).to eq '484-487 (A)'
       end
 
+      it 'handles stray information when charge is in the comments' do
+        text = <<~TEXT
+          SEE COMMENT FOR CHARGE
+          TOC:N
+          Page 22 of 26
+          *DISPO:CONVICTED
+          CONV STATUS:MISDEMEANOR
+          SEN: IMP SEN SS, 003 YEARS PROBATION, 020 DAYS JAIL, FINE
+          COM: CNT 01 CHRG-594(A)-(B) (2) (A) PC
+          DCN:10000000000000000007
+        TEXT
+
+        count = described_class.new.parse(text)
+        expect(count.charge_line.text_value).to eq('SEE COMMENT FOR CHARGE')
+        expect(count.disposition.disposition_type).to be_a CountGrammar::Convicted
+        expect(count.code_section.code.text_value).to eq 'PC'
+        expect(count.code_section.section.text_value).to eq '594(A) - (B)(2)(A)'
+      end
+
       it 'parses when charge is in the comments but missing disposition' do
         text = <<~TEXT
           SEE COMMENT FOR CHARGE
