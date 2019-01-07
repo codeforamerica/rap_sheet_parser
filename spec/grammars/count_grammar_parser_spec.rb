@@ -137,7 +137,7 @@ module RapSheetParser
         expect(count.charge_line.text_value).to eq('SEE COMMENT FOR CHARGE')
         expect(count.disposition.disposition_type).to be_a CountGrammar::Convicted
         expect(count.code_section.code.text_value).to eq 'PC'
-        expect(count.code_section.section.text_value).to eq '594(A) - (B)(2)(A)'
+        expect(count.code_section.section.text_value).to eq '594(A)-(B) (2) (A)'
       end
 
       it 'parses when charge is in the comments but missing disposition' do
