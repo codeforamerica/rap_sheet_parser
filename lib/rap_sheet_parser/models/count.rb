@@ -47,6 +47,8 @@ module RapSheetParser
       'PC 191.5-664'
     ].freeze
 
+    DUI_CODES = ['VC 23152'].freeze
+
     attr_reader :code_section_description, :code, :section, :disposition, :updates, :flags
 
     def initialize(code_section_description:, code:, section:, disposition:, updates:, flags:)
@@ -68,6 +70,12 @@ module RapSheetParser
       return false unless code_section
 
       SUPERSTRIKES.include?(code_section) && (!attempted_flag? || attempted_superstrike?)
+    end
+
+    def dui?
+      return false unless code_section
+
+      DUI_CODES.any? { |dui_code| code_section.start_with?(dui_code) }
     end
 
     def subsection_of?(codes)
