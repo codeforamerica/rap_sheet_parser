@@ -41,7 +41,6 @@ RSpec.describe RapSheetParser::Count do
     end
   end
 
-
   describe '#subsection_of?' do
     it 'returns true if code sections the same' do
       count = build_count(code: 'PC', section: '11359(a)')

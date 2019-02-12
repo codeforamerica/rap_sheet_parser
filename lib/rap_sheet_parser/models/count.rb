@@ -70,7 +70,6 @@ module RapSheetParser
       SUPERSTRIKES.include?(code_section) && (!attempted_flag? || attempted_superstrike?)
     end
 
-
     def subsection_of?(codes)
       return false unless code_section
 
