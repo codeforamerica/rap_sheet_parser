@@ -41,25 +41,6 @@ RSpec.describe RapSheetParser::Count do
     end
   end
 
-  describe '#dui?' do
-    it 'returns true if code section is a dui' do
-      count = build_count(code: 'VC', section: '23152')
-
-      expect(count.dui?).to eq true
-    end
-
-    it 'returns true if code section is a dui subsection' do
-      count = build_count(code: 'VC', section: '23152(a)')
-
-      expect(count.dui?).to eq true
-    end
-
-    it 'returns false if code section is not a dui' do
-      count = build_count(code: 'VC', section: '23155')
-
-      expect(count.dui?).to eq false
-    end
-  end
 
   describe '#subsection_of?' do
     it 'returns true if code sections the same' do
