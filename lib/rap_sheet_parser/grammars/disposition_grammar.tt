@@ -59,11 +59,11 @@ module RapSheetParser
     end
 
     rule comment_charge_line
-      stray_punctuation comment_tag (!'CHRG' !N .)* 'CHRG' '-'? w code_section w description N <CommentChargeLine>
+      stray_punctuation comment_tag (!'CHRG' !N .)* 'CHRG' '-'? w code_section w description w toc? w N <CommentChargeLine>
     end
 
     rule description
-      (!N .)*
+      (!N !(w toc) .)*
     end
 
     rule comment_sentence_line
