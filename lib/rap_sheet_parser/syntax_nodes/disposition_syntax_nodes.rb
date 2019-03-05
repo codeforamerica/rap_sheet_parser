@@ -18,6 +18,10 @@ module RapSheetParser
         comment_charge_line&.code_section
       end
 
+      def code_section_description
+        comment_charge_line&.description
+      end
+
       private
 
       def comment_charge_line

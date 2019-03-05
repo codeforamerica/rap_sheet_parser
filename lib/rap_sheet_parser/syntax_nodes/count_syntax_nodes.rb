@@ -10,7 +10,11 @@ module RapSheetParser
       end
 
       def code_section_description
-        charge_line.code_section_description if charge_line.is_a? CodeSectionLine
+        if charge_line.is_a? CodeSectionLine
+          charge_line.code_section_description
+        elsif charge_line.is_a? SeeCommentForCharge
+          disposition.code_section_description if disposition.is_a? DispositionGrammar::Disposition
+        end
       end
 
       def disposition

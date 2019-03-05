@@ -109,7 +109,7 @@ module RapSheetParser
           DISPO:CONVICTED
           CONV STATUS:FELONY
           COM: SEN-X3 YR PROB, 6 MO JL WORK, $971 FINE $420 RSTN
-          COM: CNT 01 CHRG-484-487 (A) PC SECOND DEGREE
+          COM: CNT 01 CHRG-484-487 (A) PC SECOND DEGREE TOMFOOLERY
           DCN:T11389422131233123000545
         TEXT
 
@@ -119,6 +119,7 @@ module RapSheetParser
 
         expect(count.code_section.code.text_value).to eq 'PC'
         expect(count.code_section.section.text_value).to eq '484-487 (A)'
+        expect(count.code_section_description.text_value).to eq 'SECOND DEGREE TOMFOOLERY'
       end
 
       it 'handles stray information when charge is in the comments' do

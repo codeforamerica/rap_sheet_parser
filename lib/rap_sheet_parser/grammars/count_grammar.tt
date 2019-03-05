@@ -29,7 +29,7 @@ module RapSheetParser
     end
 
     rule code_section_line
-      stray_punctuation code_section '-'+ code_section_description w N <CodeSectionLine>
+      stray_punctuation code_section '-'+ w code_section_description w N <CodeSectionLine>
     end
 
     rule code_section_description
