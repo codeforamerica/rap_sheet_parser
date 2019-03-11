@@ -195,5 +195,39 @@ module RapSheetParser
         end
       end
     end
+
+    context 'when there is a probation revoked sentence update' do
+      let(:text) do
+        <<~TEXT
+          info 
+          * * * *
+          COURT: NAM:02
+          19930917 CASC SAN FRANCISCO CO
+
+          CNT:01 #684866-77
+          32 PC-ACCESSORY
+          *DISPO:CONVICTED
+
+          CONV STATUS:FELONY
+          SEN: 3 YEARS PROBATION,6 MONTHS JAIL,
+          IMP SEN SS
+
+          19960628
+          DISPO:PROBATION REVOKED
+          SEN: 16 MONTHS PRISON
+          * * * END OF MESSAGE * * *
+        TEXT
+      end
+
+      it 'returns an updated sentence' do
+        expect(subject.disposition.type).to eq 'convicted'
+        expect(subject.disposition.sentence.to_s).to eq '16m prison'
+        expect(subject.disposition.sentence_start_date).to eq Date.new(1996, 6, 28)
+        expect(subject.updates.length).to eq 1
+        expect(subject.updates[0].dispositions[0].type).to eq 'probation_revoked'
+        expect(subject.probation_revoked?).to eq true
+        expect(subject.original_sentence.to_s).to eq "3y probation, 6m jail"
+      end
+    end
   end
 end
