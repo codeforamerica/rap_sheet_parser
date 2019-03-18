@@ -7,7 +7,7 @@ module RapSheetParser
     end
 
     rule disposition_type
-      convicted / dismissed / prosecutor_rejected / sentence_modified / pc1203_dismissed / other_disposition_type
+      convicted / dismissed / prosecutor_rejected / sentence_modified / pc1203_dismissed / probation_revoked / other_disposition_type
     end
 
     rule sentence_modified
@@ -52,6 +52,10 @@ module RapSheetParser
 
     rule dismissed
       'DISMISSED' <Dismissed>
+    end
+
+    rule probation_revoked
+      'PROBATION REVOKED' <ProbationRevoked>
     end
 
     rule disposition_info

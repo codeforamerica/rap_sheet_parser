@@ -1,8 +1,9 @@
 module RapSheetParser
   class DispositionBuilder
-    def initialize(disposition_node, logger:)
+    def initialize(disposition_node, logger:, count:)
       @disposition_node = disposition_node
       @logger = logger
+      @count = count
     end
 
     def build
@@ -10,7 +11,8 @@ module RapSheetParser
         type: @disposition_node.disposition_type.class.name.demodulize.underscore,
         sentence: sentence,
         severity: severity,
-        text: @disposition_node.text_value.split("\n")[0]
+        text: @disposition_node.text_value.split("\n")[0],
+        count: @count
       )
     end
 

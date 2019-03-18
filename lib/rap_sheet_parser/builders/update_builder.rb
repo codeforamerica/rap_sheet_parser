@@ -1,8 +1,9 @@
 module RapSheetParser
   class UpdateBuilder
-    def initialize(node, logger:)
+    def initialize(node, logger:, count:)
       @node = node
       @logger = logger
+      @count = count
     end
 
     def build
@@ -16,7 +17,7 @@ module RapSheetParser
     attr_reader :node
 
     def dispositions
-      node.dispositions.map { |d| DispositionBuilder.new(d, logger: @logger).build }
+      node.dispositions.map { |d| DispositionBuilder.new(d, count: @count, logger: @logger).build }
     end
   end
 end

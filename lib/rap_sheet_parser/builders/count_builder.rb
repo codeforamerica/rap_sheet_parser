@@ -33,7 +33,7 @@ module RapSheetParser
     def disposition
       return unless count.disposition.is_a? CountGrammar::Disposition
 
-      DispositionBuilder.new(count.disposition, logger: logger).build
+      DispositionBuilder.new(count.disposition, count: count, logger: logger).build
     end
 
     def code
@@ -53,7 +53,7 @@ module RapSheetParser
     end
 
     def updates
-      count.updates.map { |u| UpdateBuilder.new(u, logger: logger).build }
+      count.updates.map { |u| UpdateBuilder.new(u, count: count, logger: logger).build }
     end
   end
 end
