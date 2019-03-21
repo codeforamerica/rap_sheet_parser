@@ -231,9 +231,54 @@ module RapSheetParser
         expect(subject.updates[0].dispositions[0].type).to eq 'probation_revoked'
         expect(subject.disposition.original_sentence.to_s).to eq "3y probation, 6m jail, imp sen ss"
         expect(subject.disposition.most_recent_sentence.to_s).to eq '16m prison'
-        expect(subject.disposition.sentence_start_date).to eq Date.new(1996, 6, 28)
         expect(subject.updates.length).to eq 1
-        expect(subject.probation_revoked?).to eq true
+        expect(subject.disposition.probation_revoked?).to eq true
+        expect(subject.disposition.sentence_start_date).to eq Date.new(1996, 6, 28)
+      end
+    end
+
+    context 'when there are multiple probation revoked sentence updates' do
+      let(:text) do
+        <<~TEXT
+          info 
+          * * * *
+          COURT: NAM:02
+          19930917 CASC SAN FRANCISCO CO
+
+          CNT:01 #684866-77
+          32 PC-ACCESSORY
+          *DISPO:CONVICTED
+
+          CONV STATUS:FELONY
+          SEN: 3 YEARS PROBATION,6 MONTHS JAIL,
+          IMP SEN SS
+
+          19930628
+          DISPO:PROBATION REVOKED
+          SEN: 5 MONTHS JAIL
+
+          19960628
+          DISPO:PROBATION REVOKED
+          SEN: 16 MONTHS PRISON
+          * * * END OF MESSAGE * * *
+        TEXT
+      end
+
+      it 'returns an updated sentence' do
+
+
+        tree = RapSheetGrammarParser.new.parse(text)
+        count_node = tree.cycles[0].events[0].counts[0]
+
+        subject = described_class.new(count_node, logger: logger).build
+
+        expect(subject.disposition.type).to eq 'convicted'
+        expect(subject.updates[0].dispositions[0].type).to eq 'probation_revoked'
+        expect(subject.disposition.original_sentence.to_s).to eq "3y probation, 6m jail, imp sen ss"
+        expect(subject.disposition.most_recent_sentence.to_s).to eq '16m prison'
+        expect(subject.updates.length).to eq 2
+        expect(subject.disposition.probation_revoked?).to eq true
+        expect(subject.disposition.sentence_start_date).to eq Date.new(1996, 6, 28)
       end
     end
   end

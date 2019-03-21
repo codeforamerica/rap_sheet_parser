@@ -22,6 +22,9 @@ module RapSheetParser
       )
     end
 
+    def updates
+      count.updates.map { |u| UpdateBuilder.new(u, count: count, logger: logger).build }
+    end
     private
 
     def code_section_description
@@ -52,8 +55,5 @@ module RapSheetParser
       count.code_section.section.text_value.delete(' ').downcase.tr(',', '.')
     end
 
-    def updates
-      count.updates.map { |u| UpdateBuilder.new(u, count: count, logger: logger).build }
-    end
   end
 end
