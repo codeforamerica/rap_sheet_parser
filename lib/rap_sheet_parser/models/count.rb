@@ -47,13 +47,13 @@ module RapSheetParser
       'PC 191.5-664'
     ].freeze
 
-    attr_reader :code_section_description, :code, :section, :disposition, :updates, :flags
+    attr_reader :code_section_description, :code, :section, :dispositions, :updates, :flags
 
     def initialize(code_section_description:, code:, section:, disposition:, updates:, flags:)
       @section = section
       @code = code
       @code_section_description = code_section_description
-      @disposition = disposition
+      @dispositions = [disposition, disposition_updates]
       @updates = updates
       @flags = flags
     end
@@ -62,6 +62,15 @@ module RapSheetParser
       return unless code && section
 
       "#{code} #{section}"
+    end
+
+    def disposition_updates
+      dispo_updates = []
+      updates&.each{ |update|  dispo_updates >> update.disposition}
+    end
+
+    def conviction?
+      dispositions.any? { |dispo| dispo.type == 'convicted'}
     end
 
     def superstrike?
