@@ -275,8 +275,8 @@ module RapSheetParser
         expect(subject.disposition.type).to eq 'convicted'
         expect(subject.updates[0].dispositions[0].type).to eq 'probation_revoked'
         expect(subject.disposition.original_sentence.to_s).to eq "3y probation, 6m jail, imp sen ss"
-        expect(subject.disposition.most_recent_sentence.to_s).to eq '16m prison'
         expect(subject.updates.length).to eq 2
+        expect(subject.disposition.most_recent_sentence.to_s).to eq '16m prison'
         expect(subject.disposition.probation_revoked?).to eq true
         expect(subject.disposition.sentence_start_date).to eq Date.new(1996, 6, 28)
       end

@@ -13,11 +13,11 @@ module RapSheetParser
     def sentences
       seen_sentences = []
       seen_sentences << sentence
-      if @count.updates[0].dispositions
-        new_sentence = @count.updates[0].dispositions[0].sentence
+      @count.updates.each { |updates|
+        new_sentence = updates.dispositions[0].sentence
         new_sentence = ConvictionSentenceBuilder.new(new_sentence).build
         seen_sentences << new_sentence
-      end
+      }
       seen_sentences
     end
 

@@ -54,8 +54,8 @@ module RapSheetParser
       )
     end
 
-    def build_disposition(type: 'convicted', sentence: nil, severity: 'M', text: '')
-      Disposition.new(type: type, sentence: sentence, severity: severity, text: text)
+    def build_disposition(type: 'convicted', count: nil, sentence: nil, severity: 'M', text: '')
+      Disposition.new(type: type, sentence: sentence, severity: severity, text: text, count: count)
     end
 
     def build_personal_info(names: nil, sex: nil, date_of_birth: nil, race: nil, cii: nil)

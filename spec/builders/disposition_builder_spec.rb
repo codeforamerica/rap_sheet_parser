@@ -14,7 +14,7 @@ module RapSheetParser
 
         count_node = CountGrammarParser.new.parse(text)
 
-        disposition = described_class.new(count_node.disposition, logger: nil).build
+        disposition = described_class.new(count_node.disposition, count: count_node, logger: nil).build
 
         expect(disposition.type).to eq 'convicted'
         expect(disposition.sentence.to_s).to eq '12m probation, 45d jail'
@@ -30,7 +30,7 @@ module RapSheetParser
 
         count_node = CountGrammarParser.new.parse(text)
 
-        disposition = described_class.new(count_node.disposition, logger: nil).build
+        disposition = described_class.new(count_node.disposition, count: count_node, logger: nil).build
 
         expect(disposition.type).to eq 'dismissed'
         expect(disposition.sentence).to eq nil
