@@ -1,3 +1,5 @@
+require 'pry-byebug'
+
 module RapSheetParser
   class CountBuilder
     attr_reader :count

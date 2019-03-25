@@ -14,6 +14,8 @@ module RapSheetParser
 
     class Name < Treetop::Runtime::SyntaxNode; end
 
+    class RapDate < Treetop::Runtime::SyntaxNode; end
+
     class CycleContent < Treetop::Runtime::SyntaxNode
       def events
         do_parsing(CycleGrammarParser.new, text_value).recursive_select(CycleGrammar::EventContent).map do |event|

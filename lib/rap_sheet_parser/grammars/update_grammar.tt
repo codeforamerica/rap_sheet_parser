@@ -3,7 +3,7 @@ module RapSheetParser
     include DispositionGrammar
 
     rule update
-      stuff dispositions <Update>
+      stuff date dispositions <Update>
     end
 
     rule dispositions
@@ -11,7 +11,7 @@ module RapSheetParser
     end
 
     rule stuff
-      (!dispo_header .)*
+      (!dispo_header !date .)*
     end
   end
 end

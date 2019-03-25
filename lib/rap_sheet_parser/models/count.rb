@@ -1,3 +1,5 @@
+require 'pry-byebug'
+
 module RapSheetParser
   class Count
     SUPERSTRIKES = [
@@ -53,8 +55,8 @@ module RapSheetParser
       @section = section
       @code = code
       @code_section_description = code_section_description
-      @dispositions = [disposition, disposition_updates]
       @updates = updates
+      @dispositions = [disposition, *disposition_updates]
       @flags = flags
     end
 
@@ -66,7 +68,11 @@ module RapSheetParser
 
     def disposition_updates
       dispo_updates = []
-      updates&.each{ |update|  dispo_updates >> update.disposition}
+      updates&.each do |update|
+        dispo_updates << update.dispositions
+      end
+      pry
+      dispo_updates.flatten
     end
 
     def conviction?

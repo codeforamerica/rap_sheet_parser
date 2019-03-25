@@ -234,8 +234,8 @@ module RapSheetParser
         expect(subject.dispositions.length).to eq 3
         expect(subject.dispositions[0].type).to eq 'convicted'
         expect(subject.dispositions[1].type).to eq 'probation_revoked'
-        expect(subject.dispositions[0].sentence).to eq "3y probation, 6m jail, imp sen ss"
-        expect(subject.dispositions[1].sentence).to eq '16m prison'
+        expect(subject.dispositions[0].sentence.to_s).to eq "3y probation, 6m jail, imp sen ss"
+        expect(subject.dispositions[1].sentence.to_s).to eq '16m prison'
         expect(subject.dispositions[0].date).to eq Date.new(1993,9,17)
         expect(subject.dispositions[1].date).to eq Date.new(1996,6,28)
         expect(subject.sentence).to eq '16m prison'
