@@ -17,7 +17,7 @@ module RapSheetParser
     attr_reader :node
 
     def dispositions
-      node.dispositions.map { |d| DispositionBuilder.new(d, count: @count, logger: @logger).build }
+      node.dispositions.map { |d| DispositionBuilder.new(d, date: node.date, count: @count, logger: @logger).build }
     end
   end
 end

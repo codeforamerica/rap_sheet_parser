@@ -11,7 +11,7 @@ module RapSheetParser
     end
 
     rule stuff
-      (!dispo_header !date .)*
+      (!dispo_header .)*
     end
   end
 end
