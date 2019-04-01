@@ -32,7 +32,7 @@ module RapSheetParser
       expect(subject.code_section).to eq 'PC 496'
       expect(subject.code_section_description).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
       expect(subject.severity).to eq 'M'
-      expect(subject.conviction?).to be true
+      expect(subject.convicted?).to be true
       expect(subject.sentence.to_s).to eq '12m probation, 45d jail'
       expect(subject.dispositions.length).to eq 2
       expect(subject.dispositions[1].type).to eq 'sentence_modified'
@@ -189,7 +189,7 @@ module RapSheetParser
 
         subject = described_class.new(count_node, event_date: Date.new(1993, 9, 17), logger: logger).build
 
-        expect(subject.conviction?).to eq true
+        expect(subject.convicted?).to eq true
         expect(subject.dispositions.length).to eq 3
         expect(subject.dispositions[0].type).to eq 'convicted'
         expect(subject.dispositions[1].type).to eq 'probation_revoked'

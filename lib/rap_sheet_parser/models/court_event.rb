@@ -12,7 +12,7 @@ module RapSheetParser
     attr_reader :cycle_events, :date, :courthouse, :counts, :name_code, :case_number
 
     def convicted_counts
-      counts.select(&:conviction?)
+      counts.select(&:convicted?)
     end
 
     def agency
@@ -23,8 +23,8 @@ module RapSheetParser
       'court'
     end
 
-    def conviction?
-      counts.any?(&:conviction?)
+    def convicted?
+      counts.any?(&:convicted?)
     end
 
     def successfully_completed_duration?(rap_sheet, start_date, duration)

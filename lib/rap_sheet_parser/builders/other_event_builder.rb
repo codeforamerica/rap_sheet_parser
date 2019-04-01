@@ -4,7 +4,7 @@ module RapSheetParser
 
     def build
       built_counts = counts
-      logger.warn("Detected #{event_type} event with dispo convicted") if built_counts.any?(&:conviction?)
+      logger.warn("Detected #{event_type} event with dispo convicted") if built_counts.any?(&:convicted?)
 
       OtherEvent.new(
         cycle_events: cycle_events,

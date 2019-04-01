@@ -29,7 +29,7 @@ module RapSheetParser
     end
 
     def convictions
-      filtered_events(CourtEvent).select(&:conviction?)
+      filtered_events(CourtEvent).select(&:convicted?)
     end
 
     def superstrikes

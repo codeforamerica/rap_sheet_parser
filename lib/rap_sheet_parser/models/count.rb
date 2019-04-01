@@ -68,7 +68,7 @@ module RapSheetParser
       dispos_with_sentence[-1].sentence unless dispos_with_sentence.empty?
     end
 
-    def conviction?
+    def convicted?
       dispositions&.any? { |dispo| dispo.type == 'convicted' }
     end
 

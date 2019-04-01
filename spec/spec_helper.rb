@@ -29,6 +29,6 @@ def verify_count_looks_like(count, code_section:, code_section_description:, con
   expect(count.code_section).to eq code_section
   expect(count.code_section_description).to eq code_section_description
   expect(count.severity).to eq severity
-  expect(count.conviction?).to eq convicted
+  expect(count.convicted?).to eq convicted
   expect(count.sentence.to_s).to eq sentence
 end

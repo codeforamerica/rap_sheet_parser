@@ -292,7 +292,7 @@ module RapSheetParser
           ]
         )
 
-        expect(event.conviction?).to eq true
+        expect(event.convicted?).to eq true
         expect(event.convicted_counts).to eq [convicted_count_1, convicted_count_2]
       end
 
@@ -305,7 +305,7 @@ module RapSheetParser
           ]
         )
 
-        expect(event.conviction?).to eq false
+        expect(event.convicted?).to eq false
         expect(event.convicted_counts).to eq []
       end
     end
