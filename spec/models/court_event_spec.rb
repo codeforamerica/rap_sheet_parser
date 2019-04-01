@@ -42,46 +42,53 @@ module RapSheetParser
       let(:conviction_date) { Date.new(1994, 1, 2) }
       let(:conviction_event) { build_court_event(date: conviction_date) }
 
-      it 'returns false if any arrests within probation period' do
+      it 'returns false if any arrests within specified period' do
         arrest_event = build_arrest_event(date: Date.new(1994, 6, 2))
         rap_sheet = build_rap_sheet(events: [conviction_event, arrest_event])
 
-        expect(conviction_event.successfully_completed_duration?(rap_sheet, 1.year)).to eq false
+        expect(conviction_event.successfully_completed_duration?(rap_sheet, conviction_date, 1.year)).to eq false
       end
 
-      it 'returns false if any custody events within probation period' do
+      it 'returns true if there are no arrests within specified period' do
+        arrest_event = build_arrest_event(date: Date.new(1994, 6, 2))
+        rap_sheet = build_rap_sheet(events: [conviction_event, arrest_event])
+
+        expect(conviction_event.successfully_completed_duration?(rap_sheet, Date.new(1994, 6, 3), 1.year)).to eq true
+      end
+
+      it 'returns false if any custody events within specified period' do
         custody_event = build_other_event(date: Date.new(1994, 6, 2), counts: [], event_type: 'custody')
         rap_sheet = build_rap_sheet(events: [conviction_event, custody_event])
 
-        expect(conviction_event.successfully_completed_duration?(rap_sheet, 1.year)).to eq false
+        expect(conviction_event.successfully_completed_duration?(rap_sheet, conviction_date, 1.year)).to eq false
       end
 
-      it 'returns false if any probation events within probation period' do
+      it 'returns false if any probation events within specified period' do
         probation_event = build_other_event(date: Date.new(1994, 6, 2), counts: [], event_type: 'probation')
         rap_sheet = build_rap_sheet(events: [conviction_event, probation_event])
 
-        expect(conviction_event.successfully_completed_duration?(rap_sheet, 1.year)).to eq false
+        expect(conviction_event.successfully_completed_duration?(rap_sheet, conviction_date, 1.year)).to eq false
       end
 
-      it 'returns false if any supplemental arrest events within probation period' do
+      it 'returns false if any supplemental arrest events within specified period' do
         supplemental_arrest_event = build_other_event(date: Date.new(1994, 6, 2), counts: [], event_type: 'supplemental_arrest')
         rap_sheet = build_rap_sheet(events: [conviction_event, supplemental_arrest_event])
 
-        expect(conviction_event.successfully_completed_duration?(rap_sheet, 1.year)).to eq false
+        expect(conviction_event.successfully_completed_duration?(rap_sheet, conviction_date, 1.year)).to eq false
       end
 
-      it 'returns false if any mental health events within probation period' do
+      it 'returns false if any mental health events within specified period' do
         mental_health_event = build_other_event(date: Date.new(1994, 6, 2), counts: [], event_type: 'mental_health')
         rap_sheet = build_rap_sheet(events: [conviction_event, mental_health_event])
 
-        expect(conviction_event.successfully_completed_duration?(rap_sheet, 1.year)).to eq false
+        expect(conviction_event.successfully_completed_duration?(rap_sheet, conviction_date, 1.year)).to eq false
       end
 
       it 'skips events without dates' do
         arrest_no_date_event = build_arrest_event(date: nil)
         rap_sheet = build_rap_sheet(events: [conviction_event, arrest_no_date_event])
 
-        expect(conviction_event.successfully_completed_duration?(rap_sheet, 1.year)).to eq true
+        expect(conviction_event.successfully_completed_duration?(rap_sheet, conviction_date, 1.year)).to eq true
       end
 
       it 'returns nil if event does not have a date' do
@@ -89,14 +96,14 @@ module RapSheetParser
         arrest_no_date_event = build_arrest_event(date: nil)
         events = build_rap_sheet(events: [conviction_event_missing_date, arrest_no_date_event]).events
 
-        expect(conviction_event_missing_date.successfully_completed_duration?(events, 1.year)).to be_nil
+        expect(conviction_event_missing_date.successfully_completed_duration?(events, conviction_date, 1.year)).to be_nil
       end
     end
 
     describe '#probation_violated?' do
       let(:sentence) { ConvictionSentence.new(probation: 1.year) }
       let(:conviction_event) { build_court_event(date: Date.new(1994, 1, 2), counts: [count]) }
-      let(:count) { build_count(dispositions: [build_disposition(sentence: sentence)]) }
+      let(:count) { build_count(dispositions: [build_disposition(sentence: sentence, date: Date.new(1994, 1, 2))]) }
       let(:rap_sheet) do
         build_rap_sheet(events: [conviction_event, build_arrest_event(date: arrest_date)])
       end
@@ -120,6 +127,33 @@ module RapSheetParser
         let(:sentence) { ConvictionSentence.new(jail: 1.year) }
         it 'returns false' do
           expect(conviction_event.probation_violated?(rap_sheet)).to eq false
+        end
+      end
+
+      context('if the probation sentence was updated') do
+        let(:update_date) {Date.new(1994, 8, 12)}
+        let(:disposition_2) { build_disposition(type: 'sentence_update', date: update_date, sentence: ConvictionSentence.new(probation: 3.year) )}
+        let(:count) { build_count(dispositions: [build_disposition(sentence: sentence, date: Date.new(1994, 1, 2)), disposition_2]) }
+
+        context 'if there is any violation in their original probation period' do
+          let(:arrest_date) { Date.new(1996, 7, 3) }
+          it 'returns true' do
+            expect(conviction_event.probation_violated?(rap_sheet)).to eq true
+          end
+        end
+
+        context 'if there is any violation in their updated probation period' do
+          let(:arrest_date) { Date.new(1997, 6, 3) }
+          it 'returns true' do
+            expect(conviction_event.probation_violated?(rap_sheet)).to eq true
+          end
+        end
+
+        context 'if there is no violation until after their probation ended' do
+          let(:arrest_date) { Date.new(1997, 9, 12) }
+          it 'returns false' do
+            expect(conviction_event.probation_violated?(rap_sheet)).to eq false
+          end
         end
       end
     end

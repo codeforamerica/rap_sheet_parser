@@ -27,14 +27,19 @@ module RapSheetParser
       counts.any?(&:conviction?)
     end
 
-    def successfully_completed_duration?(rap_sheet, duration)
+    def successfully_completed_duration?(rap_sheet, start_date, duration)
       return nil if date.nil?
 
-      events_with_dates(rap_sheet).all? { |e| event_outside_duration(e, duration) }
+      events_with_dates(rap_sheet).all? { |e| event_outside_duration(e, start_date, duration) }
     end
 
     def probation_violated?(rap_sheet)
-      has_sentence_with?(:probation) && !successfully_completed_duration?(rap_sheet, sentence.total_duration)
+      dispositions = convicted_counts.flat_map(&:dispositions)
+      probation_dispos = dispositions.select { |disposition| disposition.sentence&.probation.present? }
+
+      return false if probation_dispos.empty?
+
+      probation_dispos.any? {|d| !successfully_completed_duration?(rap_sheet, d.date, d.sentence.total_duration) }
     end
 
     def sentence
@@ -80,8 +85,8 @@ module RapSheetParser
       end
     end
 
-    def event_outside_duration(event, duration)
-      event.date < date || event.date > (date + duration)
+    def event_outside_duration(event, start_date, duration)
+      event.date < start_date || event.date > (start_date + duration)
     end
   end
 end
