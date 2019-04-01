@@ -14,12 +14,13 @@ module RapSheetParser
 
         count_node = CountGrammarParser.new.parse(text)
 
-        disposition = described_class.new(count_node.disposition, logger: nil).build
+        disposition = described_class.new(count_node.disposition, date: Date.new(1998, 0o3, 25), logger: nil).build
 
         expect(disposition.type).to eq 'convicted'
         expect(disposition.sentence.to_s).to eq '12m probation, 45d jail'
         expect(disposition.text).to eq 'DISPO:CONVICTED'
         expect(disposition.severity).to eq('M')
+        expect(disposition.date).to eq(Date.new(1998, 0o3, 25))
       end
 
       it 'builds disposition when sentence is nil' do
@@ -30,7 +31,7 @@ module RapSheetParser
 
         count_node = CountGrammarParser.new.parse(text)
 
-        disposition = described_class.new(count_node.disposition, logger: nil).build
+        disposition = described_class.new(count_node.disposition, date: nil, logger: nil).build
 
         expect(disposition.type).to eq 'dismissed'
         expect(disposition.sentence).to eq nil

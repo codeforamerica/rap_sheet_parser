@@ -12,7 +12,7 @@ module RapSheetParser
     attr_reader :cycle_events, :date, :courthouse, :counts, :name_code, :case_number
 
     def convicted_counts
-      counts.select { |count| count.disposition&.type == 'convicted' }
+      counts.select(&:conviction?)
     end
 
     def agency
@@ -24,7 +24,7 @@ module RapSheetParser
     end
 
     def conviction?
-      counts.any? { |count| count.disposition&.type == 'convicted' }
+      counts.any?(&:conviction?)
     end
 
     def successfully_completed_duration?(rap_sheet, duration)
@@ -38,21 +38,9 @@ module RapSheetParser
     end
 
     def sentence
-      count_with_sentence = counts.find { |c| c.disposition&.sentence }
+      count_with_sentence = counts.find(&:sentence)
 
-      return unless count_with_sentence
-
-      original_sentence = count_with_sentence.disposition.sentence
-
-      sentence_modified_disposition = counts.flat_map(&:updates).flat_map(&:dispositions).find do |d|
-        d.type == 'sentence_modified'
-      end
-
-      if sentence_modified_disposition
-        sentence_modified_disposition.sentence
-      else
-        original_sentence
-      end
+      count_with_sentence&.sentence
     end
 
     def inspect
@@ -60,27 +48,25 @@ module RapSheetParser
     end
 
     def severity
-      severities = counts.map(&:disposition).compact.map(&:severity)
+      severities = counts.map(&:severity)
       %w[F M I].each do |s|
         return s if severities.include?(s)
       end
     end
 
     def dismissed_by_pc1203?
-      counts.flat_map(&:updates).flat_map(&:dispositions).any? do |d|
+      counts.flat_map(&:dispositions).any? do |d|
         d.type == 'pc1203_dismissed'
       end
     end
 
     def has_sentence_with?(type)
-      counts.map(&:disposition).any? do |disposition|
-        disposition&.sentence&.public_send(type).present?
+      counts.any? do |count|
+        count.sentence&.public_send(type).present?
       end
     end
 
     private
-
-    attr_reader :updates
 
     def events_with_dates(rap_sheet)
       rap_sheet_events = (rap_sheet.arrest_events +

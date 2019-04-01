@@ -47,7 +47,7 @@ module RapSheetParser
 
     describe '#superstrikes' do
       it 'returns any superstrike convictions' do
-        count = build_count(code: 'PC', section: '187', disposition: build_disposition(type: 'convicted'))
+        count = build_count(code: 'PC', section: '187', dispositions: [build_disposition(type: 'convicted')])
         conviction = build_court_event(counts: [count])
 
         rap_sheet = build_rap_sheet(events: [conviction])
@@ -55,7 +55,7 @@ module RapSheetParser
       end
 
       it 'returns empty list if no superstrike convictions' do
-        count = build_count(code: 'PC', section: '187', disposition: build_disposition(type: 'dismissed'))
+        count = build_count(code: 'PC', section: '187', dispositions: [build_disposition(type: 'dismissed')])
         conviction = build_court_event(counts: [count])
 
         rap_sheet = build_rap_sheet(events: [conviction])
@@ -64,8 +64,8 @@ module RapSheetParser
     end
     describe '#convictions' do
       it 'returns an array of convicted court events' do
-        convicted_count = build_count(code: 'PC', section: '32', disposition: build_disposition(type: 'convicted'))
-        dismissed_count = build_count(code: 'HS', section: '11359', disposition: build_disposition(type: 'dismissed'))
+        convicted_count = build_count(code: 'PC', section: '32', dispositions: [build_disposition(type: 'convicted')])
+        dismissed_count = build_count(code: 'HS', section: '11359', dispositions: [build_disposition(type: 'dismissed')])
         court_event1 = build_court_event(counts: [convicted_count])
         court_event2 = build_court_event(counts: [dismissed_count])
         rap_sheet = build_rap_sheet(events: [court_event1, court_event2, build_arrest_event])

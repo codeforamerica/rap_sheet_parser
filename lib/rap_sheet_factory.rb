@@ -40,22 +40,20 @@ module RapSheetParser
       code: 'PC',
       section: '123',
       code_section_description: 'foo',
-      disposition: build_disposition,
-      updates: [],
+      dispositions: [build_disposition],
       flags: []
     )
       Count.new(
         code_section_description: code_section_description,
         code: code,
         section: section,
-        disposition: disposition,
-        updates: updates,
+        dispositions: dispositions,
         flags: flags
       )
     end
 
-    def build_disposition(type: 'convicted', sentence: nil, severity: 'M', text: '')
-      Disposition.new(type: type, sentence: sentence, severity: severity, text: text)
+    def build_disposition(type: 'convicted', date: nil, sentence: nil, severity: 'M', text: '')
+      Disposition.new(type: type, sentence: sentence, severity: severity, text: text, date: date)
     end
 
     def build_personal_info(names: nil, sex: nil, date_of_birth: nil, race: nil, cii: nil)

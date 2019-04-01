@@ -5,6 +5,7 @@ module RapSheetParser
     describe '#parse' do
       it 'parses updates' do
         text = <<~TEXT
+          19860925
           DISPO:SENTENCE MODIFIED
           SEN: 001 MONTHS JAIL
         TEXT
@@ -16,6 +17,7 @@ module RapSheetParser
 
       it 'parses updates with stray information before it' do
         text = <<~TEXT
+          19860925
           Page 3
           DISPO:SENTENCE MODIFIED
           SEN: 001 MONTHS JAIL

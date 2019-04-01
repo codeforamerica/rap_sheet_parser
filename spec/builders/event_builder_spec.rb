@@ -49,31 +49,41 @@ module RapSheetParser
         event.counts[0],
         code_section: 'PC 455',
         code_section_description: 'ARMED ROBBERY',
-        disposition: build_disposition(severity: nil, type: 'convicted', sentence: '')
+        severity: nil,
+        convicted: true,
+        sentence: ''
       )
       verify_count_looks_like(
         event.counts[1],
         code_section: 'PC 420',
         code_section_description: 'BREAKING AND ENTERING',
-        disposition: build_disposition(severity: nil, type: 'dismissed', sentence: '')
+        severity: nil,
+        convicted: false,
+        sentence: ''
       )
       verify_count_looks_like(
         event.counts[2],
         code_section: 'PC 4056',
         code_section_description: 'SECOND DESCRIPTION',
-        disposition: build_disposition(severity: nil, type: 'convicted', sentence: '')
+        severity: nil,
+        convicted: true,
+        sentence: ''
       )
       verify_count_looks_like(
         event.counts[3],
         code_section: 'PC 4056',
         code_section_description: 'SECOND DESCRIPTION',
-        disposition: build_disposition(severity: nil, type: 'convicted', sentence: '')
+        severity: nil,
+        convicted: true,
+        sentence: ''
       )
       verify_count_looks_like(
         event.counts[4],
         code_section: 'PC 4056',
         code_section_description: 'SECOND DESCRIPTION',
-        disposition: build_disposition(severity: nil, type: 'convicted', sentence: '')
+        severity: nil,
+        convicted: true,
+        sentence: ''
       )
     end
 

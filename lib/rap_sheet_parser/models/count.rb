@@ -47,14 +47,13 @@ module RapSheetParser
       'PC 191.5-664'
     ].freeze
 
-    attr_reader :code_section_description, :code, :section, :disposition, :updates, :flags
+    attr_reader :code_section_description, :code, :section, :dispositions, :flags
 
-    def initialize(code_section_description:, code:, section:, disposition:, updates:, flags:)
+    def initialize(code_section_description:, code:, section:, dispositions:, flags:)
       @section = section
       @code = code
       @code_section_description = code_section_description
-      @disposition = disposition
-      @updates = updates
+      @dispositions = dispositions
       @flags = flags
     end
 
@@ -62,6 +61,20 @@ module RapSheetParser
       return unless code && section
 
       "#{code} #{section}"
+    end
+
+    def sentence
+      dispos_with_sentence = dispositions.select { |disposition| disposition.sentence.present? }
+      dispos_with_sentence[-1].sentence unless dispos_with_sentence.empty?
+    end
+
+    def conviction?
+      dispositions&.any? { |dispo| dispo.type == 'convicted' }
+    end
+
+    def severity
+      conviction_dispo = dispositions.find { |d| d.type == 'convicted' && d.severity.present? }
+      conviction_dispo&.severity
     end
 
     def superstrike?
@@ -76,6 +89,10 @@ module RapSheetParser
       codes.any? do |d|
         strip_subsection(code_section) == strip_subsection(d) && code_section.start_with?(d)
       end
+    end
+
+    def probation_revoked?
+      dispositions.any? { |dispo| dispo.type == 'probation_revoked' }
     end
 
     private

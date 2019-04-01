@@ -2,27 +2,32 @@ module RapSheetParser
   class CountBuilder
     attr_reader :count
 
-    def initialize(count, logger:)
+    def initialize(count, event_date:, logger:)
       @count = count
+      @event_date = event_date
       @logger = logger
     end
 
-    attr_reader :logger
+    attr_reader :logger, :event_date
 
     def build
-      logger.warn('Charge description includes "28.5"') if code_section_description.try(:match, /28[.,]5/)
-
       Count.new(
         code_section_description: code_section_description,
         code: code,
         section: section,
-        disposition: disposition,
-        updates: updates,
+        dispositions: dispositions,
         flags: flags
       )
     end
 
     private
+
+    def disposition_updates
+      count.updates.map do |u|
+        update = UpdateBuilder.new(u, logger: logger).build
+        update.dispositions
+      end.flatten
+    end
 
     def code_section_description
       return unless count.code_section_description
@@ -30,10 +35,12 @@ module RapSheetParser
       count.code_section_description.text_value.chomp
     end
 
-    def disposition
+    def dispositions
       return unless count.disposition.is_a? CountGrammar::Disposition
 
-      DispositionBuilder.new(count.disposition, logger: logger).build
+      original_disposition = DispositionBuilder.new(count.disposition, date: event_date, logger: logger).build
+
+      [original_disposition, *disposition_updates].compact
     end
 
     def code
@@ -50,10 +57,6 @@ module RapSheetParser
       return unless count.code_section
 
       count.code_section.section.text_value.delete(' ').downcase.tr(',', '.')
-    end
-
-    def updates
-      count.updates.map { |u| UpdateBuilder.new(u, logger: logger).build }
     end
   end
 end

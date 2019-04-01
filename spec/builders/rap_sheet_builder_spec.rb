@@ -124,25 +124,33 @@ module RapSheetParser
           rap_sheet.convictions[0].counts[0],
           code_section: nil,
           code_section_description: nil,
-          disposition: build_disposition(severity: nil, type: 'convicted', sentence: '')
+          severity: nil,
+          convicted: true,
+          sentence: ''
         )
         verify_count_looks_like(
           rap_sheet.convictions[0].counts[1],
           code_section: nil,
           code_section_description: nil,
-          disposition: build_disposition(severity: nil, type: 'dismissed', sentence: '')
+          severity: nil,
+          convicted: false,
+          sentence: ''
         )
         verify_count_looks_like(
           rap_sheet.convictions[0].counts[2],
           code_section: 'PC 4056',
           code_section_description: 'BREAKING AND ENTERING',
-          disposition: build_disposition(severity: nil, type: 'convicted', sentence: '')
+          severity: nil,
+          convicted: true,
+          sentence: ''
         )
         verify_count_looks_like(
           rap_sheet.convictions[1].counts[0],
           code_section: 'PC 487.2',
           code_section_description: 'GRAND THEFT FROM PERSON',
-          disposition: build_disposition(severity: 'M', type: 'convicted', sentence: '12m probation, 45d jail')
+          severity: 'M',
+          convicted: true,
+          sentence: '12m probation, 45d jail'
         )
 
         expect(rap_sheet.registration_events[0].date).to eq Date.new(2017, 12, 16)

@@ -38,14 +38,18 @@ module RapSheetParser
           event.counts[0],
           code_section: 'PC 123',
           code_section_description: 'BAD STUFF',
-          disposition: build_disposition(severity: nil, type: 'dismissed', sentence: '')
+          severity: nil,
+          convicted: false,
+          sentence: ''
         )
 
         verify_count_looks_like(
           event.counts[1],
           code_section: 'PC 4056',
           code_section_description: 'BREAKING AND ENTERING',
-          disposition: build_disposition(severity: nil, type: 'convicted', sentence: '')
+          severity: nil,
+          convicted: true,
+          sentence: ''
         )
       end
 

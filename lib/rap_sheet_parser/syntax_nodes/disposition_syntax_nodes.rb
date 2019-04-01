@@ -40,6 +40,7 @@ module RapSheetParser
     class Convicted < Treetop::Runtime::SyntaxNode; end
     class Dismissed < Treetop::Runtime::SyntaxNode; end
     class OtherDispositionType < Treetop::Runtime::SyntaxNode; end
+    class ProbationRevoked < Treetop::Runtime::SyntaxNode; end
     class ProsecutorRejected < Treetop::Runtime::SyntaxNode; end
     class SentenceModified < Treetop::Runtime::SyntaxNode; end
     class PC1203Dismissed < Treetop::Runtime::SyntaxNode; end

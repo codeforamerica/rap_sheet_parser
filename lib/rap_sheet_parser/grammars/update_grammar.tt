@@ -3,7 +3,7 @@ module RapSheetParser
     include DispositionGrammar
 
     rule update
-      stuff dispositions <Update>
+      w date w N stuff dispositions <Update>
     end
 
     rule dispositions

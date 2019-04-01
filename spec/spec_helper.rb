@@ -25,10 +25,10 @@ def verify_event_looks_like(event, name_code:, date:, case_number:, courthouse:,
   expect(event.sentence.to_s).to eq sentence
 end
 
-def verify_count_looks_like(count, code_section:, code_section_description:, disposition:)
+def verify_count_looks_like(count, code_section:, code_section_description:, convicted:, severity:, sentence:)
   expect(count.code_section).to eq code_section
   expect(count.code_section_description).to eq code_section_description
-  expect(count.disposition.severity).to eq disposition.severity
-  expect(count.disposition.type).to eq disposition.type
-  expect(count.disposition.sentence.to_s).to eq disposition.sentence
+  expect(count.severity).to eq severity
+  expect(count.conviction?).to eq convicted
+  expect(count.sentence.to_s).to eq sentence
 end

@@ -6,32 +6,32 @@ module RapSheetParser
       it 'returns the highest severity found within the counts' do
         event = build_court_event(
           counts: [
-            build_count(disposition: build_disposition(severity: 'F')),
-            build_count(disposition: nil)
+            build_count(dispositions: [build_disposition(severity: 'F')]),
+            build_count(dispositions: [])
           ]
         )
         expect(event.severity).to eq 'F'
 
         event = build_court_event(
           counts: [
-            build_count(disposition: build_disposition(severity: 'I')),
-            build_count(disposition: build_disposition(severity: 'F'))
+            build_count(dispositions: [build_disposition(severity: 'I')]),
+            build_count(dispositions: [build_disposition(severity: 'F')])
           ]
         )
         expect(event.severity).to eq 'F'
 
         event = build_court_event(
           counts: [
-            build_count(disposition: build_disposition(severity: 'I')),
-            build_count(disposition: build_disposition(severity: 'M'))
+            build_count(dispositions: [build_disposition(severity: 'I')]),
+            build_count(dispositions: [build_disposition(severity: 'M')])
           ]
         )
         expect(event.severity).to eq 'M'
 
         event = build_court_event(
           counts: [
-            build_count(disposition: build_disposition(severity: 'I')),
-            build_count(disposition: build_disposition(severity: 'I'))
+            build_count(dispositions: [build_disposition(severity: 'I')]),
+            build_count(dispositions: [build_disposition(severity: 'I')])
           ]
         )
         expect(event.severity).to eq 'I'
@@ -96,7 +96,7 @@ module RapSheetParser
     describe '#probation_violated?' do
       let(:sentence) { ConvictionSentence.new(probation: 1.year) }
       let(:conviction_event) { build_court_event(date: Date.new(1994, 1, 2), counts: [count]) }
-      let(:count) { build_count(disposition: build_disposition(sentence: sentence)) }
+      let(:count) { build_count(dispositions: [build_disposition(sentence: sentence)]) }
       let(:rap_sheet) do
         build_rap_sheet(events: [conviction_event, build_arrest_event(date: arrest_date)])
       end
@@ -129,16 +129,9 @@ module RapSheetParser
         event = build_court_event(
           counts: [
             build_count(
-              disposition: build_disposition(
-                sentence: ConvictionSentence.new(probation: 12.months)
-              ),
-              updates: [
-                Update.new(
-                  dispositions: [
-                    build_disposition(type: 'sentence_modified',
-                                      sentence: ConvictionSentence.new(jail: 5.years))
-                  ]
-                )
+              dispositions: [
+                build_disposition(sentence: ConvictionSentence.new(probation: 12.months)),
+                build_disposition(type: 'sentence_modified', sentence: ConvictionSentence.new(jail: 5.years))
               ]
             )
           ]
@@ -151,10 +144,7 @@ module RapSheetParser
         event = build_court_event(
           counts: [
             build_count(
-              disposition: build_disposition(
-                sentence: ConvictionSentence.new(probation: 12.months)
-              ),
-              updates: []
+              dispositions: [build_disposition(sentence: ConvictionSentence.new(probation: 12.months))]
             )
           ]
         )
@@ -165,9 +155,7 @@ module RapSheetParser
       it 'sets sentence correctly if no sentence' do
         event = build_court_event(
           counts: [
-            build_count(
-              disposition: build_disposition(sentence: nil)
-            )
+            build_count(dispositions: [build_disposition(sentence: nil)])
           ]
         )
 
@@ -178,7 +166,7 @@ module RapSheetParser
         event = build_court_event(
           counts: [
             build_count(
-              disposition: nil
+              dispositions: []
             )
           ]
         )
@@ -192,9 +180,7 @@ module RapSheetParser
         event = build_court_event(
           counts: [
             build_count(
-              updates: [
-                Update.new(dispositions: [build_disposition(type: 'pc1203_dismissed')])
-              ]
+              dispositions: [build_disposition(type: 'pc1203_dismissed')]
             )
           ]
         )
@@ -214,17 +200,13 @@ module RapSheetParser
         event = build_court_event(
           counts: [
             build_count(
-              disposition: build_disposition(
-                sentence: ConvictionSentence.new(probation: 12.months, jail: 2.years)
-              )
+              dispositions: [build_disposition(sentence: ConvictionSentence.new(probation: 12.months, jail: 2.years))]
             ),
             build_count(
-              disposition: build_disposition(
-                sentence: ConvictionSentence.new(jail: 1.month)
-              )
+              dispositions: [build_disposition(sentence: ConvictionSentence.new(jail: 1.month))]
             ),
-            build_count(disposition: build_disposition(sentence: nil)),
-            build_count(disposition: nil)
+            build_count(dispositions: [build_disposition(sentence: nil)]),
+            build_count(dispositions: [])
           ]
         )
 
@@ -239,32 +221,32 @@ module RapSheetParser
     describe '#convicted? and #conviction_counts' do
       let(:convicted_count_1) do
         build_count(
-          disposition: build_disposition(
+          dispositions: [build_disposition(
             type: 'convicted',
             sentence: ConvictionSentence.new(probation: 12.months, jail: 2.years)
-          )
+          )]
         )
       end
 
       let(:convicted_count_2) do
         build_count(
-          disposition: build_disposition(
+          dispositions: [build_disposition(
             type: 'convicted',
             sentence: ConvictionSentence.new(jail: 1.month)
-          )
+          )]
         )
       end
 
       let(:dismissed_count) do
         build_count(
-          disposition: build_disposition(
+          dispositions: [build_disposition(
             type: 'dismissed'
-          )
+          )]
         )
       end
 
-      let(:nil_sentence_count) { build_count(disposition: build_disposition(type: 'other_disposition_type', sentence: nil)) }
-      let(:nil_dispo_count) { build_count(disposition: nil) }
+      let(:nil_sentence_count) { build_count(dispositions: [build_disposition(type: 'other_disposition_type', sentence: nil)]) }
+      let(:nil_dispo_count) { build_count(dispositions: []) }
       it 'identifies a conviction if any of the counts are convicted' do
         event = build_court_event(
           counts: [
