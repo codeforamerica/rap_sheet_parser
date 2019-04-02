@@ -131,8 +131,8 @@ module RapSheetParser
       end
 
       context('if the probation sentence was updated') do
-        let(:update_date) {Date.new(1994, 8, 12)}
-        let(:disposition_2) { build_disposition(type: 'sentence_update', date: update_date, sentence: ConvictionSentence.new(probation: 3.year) )}
+        let(:update_date) { Date.new(1994, 8, 12) }
+        let(:disposition_2) { build_disposition(type: 'sentence_update', date: update_date, sentence: ConvictionSentence.new(probation: 3.year)) }
         let(:count) { build_count(dispositions: [build_disposition(sentence: sentence, date: Date.new(1994, 1, 2)), disposition_2]) }
 
         context 'if there is any violation in their original probation period' do

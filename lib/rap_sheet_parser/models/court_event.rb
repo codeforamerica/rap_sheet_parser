@@ -39,7 +39,7 @@ module RapSheetParser
 
       return false if probation_dispos.empty?
 
-      probation_dispos.any? {|d| !successfully_completed_duration?(rap_sheet, d.date, d.sentence.total_duration) }
+      probation_dispos.any? { |d| !successfully_completed_duration?(rap_sheet, d.date, d.sentence.total_duration) }
     end
 
     def sentence

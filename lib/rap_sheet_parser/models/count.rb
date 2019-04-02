@@ -65,9 +65,7 @@ module RapSheetParser
 
     def sentence
       dispos_with_sentence = dispositions&.select { |disposition| disposition.sentence.present? }
-      if dispos_with_sentence.present?
-        dispos_with_sentence[-1].sentence
-      end
+      dispos_with_sentence[-1].sentence if dispos_with_sentence.present?
     end
 
     def convicted?
