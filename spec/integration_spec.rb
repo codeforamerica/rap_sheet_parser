@@ -48,8 +48,14 @@ RSpec.describe 'integration', integration: true do
         expect(actual_events.length).to eq(expected_events.length), message
 
         actual_events.each.with_index do |event, event_index|
+          expected_event = expected_events[event_index]
           message = "Mismatch in #{rap_sheet_textfile}: Cycle #{cycle_index + 1}, Event #{event_index + 1}"
-          expect(event).to eq(expected_events[event_index]), message
+          expect(event).to eq(expected_event), message
+
+          event[:counts].each.with_index do |count, count_index|
+            expected_count = expected_event[:counts][count_index]
+            expect(count[:dispositions].size).to eq(expected_count[:dispositions].size)
+          end
         end
       end
     end
@@ -84,20 +90,20 @@ RSpec.describe 'integration', integration: true do
     cycles = rap_sheet.cycles.map do |cycle|
       events = cycle.events.map do |event|
         counts = event.counts.map do |count|
-          disposition =
-            if count.disposition
+          dispositions =
+            count.dispositions.map do |d|
               {
-                type: count.disposition.type,
-                text: count.disposition.text,
-                severity: count.disposition.severity,
-                sentence: count.disposition.sentence&.to_s
+                type: d.type,
+                text: d.text,
+                date: d.date.strftime('%m/%d/%Y'),
+                severity: d.severity,
+                sentence: d.sentence&.to_s
               }.compact
             end
-
           {
             code_section: count.code_section,
             code_section_description: count.code_section_description,
-            disposition: disposition
+            dispositions: dispositions
           }.compact
         end
 

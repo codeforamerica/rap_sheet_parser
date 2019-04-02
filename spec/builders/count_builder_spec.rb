@@ -133,6 +133,27 @@ module RapSheetParser
       end
     end
 
+    context 'when there are no dispositions' do
+      it 'returns an empty array for dispositions' do
+        text = <<~TEXT
+          info
+          * * * *
+          COURT: NAME7OZ
+          19820915 CASC SN JOSE
+
+          CNT: 001  #346477
+            SEE COMMENT FOR CHARGE
+          * * * END OF MESSAGE * * *
+        TEXT
+
+        tree = RapSheetGrammarParser.new.parse(text)
+        count_node = tree.cycles[0].events[0].counts[0]
+
+        subject = described_class.new(count_node, event_date: event_date, logger: logger).build
+        expect(subject.dispositions).to eq []
+      end
+    end
+
     context 'when the charge contains flags' do
       it 'parses flags into the count' do
         text = <<~TEXT

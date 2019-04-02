@@ -36,7 +36,7 @@ module RapSheetParser
     end
 
     def dispositions
-      return unless count.disposition.is_a? CountGrammar::Disposition
+      return [] unless count.disposition.is_a? CountGrammar::Disposition
 
       original_disposition = DispositionBuilder.new(count.disposition, date: event_date, logger: logger).build
 
