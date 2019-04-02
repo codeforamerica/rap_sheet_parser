@@ -35,7 +35,7 @@ module RapSheetParser
 
     def probation_violated?(rap_sheet)
       dispositions = convicted_counts.flat_map(&:dispositions)
-      probation_dispos = dispositions.select { |disposition| disposition.sentence&.probation.present? }
+      probation_dispos = dispositions&.select { |disposition| disposition.sentence&.probation.present? }
 
       return false if probation_dispos.empty?
 

@@ -75,7 +75,7 @@ module RapSheetParser
     end
 
     def severity
-      conviction_dispo = dispositions.find { |d| d.type == 'convicted' && d.severity.present? }
+      conviction_dispo = dispositions&.find { |d| d.type == 'convicted' && d.severity.present? }
       conviction_dispo&.severity
     end
 
@@ -94,7 +94,7 @@ module RapSheetParser
     end
 
     def probation_revoked?
-      dispositions.any? { |dispo| dispo.type == 'probation_revoked' }
+      dispositions&.any? { |dispo| dispo&.type == 'probation_revoked' }
     end
 
     private

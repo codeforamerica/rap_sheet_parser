@@ -73,4 +73,11 @@ RSpec.describe RapSheetParser::Count do
     expect(count.sentence). to eq nil
     end
   end
+
+  describe '#severity' do
+    it'returns nil if dispositions is nil' do
+      count = build_count(code: 'PC', section: '111', dispositions: nil)
+      expect(count.severity). to eq nil
+    end
+  end
 end
