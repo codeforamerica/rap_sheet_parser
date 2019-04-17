@@ -162,7 +162,7 @@ module RapSheetParser
         expect(rap_sheet.probation_events.length).to eq 1
         expect(rap_sheet.convictions.length).to eq 2
         expect(rap_sheet.convictions[0].counts.length).to eq 3
-
+        expect(rap_sheet.convictions[0].convicted_counts.length).to eq 2
 
         expect(warnings.string).to be_empty
       end
