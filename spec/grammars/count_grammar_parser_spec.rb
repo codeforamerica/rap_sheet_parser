@@ -298,10 +298,7 @@ module RapSheetParser
           expect(count.code_section.text_value).to eq '496.3(A)(2) PC'
           expect(count.code_section_description.text_value).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
         end
-
-
       end
-
     end
   end
 end

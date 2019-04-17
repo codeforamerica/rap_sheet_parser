@@ -46,9 +46,7 @@ module RapSheetParser
     end
 
     def currently_serving_sentence?
-      convictions.any? do |event|
-        event.currently_serving_sentence?
-      end
+      convictions.any?(&:currently_serving_sentence?)
     end
 
     private

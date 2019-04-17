@@ -113,26 +113,24 @@ module RapSheetParser
     context 'when a page number breaks up a count' do
       it 'parses the count without the page number' do
         text = <<~TEXT
-            info
-            * * * *
-            COURT: NAM:001
-            19900626 CAMC SAN JOSE 
-
-            CNT: 001  #346477
-                      Page 2 of 29
-              496.3(A)(2) PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
-            *DISPO:CONVICTED
-            CONV STATUS:MISDEMEANOR
-            SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
-
-            CNT:002
-            Page 13 of 16
-              11357 HS-POSSESS
-            TOC:M
-            *DISPO:CONVICTED
-            CONV STATUS:FELONY
-            SEN: 002 YEARS PROBATION, 045 DAYS JAIL, FINE, IMP SEN SS
-            * * * END OF MESSAGE * * *
+          info
+          * * * *
+          COURT: NAM:001
+          19900626 CAMC SAN JOSE
+           CNT: 001  #346477
+                    Page 2 of 29
+            496.3(A)(2) PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
+          *DISPO:CONVICTED
+          CONV STATUS:MISDEMEANOR
+          SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
+           CNT:002
+          Page 13 of 16
+            11357 HS-POSSESS
+          TOC:M
+          *DISPO:CONVICTED
+          CONV STATUS:FELONY
+          SEN: 002 YEARS PROBATION, 045 DAYS JAIL, FINE, IMP SEN SS
+          * * * END OF MESSAGE * * *
         TEXT
 
         tree = RapSheetGrammarParser.new.parse(text)

@@ -106,6 +106,34 @@ module RapSheetParser
 
         expect(event.case_number).to be_nil
       end
+
+      it 'handles court events with page number breaks' do
+        text = <<~TEXT
+          COURT:
+          20040102  CASC SAN FRANCISCO CO
+
+          CNT: 001  #346477
+                    Page 2 of 29
+          496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
+          *DISPO:CONVICTED
+          CONV STATUS:MISDEMEANOR
+          SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
+
+          20040202
+            DISPO :SOMETHING ELSE
+
+          20040202
+            DISPO:SENTENCE MODIFIED
+            SEN: 001 MONTHS JAIL
+        TEXT
+
+        event = build(text)
+        expect(event.counts.length).to eq 1
+        expect(event.convicted_counts.length).to eq 1
+        expect(event.convicted_counts[0].code).to eq 'PC'
+        expect(event.convicted_counts[0].section).to eq '496'
+        expect(event.convicted_counts[0].code_section).to eq 'PC 496'
+      end
     end
 
     def build(text)

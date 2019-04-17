@@ -43,7 +43,7 @@ module RapSheetParser
     end
 
     def sentence
-      count_with_longest_sentence = counts.select { |c| c.sentence.present? }.sort_by { |c| c.sentence.total_duration }.last
+      count_with_longest_sentence = counts.select { |c| c.sentence.present? }.max_by { |c| c.sentence.total_duration }
 
       count_with_longest_sentence&.sentence
     end
