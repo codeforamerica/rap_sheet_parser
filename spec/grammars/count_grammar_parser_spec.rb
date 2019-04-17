@@ -282,6 +282,22 @@ module RapSheetParser
         expect(count.comments[0].text_value).to eq "COM: JKFHKJFKJHS\n\n"
         expect(count.updates[0].dispositions[0].text_value).to eq " DISPO:NO LONGER INTERESTED\n   COM: AJFH-BJBDHJ\n"
       end
+
+      it 'does not include the page number in code sections' do
+        text = <<~TEXT
+                      Page 12 of 29
+            496.3(A)(2) PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
+          *DISPO:CONVICTED
+            CONV STATUS:MISDEMEANOR
+            SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
+        TEXT
+
+        count = described_class.new.parse(text)
+        expect(count.code_section.code.text_value).to eq 'PC'
+        expect(count.code_section.section.text_value).to eq '496.3(A)(2)'
+        expect(count.code_section.text_value).to eq '496.3(A)(2) PC'
+        expect(count.code_section_description.text_value).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
+      end
     end
   end
 end

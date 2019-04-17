@@ -110,6 +110,33 @@ module RapSheetParser
       expect(subject.severity).to eq 'M'
     end
 
+    context 'when a page number breaks up a count' do
+      it 'parses the count without the page number' do
+        text = <<~TEXT
+            info
+            * * * *
+            COURT: NAM:001
+            19900626 CAMC SAN JOSE 
+
+            CNT: 001  #346477
+                      Page 2 of 9
+            496.3(A)(2) PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
+          *DISPO:CONVICTED
+            CONV STATUS:MISDEMEANOR
+            SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
+            * * * END OF MESSAGE * * *
+        TEXT
+
+        tree = RapSheetGrammarParser.new.parse(text)
+        count_node = tree.cycles[0].events[0].counts[0]
+
+        subject = described_class.new(count_node, event_date: event_date, logger: logger).build
+        expect(subject.code_section).to eq 'PC 496.3(a)(2)'
+        expect(subject.code_section_description).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
+        expect(subject.severity).to eq 'M'
+      end
+    end
+
     context 'when the charge contains a -664 (Attempted)' do
       it 'parses that into the code section' do
         text = <<~TEXT
