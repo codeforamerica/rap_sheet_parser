@@ -119,21 +119,38 @@ module RapSheetParser
             19900626 CAMC SAN JOSE 
 
             CNT: 001  #346477
-                      Page 2 of 9
-            496.3(A)(2) PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
-          *DISPO:CONVICTED
+                      Page 2 of 29
+              496.3(A)(2) PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
+            *DISPO:CONVICTED
             CONV STATUS:MISDEMEANOR
             SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
+
+            CNT:002
+            Page 13 of 16
+              11357 HS-POSSESS
+            TOC:M
+            *DISPO:CONVICTED
+            CONV STATUS:FELONY
+            SEN: 002 YEARS PROBATION, 045 DAYS JAIL, FINE, IMP SEN SS
             * * * END OF MESSAGE * * *
         TEXT
 
         tree = RapSheetGrammarParser.new.parse(text)
-        count_node = tree.cycles[0].events[0].counts[0]
+        count_node_1 = tree.cycles[0].events[0].counts[0]
 
-        subject = described_class.new(count_node, event_date: event_date, logger: logger).build
-        expect(subject.code_section).to eq 'PC 496.3(a)(2)'
-        expect(subject.code_section_description).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
-        expect(subject.severity).to eq 'M'
+        subject_1 = described_class.new(count_node_1, event_date: event_date, logger: logger).build
+        expect(subject_1.code).to eq 'PC'
+        expect(subject_1.section).to eq '496.3(a)(2)'
+        expect(subject_1.code_section).to eq 'PC 496.3(a)(2)'
+        expect(subject_1.code_section_description).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
+        expect(subject_1.severity).to eq 'M'
+
+        count_node_2 = tree.cycles[0].events[0].counts[1]
+
+        subject_2 = described_class.new(count_node_2, event_date: event_date, logger: logger).build
+        expect(subject_2.code_section).to eq 'HS 11357'
+        expect(subject_2.code_section_description).to eq 'POSSESS'
+        expect(subject_2.severity).to eq 'F'
       end
     end
 
