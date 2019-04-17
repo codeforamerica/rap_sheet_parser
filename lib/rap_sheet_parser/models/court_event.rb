@@ -43,9 +43,9 @@ module RapSheetParser
     end
 
     def sentence
-      count_with_sentence = counts.find(&:sentence)
+      count_with_longest_sentence = counts.select { |c| c.sentence.present? }.sort_by { |c| c.sentence.total_duration }.last
 
-      count_with_sentence&.sentence
+      count_with_longest_sentence&.sentence
     end
 
     def inspect
@@ -69,6 +69,12 @@ module RapSheetParser
       counts.any? do |count|
         count.sentence&.public_send(type).present?
       end
+    end
+
+    def currently_serving_sentence?
+      return false unless sentence.present?
+
+      Date.today < sentence.date + sentence.total_duration
     end
 
     private

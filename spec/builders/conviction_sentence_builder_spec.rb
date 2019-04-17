@@ -12,7 +12,7 @@ module RapSheetParser
 
       count = CountGrammarParser.new.parse(text)
       sentence_node = count.disposition.sentence
-      subject = described_class.new(sentence_node).build
+      subject = described_class.new(sentence_node, Date.today).build
       expect(subject.jail).to eq 6.months
       expect(subject.probation).to eq nil
       expect(subject.prison).to eq nil
@@ -28,7 +28,7 @@ module RapSheetParser
 
       count = CountGrammarParser.new.parse(text)
       sentence_node = count.disposition.sentence
-      expect(described_class.new(sentence_node).build.probation).to eq 12.months
+      expect(described_class.new(sentence_node, Date.today).build.probation).to eq 12.months
     end
 
     it 'parses missing probation time' do
@@ -41,7 +41,7 @@ module RapSheetParser
 
       count = CountGrammarParser.new.parse(text)
       sentence_node = count.disposition.sentence
-      expect(described_class.new(sentence_node).build.probation).to eq 0.days
+      expect(described_class.new(sentence_node, Date.today).build.probation).to eq 0.days
     end
 
     it 'parses prison time' do
@@ -54,7 +54,25 @@ module RapSheetParser
 
       count = CountGrammarParser.new.parse(text)
       sentence_node = count.disposition.sentence
-      expect(described_class.new(sentence_node).build.prison).to eq 12.years
+      expect(described_class.new(sentence_node, Date.today).build.prison).to eq 12.years
+    end
+
+    it 'includes date given to builder' do
+      text = <<~TEXT
+        19820915 CASC SN JOSE
+
+        CNT: 001  #346477
+        487.2 PC-GRAND THEFT FROM PERSON
+        DISPO:CONVICTED
+        CONV STATUS:MISDEMEANOR
+        SEN: 012 YEARS PRISON
+      TEXT
+
+      count = CountGrammarParser.new.parse(text)
+      sentence_node = count.disposition.sentence
+
+      date = Date.new(1982, 9, 15)
+      expect(described_class.new(sentence_node, date).build.date).to eq date
     end
 
     it 'parses times from comments' do
@@ -67,7 +85,7 @@ module RapSheetParser
 
       count = CountGrammarParser.new.parse(text)
       sentence_node = count.disposition.sentence
-      result = described_class.new(sentence_node).build
+      result = described_class.new(sentence_node, Date.today).build
       expect(result.probation).to eq 24.months
       expect(result.jail).to eq 8.days
 
@@ -80,7 +98,7 @@ module RapSheetParser
 
       count = CountGrammarParser.new.parse(text)
       sentence_node = count.disposition.sentence
-      expect(described_class.new(sentence_node).build.probation).to eq 3.years
+      expect(described_class.new(sentence_node, Date.today).build.probation).to eq 3.years
     end
 
     it 'downcases details' do
@@ -93,7 +111,7 @@ module RapSheetParser
 
       count = CountGrammarParser.new.parse(text)
       sentence_node = count.disposition.sentence
-      expect(described_class.new(sentence_node).build.to_s).to eq('12y prison, fine, fine ss')
+      expect(described_class.new(sentence_node, Date.today).build.to_s).to eq('12y prison, fine, fine ss')
     end
 
     it 'standardizes restitution strings' do
@@ -106,7 +124,7 @@ module RapSheetParser
 
       count = CountGrammarParser.new.parse(text)
       sentence_node = count.disposition.sentence
-      expect(described_class.new(sentence_node).build.to_s).to eq('restitution, restitution, restitution')
+      expect(described_class.new(sentence_node, Date.today).build.to_s).to eq('restitution, restitution, restitution')
     end
 
     it 'cleans up common strings' do
@@ -119,7 +137,7 @@ module RapSheetParser
 
       count = CountGrammarParser.new.parse(text)
       sentence_node = count.disposition.sentence
-      expect(described_class.new(sentence_node).build.to_s).to eq('fine ss, concurrent')
+      expect(described_class.new(sentence_node, Date.today).build.to_s).to eq('fine ss, concurrent')
     end
   end
 end

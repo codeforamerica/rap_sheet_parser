@@ -45,6 +45,12 @@ module RapSheetParser
       registration_event_with_code('HS 11590')
     end
 
+    def currently_serving_sentence?
+      convictions.any? do |event|
+        event.currently_serving_sentence?
+      end
+    end
+
     private
 
     def registration_event_with_code(code)

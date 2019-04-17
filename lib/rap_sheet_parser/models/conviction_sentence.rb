@@ -1,13 +1,14 @@
 module RapSheetParser
   class ConvictionSentence
-    def initialize(probation: nil, jail: nil, prison: nil, details: nil)
+    def initialize(probation: nil, jail: nil, prison: nil, details: nil, date: nil)
       @probation = probation
       @jail = jail
       @details = details
       @prison = prison
+      @date = date
     end
 
-    attr_reader :probation, :jail, :prison
+    attr_reader :probation, :jail, :prison, :date
 
     def total_duration
       (jail || 0.days) + (probation || 0.days) + (prison || 0.days)

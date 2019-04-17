@@ -4,8 +4,9 @@ module RapSheetParser
   class ConvictionSentenceBuilder
     COMMON_PHRASES = ['fine ss', 'concurrent'].freeze
 
-    def initialize(sentence_node)
+    def initialize(sentence_node, date)
       @sentence_node = sentence_node
+      @date = date
     end
 
     def build
@@ -13,6 +14,7 @@ module RapSheetParser
         probation: duration(sentence_node.probation),
         jail: duration(sentence_node.jail),
         prison: duration(sentence_node.prison),
+        date: @date,
         details: details
       )
     end

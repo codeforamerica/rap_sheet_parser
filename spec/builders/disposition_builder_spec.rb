@@ -38,6 +38,24 @@ module RapSheetParser
         expect(disposition.text).to eq 'DISPO:DISMISSED/FURTHERANCE OF JUSTICE'
         expect(disposition.severity).to eq nil
       end
+
+      it 'builds disposition with sentence both using date passed to DispositionBuilder' do
+        text = <<~TEXT
+          496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
+          DISPO:CONVICTED
+          CONV STATUS:MISDEMEANOR
+          SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
+          COM: SENTENCE CONCURRENT WITH FILE #743-2:
+        TEXT
+
+        date = Date.new(2005, 5, 8)
+        count_node = CountGrammarParser.new.parse(text)
+
+        disposition = described_class.new(count_node.disposition, date: date, logger: nil).build
+
+        expect(disposition.date).to eq date
+        expect(disposition.sentence.date).to eq(date)
+      end
     end
   end
 end

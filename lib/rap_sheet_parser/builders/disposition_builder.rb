@@ -29,7 +29,7 @@ module RapSheetParser
     def sentence
       return unless @disposition_node.sentence
 
-      ConvictionSentenceBuilder.new(@disposition_node.sentence).build
+      ConvictionSentenceBuilder.new(@disposition_node.sentence, @date).build
     end
   end
 end

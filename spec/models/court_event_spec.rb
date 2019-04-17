@@ -207,6 +207,25 @@ module RapSheetParser
 
         expect(event.sentence).to eq nil
       end
+
+      it 'chooses the longest sentence when multiple counts have sentences' do
+        event = build_court_event(
+          counts: [
+            build_count(
+              dispositions: [
+                build_disposition(sentence: ConvictionSentence.new(probation: 12.months))
+              ]
+            ),
+            build_count(
+              dispositions: [
+                build_disposition(sentence: ConvictionSentence.new(probation: 3.years))
+              ]
+            )
+          ]
+        )
+
+        expect(event.sentence.probation).to eq 3.years
+      end
     end
 
     describe '#dismissed_by_pc1203?' do
@@ -249,6 +268,50 @@ module RapSheetParser
         expect(event.has_sentence_with?(:jail)).to eq true
 
         expect { event.has_sentence_with? :foo }.to raise_error NoMethodError
+      end
+    end
+
+    describe '#currently_serving_sentence?' do
+      it 'returns true if the current date is less than the sentence date plus the duration of the sentence' do
+        event = build_court_event(
+          counts: [
+            build_count(
+              dispositions: [
+                build_disposition(sentence: ConvictionSentence.new(jail: 12.months, date: Date.today - 4.months))
+              ]
+            )
+          ]
+        )
+
+        expect(event.currently_serving_sentence?).to eq true
+      end
+
+      it 'returns false if the sentence is nil' do
+        event = build_court_event(
+          counts: [
+            build_count(
+              dispositions: [
+                build_disposition
+              ]
+            )
+          ]
+        )
+
+        expect(event.currently_serving_sentence?).to eq false
+      end
+
+      it 'returns false if the sentence has been completed' do
+        event = build_court_event(
+          counts: [
+            build_count(
+              dispositions: [
+                build_disposition(sentence: ConvictionSentence.new(jail: 12.months, date: Date.today - 2.years))
+              ]
+            )
+          ]
+        )
+
+        expect(event.currently_serving_sentence?).to eq false
       end
     end
 
