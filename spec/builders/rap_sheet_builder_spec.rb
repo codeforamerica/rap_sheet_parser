@@ -254,6 +254,60 @@ module RapSheetParser
         expect(event.convicted_counts[1].section).to eq '11357'
         expect(event.convicted_counts[1].code_section).to eq 'HS 11357'
       end
+
+      it 'parses unusual characters in the TOC' do
+        text = <<~TEXT
+          info
+          * * * *
+
+          COURT:
+          20040102  CASC SAN FRANCISCO CO
+
+          CNT: 001  #346477
+          TÓC:M
+          496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
+          DISPO:CONVICTED
+          CONV STATUS:MISDEMEANOR
+          SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
+          * * * END OF MESSAGE * * *
+        TEXT
+
+        rap_sheet = RapSheetParser::Parser.new.parse(text)
+        count = rap_sheet.events[0].counts[0]
+
+        expect(count.code).to eq 'PC'
+        expect(count.section).to eq '496'
+        expect(count.code_section).to eq 'PC 496'
+        expect(count.code_section_description).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
+
+      end
+
+      it 'parses when TOC shows up directly above code section line' do
+        text = <<~TEXT
+          info
+          * * * *
+
+          COURT:
+          20040102  CASC SAN FRANCISCO CO
+
+          CNT: 001  #346477
+          TOC:M
+          496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
+          DISPO:CONVICTED
+          CONV STATUS:MISDEMEANOR
+          SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
+          * * * END OF MESSAGE * * *
+        TEXT
+
+        rap_sheet = RapSheetParser::Parser.new.parse(text)
+        count = rap_sheet.events[0].counts[0]
+
+        expect(count.code).to eq 'PC'
+        expect(count.section).to eq '496'
+        expect(count.code_section).to eq 'PC 496'
+        expect(count.code_section_description).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
+
+      end
     end
   end
 end
