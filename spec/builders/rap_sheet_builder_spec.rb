@@ -215,6 +215,45 @@ module RapSheetParser
         expect(log.string).to include 'WARN -- : Unrecognized event:'
         expect(log.string).to include 'WARN -- : UNKNOWN EVENT???'
       end
+
+      it 'can parse a rap sheet with page breaks' do
+        text = <<~TEXT
+          blah blah
+          * * * *
+          COURT:
+          20040102  CASC SAN FRANCISCO CO
+
+          CNT: 001  #346477
+                    Page 2 of 29
+          496 PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
+          *DISPO:CONVICTED
+          CONV STATUS:MISDEMEANOR
+          SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
+
+          CNT:002
+          Page 13 of 16
+            11357 HS-POSSESS
+          TOC:M
+          *DISPO:CONVICTED
+          CONV STATUS:FELONY
+          SEN: 002 YEARS PROBATION, 045 DAYS JAIL, FINE, IMP SEN SS
+          * * * END OF MESSAGE * * *
+        TEXT
+
+        rap_sheet = RapSheetParser::Parser.new.parse(text)
+        event = rap_sheet.events[0]
+
+        expect(event).to be_a(RapSheetParser::CourtEvent)
+        expect(event.counts.length).to eq 2
+        expect(event.convicted_counts.length).to eq 2
+        expect(event.convicted_counts[0].code).to eq 'PC'
+        expect(event.convicted_counts[0].section).to eq '496'
+        expect(event.convicted_counts[0].code_section).to eq 'PC 496'
+
+        expect(event.convicted_counts[1].code).to eq 'HS'
+        expect(event.convicted_counts[1].section).to eq '11357'
+        expect(event.convicted_counts[1].code_section).to eq 'HS 11357'
+      end
     end
   end
 end
