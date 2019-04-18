@@ -53,7 +53,7 @@ module RapSheetParser
     end
 
     rule page_number
-    'Page' w [0-9]+ w 'of' w [0-9]+ N w
+    'PAGE' w [0-9]+ w 'OF' w [0-9]+ N w
     end
 
     rule extra_count_info

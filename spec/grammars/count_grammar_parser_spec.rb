@@ -285,7 +285,7 @@ module RapSheetParser
       context 'when page number breaks up a count or code section' do
         it 'does not include the page number in code sections' do
           text = <<~TEXT
-                        Page 12 of 29
+                        PAGE 12 OF 29
               496.3(A)(2) PC-RECEIVE/ETC KNOWN STOLEN PROPERTY
             *DISPO:CONVICTED
               CONV STATUS:MISDEMEANOR
