@@ -106,6 +106,23 @@ module RapSheetParser
 
         expect(event.case_number).to be_nil
       end
+
+      it 'can parse code section line that has period at end of line' do
+        text = <<~TEXT
+          COURT:
+          20040102  CASC SAN FRANCISCO CO
+
+          CNT: 001 #346477
+          496.3(A)(2) PC-RECEIVE/ETC KNOWN STOLEN PROPERTY TOC:F.
+          *DISPO:CONVICTED
+          CONV STATUS:FELONY
+          SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
+        TEXT
+        event = build(text)
+        count = event.counts[0]
+        expect(count.code_section).to eq('PC 496.3(a)(2)')
+        expect(count.severity).to eq('F')
+      end
     end
 
     def build(text)

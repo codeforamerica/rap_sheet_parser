@@ -49,6 +49,21 @@ module RapSheetParser
         expect(count.code_section_description.text_value).to eq 'POSSESS MARIJUANA FOR SALE'
       end
 
+      it 'can parse code section line that has period at end of line' do
+        text = <<~TEXT
+          496.3(A)(2) PC-RECEIVE/ETC KNOWN STOLEN PROPERTY TOC:F.
+          *DISPO:CONVICTED
+          CONV STATUS:FELONY
+          SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
+        TEXT
+
+        count = described_class.new.parse(text)
+        expect(count.code_section.code.text_value).to eq 'PC'
+        expect(count.code_section.section.text_value).to eq '496.3(A)(2)'
+        expect(count.code_section.text_value).to eq '496.3(A)(2) PC'
+        expect(count.code_section_description.text_value).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
+      end
+
       it 'does not include the words bench warrant in code section' do
         text = <<~TEXT
 
