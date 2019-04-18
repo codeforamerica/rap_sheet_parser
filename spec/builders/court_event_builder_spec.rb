@@ -119,20 +119,26 @@ module RapSheetParser
           CONV STATUS:MISDEMEANOR
           SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
 
-          20040202
-            DISPO :SOMETHING ELSE
-
-          20040202
-            DISPO:SENTENCE MODIFIED
-            SEN: 001 MONTHS JAIL
+          CNT:002
+          Page 13 of 16
+            11357 HS-POSSESS
+          TOC:M
+          *DISPO:CONVICTED
+          CONV STATUS:FELONY
+          SEN: 002 YEARS PROBATION, 045 DAYS JAIL, FINE, IMP SEN SS
+          * * * END OF MESSAGE * * *
         TEXT
 
         event = build(text)
-        expect(event.counts.length).to eq 1
-        expect(event.convicted_counts.length).to eq 1
+        expect(event.counts.length).to eq 2
+        expect(event.convicted_counts.length).to eq 2
         expect(event.convicted_counts[0].code).to eq 'PC'
         expect(event.convicted_counts[0].section).to eq '496'
         expect(event.convicted_counts[0].code_section).to eq 'PC 496'
+
+        expect(event.convicted_counts[1].code).to eq 'HS'
+        expect(event.convicted_counts[1].section).to eq '11357'
+        expect(event.convicted_counts[1].code_section).to eq 'HS 11357'
       end
     end
 
