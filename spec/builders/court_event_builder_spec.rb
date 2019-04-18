@@ -83,10 +83,10 @@ module RapSheetParser
           CONV STATUS:MISDEMEANOR
           SEN: 012 MONTHS PROBATION, 045 DAYS JAIL
 
-          20040202
+          20040402
             DISPO :SOMETHING ELSE
 
-          20040202
+          20040502
             DISPO:SENTENCE MODIFIED
             SEN: 001 MONTHS JAIL
         TEXT
@@ -94,6 +94,7 @@ module RapSheetParser
         event = build(text)
 
         expect(event.sentence.jail).to eq 1.month
+        expect(event.sentence.date).to eq Date.new(2004,5,2)
       end
 
       it 'handles a court event with no counts' do
