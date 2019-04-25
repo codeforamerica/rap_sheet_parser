@@ -76,7 +76,7 @@ module RapSheetParser
     def superstrike?
       return false unless code_section
 
-      SUPERSTRIKES.include?(code_section) && (!attempted_flag? || attempted_superstrike?)
+      match_any?(SUPERSTRIKES, subsections: false) && (!attempted_flag? || attempted_superstrike?)
     end
 
     def subsection_of?(code_section_to_match)
@@ -85,9 +85,13 @@ module RapSheetParser
       strip_subsection(code_section) == strip_subsection(code_section_to_match) && code_section.start_with?(code_section_to_match)
     end
 
-    def subsection_of_any?(code_sections_to_match)
-      code_sections_to_match.any? do |cs|
-        subsection_of?(cs)
+    def match_any?(code_sections_to_match, subsections: true)
+      if subsections
+        code_sections_to_match.any? do |cs|
+          subsection_of?(cs)
+        end
+      else
+        code_sections_to_match.include?(code_section)
       end
     end
 
@@ -102,7 +106,7 @@ module RapSheetParser
     end
 
     def attempted_superstrike?
-      ATTEMPTED_SUPERSTRIKES.include?(code_section)
+      match_any?(ATTEMPTED_SUPERSTRIKES, subsections: false)
     end
 
     def strip_subsection(code_section)

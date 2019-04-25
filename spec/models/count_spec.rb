@@ -67,23 +67,35 @@ RSpec.describe RapSheetParser::Count do
     end
   end
 
-  describe '#subsection_of_any?' do
-    it 'returns true if any code sections in the list match' do
-      count = build_count(code: 'PC', section: '11359(a)')
+  describe '#match_any' do
+    let(:count) { build_count(code: 'PC', section: '11359(a)') }
+    context 'include_subsections is true' do
+      it 'returns true if the code section is a subsection or exact match for one of the inputs' do
+        expect(count.match_any?(['PC 11358', 'PC 11359', 'PC 445'], subsections: true)).to eq true
+        expect(count.match_any?(['PC 11358', 'PC 11359(a)', 'PC 445'], subsections: true)).to eq true
+      end
 
-      expect(count.subsection_of_any?(['PC 11358', 'PC 11359', 'PC 445'])).to eq true
+      it 'returns false if the code section is not a subsection or exact match for one of the inputs' do
+        expect(count.match_any?(['PC 11359(a)(4)', 'PC 11359(b)', 'PC 445'], subsections: true)).to eq false
+      end
     end
 
-    it 'returns false if no code section' do
-      count = build_count(code: nil, section: nil)
+    context 'include_subsections is false' do
+      it 'returns true if the code section is an exact match for one of the inputs' do
+        expect(count.match_any?(['PC 11358', 'PC 11359(a)', 'PC 445'], subsections: false)).to eq true
+      end
 
-      expect(count.subsection_of_any?(['PC 11358', 'PC 11359', 'PC 445'])).to eq false
+      it 'returns false if the code section is not an exact match for one of the inputs' do
+        expect(count.match_any?(['PC 11359(a)(4)', 'PC 11359', 'PC 445'], subsections: false)).to eq false
+      end
     end
 
-    it 'returns false if none of the code sections match' do
-      count = build_count(code: 'PC', section: '11359')
-
-      expect(count.subsection_of_any?(['PC 1135', 'PC 11359(b)', 'PC 445'])).to eq false
+    context 'include_subsections not specified' do
+      it 'defaults to including subsections' do
+        expect(count.match_any?(['PC 11358', 'PC 11359', 'PC 445'])).to eq true
+        expect(count.match_any?(['PC 11358', 'PC 11359(a)', 'PC 445'])).to eq true
+        expect(count.match_any?(['PC 11359(a)(4)', 'PC 11359(b)', 'PC 445'])).to eq false
+      end
     end
   end
 
