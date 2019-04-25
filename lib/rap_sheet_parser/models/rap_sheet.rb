@@ -54,7 +54,7 @@ module RapSheetParser
     def registration_event_with_code(code)
       registration_events
         .flat_map(&:counts)
-        .any? { |count| count.subsection_of?([code]) }
+        .any? { |count| count.subsection_of?(code) }
     end
 
     def filtered_events(klass)

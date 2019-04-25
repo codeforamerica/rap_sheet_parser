@@ -279,7 +279,6 @@ module RapSheetParser
         expect(count.section).to eq '496'
         expect(count.code_section).to eq 'PC 496'
         expect(count.code_section_description).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
-
       end
 
       it 'parses when TOC shows up directly above code section line' do
@@ -306,7 +305,6 @@ module RapSheetParser
         expect(count.section).to eq '496'
         expect(count.code_section).to eq 'PC 496'
         expect(count.code_section_description).to eq 'RECEIVE/ETC KNOWN STOLEN PROPERTY'
-
       end
     end
   end

@@ -94,7 +94,7 @@ module RapSheetParser
         event = build(text)
 
         expect(event.sentence.jail).to eq 1.month
-        expect(event.sentence.date).to eq Date.new(2004,5,2)
+        expect(event.sentence.date).to eq Date.new(2004, 5, 2)
       end
 
       it 'handles a court event with no counts' do

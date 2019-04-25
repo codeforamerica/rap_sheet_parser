@@ -42,28 +42,48 @@ RSpec.describe RapSheetParser::Count do
   end
 
   describe '#subsection_of?' do
-    it 'returns true if code sections the same' do
+    it 'returns true if code sections are the same' do
       count = build_count(code: 'PC', section: '11359(a)')
 
-      expect(count.subsection_of?(['PC 11359'])).to eq true
+      expect(count.subsection_of?('PC 11359')).to eq true
     end
 
-    it 'returns true if code sections and specified subsection same' do
+    it 'returns true if code sections and specified subsection are the same' do
       count = build_count(code: 'PC', section: '11359(a)(b)')
 
-      expect(count.subsection_of?(['PC 11359(a)'])).to eq true
+      expect(count.subsection_of?('PC 11359(a)')).to eq true
     end
 
     it 'returns false if no code section' do
       count = build_count(code: nil, section: nil)
 
-      expect(count.subsection_of?(['PC 11359'])).to eq false
+      expect(count.subsection_of?('PC 11359')).to eq false
     end
 
     it 'returns false for codes with different sections' do
       count = build_count(code: 'PC', section: '11359')
 
-      expect(count.subsection_of?(['PC 1135'])).to eq false
+      expect(count.subsection_of?('PC 1135')).to eq false
+    end
+  end
+
+  describe '#subsection_of_any?' do
+    it 'returns true if any code sections in the list match' do
+      count = build_count(code: 'PC', section: '11359(a)')
+
+      expect(count.subsection_of_any?(['PC 11358', 'PC 11359', 'PC 445'])).to eq true
+    end
+
+    it 'returns false if no code section' do
+      count = build_count(code: nil, section: nil)
+
+      expect(count.subsection_of_any?(['PC 11358', 'PC 11359', 'PC 445'])).to eq false
+    end
+
+    it 'returns false if none of the code sections match' do
+      count = build_count(code: 'PC', section: '11359')
+
+      expect(count.subsection_of_any?(['PC 1135', 'PC 11359(b)', 'PC 445'])).to eq false
     end
   end
 
