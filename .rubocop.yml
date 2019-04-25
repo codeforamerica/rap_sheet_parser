@@ -31,5 +31,8 @@ Style/Documentation:
 Naming/VariableNumber:
   Enabled: false
 
+Style/RegexpLiteral:
+  Enabled: false
+
 Naming/PredicateName:
   NamePrefix: ['is_']

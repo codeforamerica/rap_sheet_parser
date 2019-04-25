@@ -3,8 +3,6 @@ module RapSheetParser
     SUPERSTRIKES = [
       'PC 187',
       'PC 191.5',
-      'PC 187-664',
-      'PC 191.5-664',
       'PC 209',
       'PC 220',
       'PC 245(d)(3)',
@@ -42,9 +40,7 @@ module RapSheetParser
 
     ATTEMPTED_SUPERSTRIKES = [
       'PC 187',
-      'PC 191.5',
-      'PC 187-664',
-      'PC 191.5-664'
+      'PC 191.5'
     ].freeze
 
     attr_reader :code_section_description, :code, :section, :dispositions, :flags
