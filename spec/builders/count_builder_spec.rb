@@ -152,26 +152,149 @@ module RapSheetParser
       end
     end
 
-    context 'when the charge contains a -664 (Attempted)' do
-      it 'parses that into the code section' do
-        text = <<~TEXT
-          info
-          * * * *
-          COURT: NAME7OZ
-          19820915 CASC SN JOSE
+    describe 'attempted code sections' do
+      context 'when the charge contains a -664 (Attempted)' do
+        it 'strips the -664 and creates an attempted flag' do
+          text = <<~TEXT
+            info
+            * * * *
+            COURT: NAME7OZ
+            19820915 CASC SN JOSE
 
-          CNT: 001  #346477
-            SEE COMMENT FOR CHARGE
-          *DISPO:CONVICTED
-            COM: CHRG 487(A)-664 PC
-          * * * END OF MESSAGE * * *
-        TEXT
+            CNT: 001  #346477
+              SEE COMMENT FOR CHARGE
+            *DISPO:CONVICTED
+              COM: CHRG 487(A)-664 PC
+            * * * END OF MESSAGE * * *
+          TEXT
 
-        tree = RapSheetGrammarParser.new.parse(text)
-        count_node = tree.cycles[0].events[0].counts[0]
+          tree = RapSheetGrammarParser.new.parse(text)
+          count_node = tree.cycles[0].events[0].counts[0]
 
-        subject = described_class.new(count_node, event_date: event_date, logger: logger).build
-        expect(subject.code_section).to eq 'PC 487(a)-664'
+          subject = described_class.new(count_node, event_date: event_date, logger: logger).build
+          expect(subject.code_section).to eq 'PC 487(a)'
+          expect(subject.flags).to contain_exactly('-ATTEMPTED')
+        end
+      end
+
+      context 'when the charge contains a /664 (Attempted)' do
+        it 'strips the /664 and creates an attempted flag' do
+          text = <<~TEXT
+            info
+            * * * *
+            COURT: NAME7OZ
+            19820915 CASC SN JOSE
+
+            CNT: 001  #346477
+              SEE COMMENT FOR CHARGE
+            *DISPO:CONVICTED
+              COM: CHRG 487(A)/664 PC
+            * * * END OF MESSAGE * * *
+          TEXT
+
+          tree = RapSheetGrammarParser.new.parse(text)
+          count_node = tree.cycles[0].events[0].counts[0]
+
+          subject = described_class.new(count_node, event_date: event_date, logger: logger).build
+          expect(subject.code_section).to eq 'PC 487(a)'
+          expect(subject.flags).to contain_exactly('-ATTEMPTED')
+        end
+      end
+
+      context 'when the charge contains a 664/ (Attempted)' do
+        it 'strips the 664/ and creates an attempted flag' do
+          text = <<~TEXT
+            info
+            * * * *
+            COURT: NAME7OZ
+            19820915 CASC SN JOSE
+
+            CNT: 001  #346477
+              SEE COMMENT FOR CHARGE
+            *DISPO:CONVICTED
+              COM: CHRG 664/487(A) PC
+            * * * END OF MESSAGE * * *
+          TEXT
+
+          tree = RapSheetGrammarParser.new.parse(text)
+          count_node = tree.cycles[0].events[0].counts[0]
+
+          subject = described_class.new(count_node, event_date: event_date, logger: logger).build
+          expect(subject.code_section).to eq 'PC 487(a)'
+          expect(subject.flags).to contain_exactly('-ATTEMPTED')
+        end
+      end
+
+      context 'when the charge contains a 664. (Attempted)' do
+        it 'strips the 664. and creates an attempted flag' do
+          text = <<~TEXT
+            info
+            * * * *
+            COURT: NAME7OZ
+            19820915 CASC SN JOSE
+
+            CNT: 001  #346477
+              SEE COMMENT FOR CHARGE
+            *DISPO:CONVICTED
+              COM: CHRG 664.487(A) PC
+            * * * END OF MESSAGE * * *
+          TEXT
+
+          tree = RapSheetGrammarParser.new.parse(text)
+          count_node = tree.cycles[0].events[0].counts[0]
+
+          subject = described_class.new(count_node, event_date: event_date, logger: logger).build
+          expect(subject.code_section).to eq 'PC 487(a)'
+          expect(subject.flags).to contain_exactly('-ATTEMPTED')
+        end
+      end
+
+      context 'when the charge contains a 664- (Attempted)' do
+        it 'strips the 664- and creates an attempted flag' do
+          text = <<~TEXT
+            info
+            * * * *
+            COURT: NAME7OZ
+            19820915 CASC SN JOSE
+
+            CNT: 001  #346477
+              SEE COMMENT FOR CHARGE
+            *DISPO:CONVICTED
+              COM: CHRG 664-487(A) PC
+            * * * END OF MESSAGE * * *
+          TEXT
+
+          tree = RapSheetGrammarParser.new.parse(text)
+          count_node = tree.cycles[0].events[0].counts[0]
+
+          subject = described_class.new(count_node, event_date: event_date, logger: logger).build
+          expect(subject.code_section).to eq 'PC 487(a)'
+          expect(subject.flags).to contain_exactly('-ATTEMPTED')
+        end
+      end
+
+      context 'when the charge starts with 664 (Attempted)' do
+        it 'strips the 664 and creates an attempted flag' do
+          text = <<~TEXT
+            info
+            * * * *
+            COURT: NAME7OZ
+            19820915 CASC SN JOSE
+
+            CNT: 001  #346477
+              SEE COMMENT FOR CHARGE
+            *DISPO:CONVICTED
+              COM: CHRG 664487(A) PC
+            * * * END OF MESSAGE * * *
+          TEXT
+
+          tree = RapSheetGrammarParser.new.parse(text)
+          count_node = tree.cycles[0].events[0].counts[0]
+
+          subject = described_class.new(count_node, event_date: event_date, logger: logger).build
+          expect(subject.code_section).to eq 'PC 487(a)'
+          expect(subject.flags).to contain_exactly('-ATTEMPTED')
+        end
       end
     end
 

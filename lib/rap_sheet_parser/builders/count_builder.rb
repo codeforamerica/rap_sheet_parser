@@ -1,22 +1,25 @@
 module RapSheetParser
   class CountBuilder
-    attr_reader :count
-
     def initialize(count, event_date:, logger:)
       @count = count
       @event_date = event_date
       @logger = logger
     end
 
-    attr_reader :logger, :event_date
+    attr_reader :count, :logger, :event_date
 
     def build
+      original_section = section
+      modified_section = strip_attempted_flag(original_section)
+      flags_array = flags
+      flags_array << '-ATTEMPTED' if original_section != modified_section && !flags_array.include?('-ATTEMPTED')
+
       Count.new(
         code_section_description: code_section_description,
         code: code,
-        section: section,
+        section: modified_section,
         dispositions: dispositions,
-        flags: flags
+        flags: flags_array
       )
     end
 
@@ -57,6 +60,16 @@ module RapSheetParser
       return unless count.code_section
 
       count.code_section.section.text_value.delete(' ').downcase.tr(',', '.')
+    end
+
+    def strip_attempted_flag(section_string)
+      return unless section_string
+
+      split_section = section_string.split(/^664[\.|\/|-]?/)
+      return split_section[1] if split_section.length > 1
+      return section_string[0..-5] if section_string.end_with?('-664', '/664')
+
+      section_string
     end
   end
 end
