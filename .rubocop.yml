@@ -22,8 +22,7 @@ Metrics/MethodLength:
   - 'lib/rap_sheet_parser/builders/courthouse_builder.rb'
 
 Metrics/ClassLength:
-  Exclude:
-  - 'lib/rap_sheet_parser/builders/courthouse_builder.rb'
+  Enabled: false
 
 Style/Documentation:
   Enabled: false

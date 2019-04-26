@@ -103,6 +103,7 @@ RSpec.describe 'integration', integration: true do
           {
             code_section: count.code_section,
             code_section_description: count.code_section_description,
+            flags: count.flags.empty? ? nil : count.flags,
             dispositions: dispositions
           }.compact
         end

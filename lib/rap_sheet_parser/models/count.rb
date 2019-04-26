@@ -82,7 +82,9 @@ module RapSheetParser
     def subsection_of?(code_section_to_match)
       return false unless code_section && code_section_to_match
 
-      strip_subsection(code_section) == strip_subsection(code_section_to_match) && code_section.start_with?(code_section_to_match)
+      split_code_section.any? do |code_section_part|
+        strip_subsection(code_section_part) == strip_subsection(code_section_to_match) && code_section_part.start_with?(code_section_to_match)
+      end
     end
 
     def match_any?(code_sections_to_match, subsections: true)
@@ -91,7 +93,9 @@ module RapSheetParser
           subsection_of?(cs)
         end
       else
-        code_sections_to_match.include?(code_section)
+        split_code_section.any? do |code_section_part|
+          code_sections_to_match.include?(code_section_part)
+        end
       end
     end
 
@@ -100,6 +104,10 @@ module RapSheetParser
     end
 
     private
+
+    def split_code_section
+      section.split(/[-|\/]/).map { |s| "#{code} #{s}" }
+    end
 
     def attempted_flag?
       flags.include?('-ATTEMPTED')

@@ -97,6 +97,36 @@ RSpec.describe RapSheetParser::Count do
         expect(count.match_any?(['PC 11359(a)(4)', 'PC 11359(b)', 'PC 445'])).to eq false
       end
     end
+
+    context 'when the code section includes a "/" or "-" ' do
+      let(:match_list) { ['PC 11358', 'PC 11359(a)', 'PC 445'] }
+
+      it 'matches the code section on either side with subsections' do
+        expect(build_count(code: nil, section: nil).match_any?(match_list)).to eq false
+
+        expect(build_count(code: 'PC', section: '11359(a)/12345').match_any?(match_list)).to eq true
+        expect(build_count(code: 'PC', section: '12345/11359(a)').match_any?(match_list)).to eq true
+        expect(build_count(code: 'PC', section: '123/11359(a)(2)/12345').match_any?(match_list)).to eq true
+        expect(build_count(code: 'PC', section: '11359/12345').match_any?(match_list)).to eq false
+
+        expect(build_count(code: 'PC', section: '445(b)-12345').match_any?(match_list)).to eq true
+        expect(build_count(code: 'PC', section: '57-445-12345').match_any?(match_list)).to eq true
+        expect(build_count(code: 'PC', section: '12345-11358').match_any?(match_list)).to eq true
+        expect(build_count(code: 'PC', section: '12345-1135').match_any?(match_list)).to eq false
+      end
+
+      it 'matches the code section on either side without subsections' do
+        expect(build_count(code: 'PC', section: '11359(a)/12345').match_any?(match_list, subsections: false)).to eq true
+        expect(build_count(code: 'PC', section: '12345/11359(a)').match_any?(match_list, subsections: false)).to eq true
+        expect(build_count(code: 'PC', section: '123/11359(a)/12345').match_any?(match_list, subsections: false)).to eq true
+        expect(build_count(code: 'PC', section: '11359(a)(2)/12345').match_any?(match_list, subsections: false)).to eq false
+
+        expect(build_count(code: 'PC', section: '445-12345').match_any?(match_list, subsections: false)).to eq true
+        expect(build_count(code: 'PC', section: '57-445-12345').match_any?(match_list, subsections: false)).to eq true
+        expect(build_count(code: 'PC', section: '12345-11358').match_any?(match_list, subsections: false)).to eq true
+        expect(build_count(code: 'PC', section: '12345-1135').match_any?(match_list, subsections: false)).to eq false
+      end
+    end
   end
 
   describe '#sentence' do

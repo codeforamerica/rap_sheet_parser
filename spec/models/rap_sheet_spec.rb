@@ -74,14 +74,16 @@ module RapSheetParser
     end
     describe '#currently_serving_sentence?' do
       it 'returns true if at least one event has a sentence that is not complete' do
-        count = build_count(code: 'PC', section: '187', dispositions: [build_disposition(type: 'convicted', sentence: ConvictionSentence.new(probation: 3.years, date: Date.today - 2.years))])
+        disposition = build_disposition(type: 'convicted', sentence: ConvictionSentence.new(probation: 3.years, date: Date.today - 2.years))
+        count = build_count(code: 'PC', section: '187', dispositions: [disposition])
         conviction = build_court_event(counts: [count])
 
         rap_sheet = build_rap_sheet(events: [conviction])
         expect(rap_sheet.currently_serving_sentence?).to eq(true)
       end
       it 'returns false if no events have incomplete sentences' do
-        count = build_count(code: 'PC', section: '187', dispositions: [build_disposition(type: 'convicted', sentence: ConvictionSentence.new(probation: 3.years, date: Date.today - 4.years))])
+        disposition = build_disposition(type: 'convicted', sentence: ConvictionSentence.new(probation: 3.years, date: Date.today - 4.years))
+        count = build_count(code: 'PC', section: '187', dispositions: [disposition])
         conviction = build_court_event(counts: [count])
 
         rap_sheet = build_rap_sheet(events: [conviction])
