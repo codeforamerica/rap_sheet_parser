@@ -106,6 +106,7 @@ module RapSheetParser
     private
 
     def split_code_section
+      return [''] unless section
       section.split(/[-|\/]/).map { |s| "#{code} #{s}" }
     end
 

@@ -127,6 +127,14 @@ RSpec.describe RapSheetParser::Count do
         expect(build_count(code: 'PC', section: '12345-1135').match_any?(match_list, subsections: false)).to eq false
       end
     end
+
+    context 'when a code & section is nil' do
+      let(:count) { build_count(code: nil, section: nil) }
+      it 'returns false' do
+        expect(count.match_any?(['PC 11358', 'PC 11359(a)', 'PC 445'], subsections: false)).to eq false
+      end
+    end
+
   end
 
   describe '#sentence' do
